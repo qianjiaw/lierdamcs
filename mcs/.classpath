@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/web/autoform"/>
+	<classpathentry kind="src" path="src/web/cgform"/>
+	<classpathentry kind="src" path="src/web/system"/>
+	<classpathentry kind="src" path="src/web/rest"/>
+	<classpathentry kind="src" path="src/web/demo"/>
+	<classpathentry kind="src" path="src/web/graphreport"/>
+	<classpathentry kind="src" path="src/web/cgreport"/>
+	<classpathentry kind="src" path="src/web/cgdynamgraph"/>
+	<classpathentry kind="src" path="src/core"/>
+	<classpathentry excluding="template/|core/|web/system/|web/rest/|web/demo/|web/graphreport/|web/cgform/|web/cgreport/|tag/|web/autoform/|web/cgdynamgraph/|test/|lierda/system/" kind="src" path="src"/>
+	<classpathentry kind="src" path="src/tag"/>
+	<classpathentry kind="src" path="src/template"/>
+	<classpathentry kind="src" path="src/test"/>
+	<classpathentry kind="src" path="temp"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v7.0"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
+</classpath>
