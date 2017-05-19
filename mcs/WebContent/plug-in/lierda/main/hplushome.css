@@ -1,0 +1,248 @@
+@CHARSET "UTF-8";
+
+*{
+	margin:0;
+	padding:0;
+	
+}
+
+.home_main {
+	width:100%;
+	height:100%;
+	position:relative;
+}
+
+.left {
+	width:25%;
+    min-width: 170px;
+	background:#ffffff;
+	border:1px solid #dedede;
+	border-radius:4px;
+	top:2px;
+	margin-left:20px;
+	position:relative;
+	float:left;
+	background-color:#fafbff;
+}
+
+.main-left-title {
+	width:100%;
+	height:50px;
+	float: left;
+	border-bottom:3px solid #efefef;
+}
+
+.floor-font {
+	width:100%;
+	height:20px;
+	line-height:20px;
+	font-size:14px;
+	color:#ffffff;
+	letter-spacing:-0.09px;
+}
+
+.building-main {
+	position: absolute;
+    width: 100%;
+    bottom: 0px;
+}
+
+.building-text {
+    width: 100%;
+    height: 30px;
+    bottom: 0px;
+    position: absolute;
+}
+
+.building-container {
+    width: 100%;
+    position: absolute;
+    bottom:30px;
+    box-shadow: 0px 10px 10px -10px black;
+}
+
+.building-building {
+	position: absolute;
+    width: 100%;
+    bottom: 0px;
+}
+
+.building-header {
+	width:155px;
+	height:70px;
+	margin:0px auto;
+	background:url(/mcs/images/lierda/main-icon/building-header.png) no-repeat center;
+}
+
+.building-eachfloor{
+	width:155px;
+	margin:0px auto;
+	text-align:center;
+	background-color:white;
+	box-shadow: 0 0 7px 0 rgba(114, 140, 227, 0.13);
+}
+
+.eachfloor {
+	height:20px;
+	width:90%;
+	margin:0px auto 8px auto;
+	position:relative;
+	background-color:#728ce3;
+}
+
+.right {
+	width:70%;
+	min-width:360px;
+	margin-left: 10px;
+	overflow-y:auto;
+	top:2px;
+	position:relative;
+	float:left;
+}
+
+.right_top {
+	width: 99%;
+	height:20%;
+	background:#ffffff;
+	border:1px solid #dedede;
+	box-shadow:0px 0px 0px 0px rgba(217,221,232,0.44);
+	border-radius:4px;
+	overflow: hidden;
+}
+
+.right_cen {
+	width: 99%;
+    height: 55%;
+    background: #ffffff;
+    border: 1px solid #dedede;
+    box-shadow: 0px 0px 0px 0px rgba(217,221,232,0.44);
+    border-radius: 4px;
+    margin-top: 5%;
+    position: relative;
+    overflow: hidden;
+}
+
+.right_bot {
+	width: 99%;
+    height: 15%;
+    background: #ffffff;
+    border: 1px solid #dedede;
+    box-shadow: 0px 0px 0px 0px rgba(217,221,232,0.44);
+    border-radius: 4px;
+    margin-top: 5%;
+    position: relative;
+    overflow: hidden;
+}
+
+.main-right-title {
+	width: 100%;
+    height: 30px;
+    float: left;
+    background-color: #d9d9d9;
+    box-shadow: 0px 0px 12px 2px rgba(136, 136, 136, 1);
+    z-index: 99;
+    position: relative;
+}
+
+.main-message {
+	background:url(/mcs/images/lierda/main-icon/message.png) no-repeat;
+	width:18px;
+	height:21px;
+	float: left;
+    margin-top: 18px;
+    margin-left: 10px;
+}
+
+.main-device-state {
+	background: url(/mcs/images/lierda/main-icon/bor-power.png) no-repeat;
+    width: 18px;
+    height: 21px;
+    float: left;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.main-pic-power {
+	background: url(/mcs/images/lierda/main-icon/pic-power.png) no-repeat;
+    width: 18px;
+    height: 21px;
+    float: left;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.main-message-text {
+	margin-top: 8px;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #444444;
+    letter-spacing: 1.16px;
+    text-align: left;
+    margin-left: 10px;
+    float: left;
+}
+
+/*
+	main-right-bar
+	cgDynamGraphController
+*/
+.device-state-bar {
+	width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.each-bar {
+	width: 23.75%;
+    margin-left: 1%;
+    float: left;
+    position: relative;
+}
+
+.device-power-spline {
+	width: 100%;
+    margin-top: 30px;
+    position: absolute;
+    bottom: 0;
+}
+
+.device-sort-power {
+	width: 100%;
+    margin-top: 40px;
+    position: relative;
+    bottom: 0;
+}
+
+.each-sort-power {
+	height:100%;
+	width:30%;
+	margin-left:2.5%;
+	float:left;
+}
+
+.air-condition-pic {
+	height:100%;
+	width:40%;
+	float:left;
+	background:url(/mcs/images/lierda/main-icon/air-condition-pic.PNG) no-repeat center;
+}
+
+.light-pic {
+	height:100%;
+	width:40%;
+	float:left;
+	background:url(/mcs/images/lierda/main-icon/light-pic.PNG) no-repeat center;
+}
+
+.energy-pic {
+	height:100%;
+	width:40%;
+	float:left;
+	background:url(/mcs/images/lierda/main-icon/energy-pic.PNG) no-repeat center;
+}
+
+.sort-power-text {
+	height:100%;
+	width:60%;
+	float:right;
+}

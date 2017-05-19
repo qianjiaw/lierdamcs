@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="mcs">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/template"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/core"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/web/system"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/web/rest"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/web/demo"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/web/graphreport"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/web/cgform"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/web/cgreport"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/tag"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/web/autoform"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/web/cgdynamgraph"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/temp"/>
+        <property name="context-root" value="mcs"/>
+        <property name="java-output-path" value="/jeecg366/build/classes"/>
+    </wb-module>
+</project-modules>
