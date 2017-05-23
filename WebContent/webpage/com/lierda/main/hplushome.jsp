@@ -16,7 +16,7 @@
 		<div id="left" class="left">
 			<div id="building-title" class="main-left-title">
 				<span class="main-message"></span>
-				<p class="main-message-text">基本信息</p>
+				<p class="main-main-text">基本信息</p>
 			</div>
 			<div id="building-main" class="building-main">
 				<div id="building-text" class="building-text">
@@ -24,7 +24,12 @@
 				</div>
 				<div id="building-container" class="building-container">
 					<div id="building-building" class="building-building">
-						<div id="building-header" class="building-header"></div>
+						<div id="building-header" class="building-header">
+							<img alt="" id="buildingheader-pic" class="buildingheader-pic" src="/mcs/images/lierda/main-icon/building-header.png" usemap="#buildingheadermap" ></img>
+							<map name="buildingheadermap" id="buildingheadermap">
+  								<area id="buildingheader" shape="poly" coords="5,70,78,0,151,70" href="#" />
+							</map>
+						</div>
 						<div id="building-eachfloor" class="building-eachfloor">
 							<!-- <div id="floor-1" class="eachfloor"><span class="floor-font">9F</span></div> -->
 						</div>
@@ -87,7 +92,7 @@
 		
 	</div>
 </body>
-<script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/mcs/plug-in/jquery/jquery-1.8.3.min.js"></script>
 <script src="/mcs/webpage/com/lierda/main/js/bar.js"></script>
 <script src="/mcs/webpage/com/lierda/main/js/spline.js"></script>
 <script>
@@ -169,7 +174,6 @@ function addBuilding (){
 	
 }
 function selectFloor(obj){
-	alert(obj.id);
 	var id = obj.id.split("-")[1];
 	window.location.href="/mcs/webpage/com/lierda/main/FloorHome.jsp?floor="+id+"";
 }

@@ -26,7 +26,12 @@
 				<div id="building-text" class="building-text"></div>
 				<div id="building-container" class="building-container">
 					<div id="building-building" class="building-building">
-						<div id="building-header" class="building-header"></div>
+						<div id="building-header" class="building-header">
+							<img alt="" id="buildingheader-pic" class="buildingheader-pic" src="/mcs/images/lierda/main-icon/building-header.png" usemap="#buildingheadermap" ></img>
+							<map name="buildingheadermap" id="buildingheadermap">
+  								<area id="buildingheader" shape="poly" coords="5,70,78,0,151,70" href="hplushome.jsp" />
+							</map>
+						</div>
 						<div id="building-eachfloor" class="building-eachfloor">
 							<!-- <div id="floor-1" class="eachfloor"><span class="floor-font">9F</span></div> -->
 						</div>
@@ -161,9 +166,8 @@
 <script src="/mcs/webpage/com/lierda/main/js/addpage.js"></script>
 
 <script>
-	var room = [{"name":88101},{"name":88101},{"name":88101},{"name":88101},{"name":88101},{"name":88101},{"name":88101},{"name":88101},{"name":88101},{"name":88101},{"name":88101},{"name":88101},{"name":88101},{"name":88101},{"name":88101},{"name":88101},{"name":88101},{"name":88101}]
+	var room = [{"name":88101},{"name":88102},{"name":88103},{"name":88104},{"name":88105},{"name":88106},{"name":88107},{"name":88108},{"name":88109},{"name":88110},{"name":88111},{"name":88112},{"name":88113},{"name":88114},{"name":88115},{"name":88116},{"name":88117},{"name":88118}]
 	var floornum = 18;
-	var floorroomnum = 25;
 
 	$(function() {
 		var req = getRequest();
@@ -177,7 +181,7 @@
 		}
 		
 		addBuilding();
-		drawroomstate(floorroomnum);
+		drawroomstate(room);
 		drawroomcheck(room);
 		addtable();
 
@@ -227,11 +231,11 @@
 		
 	}
 	
-	function drawroomstate (floorroomnum) {
+	function drawroomstate (room) {
 		var width = getWidth("floor-main") / 6 - 5;
 		var height = width/2;
-		for (var i = 0; i < floorroomnum; i++) {
-			$("#floor-main").append('<div id="room-state-'+i+'" style="height:'+height+'px;width:'+width+'px;background-color:skyblue;float:left;margin-left:2px;margin-top:2px;"></div>');
+		for (var i = 0; i < room.length; i++) {
+			$("#floor-main").append('<div id="room-state-'+room[i].name+'" onclick="selectRoom(this)" style="height:'+height+'px;width:'+width+'px;background-color:skyblue;float:left;margin-left:2px;margin-top:2px;">'+room[i].name+'</div>');
 		}
 	}
 
@@ -313,6 +317,11 @@
 		var id = thisfloor.id.split("-")[1];
 		$("#this-floor-top").text(id + "F楼层房态图");
 		$("#this-floor-cen").text(id + "F楼层控制模式");
+	}
+	
+	function selectRoom (thisroom) {
+		var id = thisroom.id.split("-")[2];
+		window.location.href="/mcs/webpage/com/lierda/main/RoomHome.jsp?room="+id+"";
 	}
 </script>
 
