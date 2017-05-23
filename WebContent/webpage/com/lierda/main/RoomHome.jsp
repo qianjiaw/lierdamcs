@@ -29,7 +29,7 @@
 						<div id="building-header" class="building-header">
 							<img alt="" id="buildingheader-pic" class="buildingheader-pic" src="/mcs/images/lierda/main-icon/building-header.png" usemap="#buildingheadermap" ></img>
 							<map name="buildingheadermap" id="buildingheadermap">
-  								<area id="buildingheader" shape="poly" coords="5,70,78,0,151,70" href="#" />
+  								<area id="buildingheader" shape="poly" coords="5,70,78,0,151,70" href="hplushome.jsp" />
 							</map>
 						</div>
 						<div id="building-eachfloor" class="building-eachfloor">
@@ -53,7 +53,7 @@
 						<div id="choose-sence" class="choose-sence">
 							<img alt="" id="sence-pic" class="sence-pic" src="/mcs/images/lierda/main-icon/sence-main.png" usemap="#sencemap" />
 							<map name="sencemap" id="sencemap">
-  								<area id="sence-one" shape="polygon" coords="15,0,44,0,57,25,44,50,15,50,0,25" href="#" />
+  								<area id="sence-one" shape="polygon" coords="15,0,44,0,57,25,44,50,15,50,0,25" href="href="hplushome.jsp"" />
 							</map>
 						</div>
 					</div>
