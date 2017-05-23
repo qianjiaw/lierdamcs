@@ -18,13 +18,24 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/localPageUrl")
 public class LocalPageUrl {
 	/**
-	 * 房态管理界面跳转
+	 * 楼层房态管理界面跳转
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "floorstate")
+	public ModelAndView floorstate(String floor,HttpServletRequest request) {
+		request.setAttribute("floor", floor);
+		return new ModelAndView("com/lierda/main/FloorHome");
+	}
+	
+	/**
+	 * 房间管理界面跳转
 	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "roomstate")
 	public ModelAndView roomstate(String floor,HttpServletRequest request) {
 		request.setAttribute("floor", floor);
-		return new ModelAndView("com/lierda/main/FloorHome");
+		return new ModelAndView("com/lierda/main/RoomHome");
 	}
 }

@@ -196,7 +196,7 @@ public class LoginController extends BaseController{
 	@RequestMapping(params = "login")
 	public String login(ModelMap modelMap,HttpServletRequest request,HttpServletResponse response) {
 		TSUser user = ResourceUtil.getSessionUserName();
-		String roles = "";
+		String roles = "";		
 		if (user != null) {
 			List<TSRoleUser> rUsers = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
 			for (TSRoleUser ru : rUsers) {
@@ -228,6 +228,7 @@ public class LoginController extends BaseController{
 			response.addCookie(zIndexCookie);
 			return sysTheme.getIndexPath();
 		} else {
+		    
 			return "com/lierda/login/lierda_login";
 		}
 
