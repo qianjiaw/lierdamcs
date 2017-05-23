@@ -47,13 +47,14 @@
 
 	<div class="main-container">
 		<div class="header">
+			<img class="head-bg" alt="" src="plug-in/ace/img/bg/bg.png"></img>
 			<div class="head-logo">
 				<div href="#" class="lux-logo">
 					<img alt="" src="plug-in/ace/img/bg/logo.png" class="logoimg" />
 				</div>
 			</div>
 			<div class="head-name">
-				<ul >
+				<ul class="head-text-position">
 					<li class="ch-font">智慧园区系统管理平台</li>
 					<li class="en-font">Wisdom park system management platform</li>
 				</ul>

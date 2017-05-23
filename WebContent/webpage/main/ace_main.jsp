@@ -46,6 +46,9 @@
 		<script src="plug-in/ace/assets/js/html5shiv.js"></script>
 		<script src="plug-in/ace/assets/js/respond.min.js"></script>
 		<![endif]-->
+		
+		
+		
 	</head>
 
 	<body style="width:100%;height:100%;position:absolute;overflow-y:auto;min-height:795px;">
@@ -59,7 +62,7 @@
 					<a href="#" class="navbar-brand">
 						<small>
 							<i class="icon-leaf"></i>
-							JEECG 微云快速开发平台
+							Lierda园区管理系统
 						</small>
 					</a><!-- /.brand -->
 				</div><!-- /.navbar-header -->

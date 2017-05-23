@@ -20,6 +20,7 @@ body {
 .main-container {
 	width:100%;
 	height: 100%;
+	min-height:780px;
 	position:absolute;
 }
 
@@ -27,7 +28,12 @@ body {
 	position:relative;
 	width:100%;
 	height:30%; 
-	background:url(../img/bg/bg.png) no-repeat;
+	/*background:url(../img/bg/bg.png) no-repeat;*/
+}
+.head-bg {
+	position: absolute;
+    width: 100%;
+    height: 100%;
 }
 .head-logo {
 	position:relative;
@@ -54,6 +60,11 @@ body {
 	height:50%;
 	text-align:center;
 }
+.head-text-position {
+	top:50%;
+	margin-top:-60px;
+	position:relative;
+}
 .ch-font {
 	font-family: 黑体;
 	font-size:48px;
@@ -68,18 +79,17 @@ body {
 }
 
 .main-content {
-	top:0;
-	position:relative;
-	height:64%;
-	width:100%
-	background-color:black;
+	top: 0;
+    position: relative;
+    height: 60%;
+    width: 100%;
 }
 .login-box {
-	position:relative;
-	top:30%;
-	width:400px;
-	height:290px;
-	margin: auto;
+	position: relative;
+    top: 25%;
+    width: 400px;
+    height: 290px;
+    margin: auto;
 }
 .login-input {
 	position:relative;
@@ -156,7 +166,7 @@ body {
 }
 .foot-text {
 	color:skyblue;
-	font-size:24px;
+	font-size:20px;
 	line-height:64px;
 	text-align:center;
 }
