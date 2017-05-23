@@ -218,6 +218,6 @@
 		<session-timeout>30</session-timeout>
 	</session-config>
 	<welcome-file-list>
-		<welcome-file>/webpage/login/lierda_login.jsp</welcome-file>
+		<welcome-file>/webpage/com/lierda/login/lierda_login.jsp</welcome-file>
 	</welcome-file-list>
 </web-app>
