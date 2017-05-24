@@ -97,11 +97,25 @@
 <script src="/mcs/webpage/com/lierda/main/js/spline.js"></script>
 <script>
 
-var floornum = 18;
+var floornum = "";
+var buildId="";
+
+function getFloorNum(){
+	$.ajax({
+		type:"post",
+		async: false,
+		url:"loginController.do?getFloorNum",
+		data: {'buildId':buildId},
+		dataType: "json",
+		success: function(data){
+			floornum = data.obj;
+		}
+	});
+}
 
 
 $(function(){
-	
+	getFloorNum();
 	setHAndWonload();
 	window.onresize = function () {
 		freshHAndW();
