@@ -1,5 +1,6 @@
 package org.jeecgframework.web.demo.dao.test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +45,12 @@ public interface JeecgMinidaoDao {
 	
 	@Arguments("id")
 	String selectParkName(String parkid);
+	
+	@Arguments("buildId")
+	String selectFloorNum(String buildId);
+	
+	@Sql("select id from z_building")
+	List<String> getAllBuildingId();
 	
 	/*@Arguments("jeecgMinidao")
 	int update(JeecgMinidaoEntity jeecgMinidao);
