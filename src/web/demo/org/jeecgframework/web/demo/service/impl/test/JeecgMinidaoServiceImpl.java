@@ -87,9 +87,9 @@ public class JeecgMinidaoServiceImpl implements JeecgMinidaoServiceI {
 	}
 
 	@Override
-	public List<ZBuildingEntity> getAllBuildingId(String flag) {
+	public List<ZBuildingEntity> getAllBuildingIdAndName() {
 		// TODO Auto-generated method stub
-		return jeecgMinidaoDao.getAllBuildingId(flag);
+		return jeecgMinidaoDao.getAllBuildingIdAndName();
 	}
 
 }
