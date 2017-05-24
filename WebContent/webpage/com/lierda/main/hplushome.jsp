@@ -20,9 +20,7 @@
 			</div>
 			<div id="building-main" class="building-main">
 				<div id="building-text" class="building-text">
-					<div id="building-select" class="building-select" onclick="choosebuilding()">
-						<p>lierda大厦</p>
-					</div>
+					
 				</div>
 				<div id="building-container" class="building-container">
 					<div id="building-building" class="building-building">
@@ -93,13 +91,6 @@
 		</div>
 		
 	</div>
-	
-	<div id="building-choose-main" class="building-choose-main" onclick="hidechoose()">
-		<div id="building-lierda大厦" class="each-building">
-		
-		</div>
-	</div>
-	
 </body>
 <script type="text/javascript" src="/mcs/plug-in/jquery/jquery-1.8.3.min.js"></script>
 <script src="/mcs/webpage/com/lierda/main/js/bar.js"></script>
@@ -108,6 +99,7 @@
 
 var floornum = "";
 var buildId="";
+var buildings="";
 
 function getFloorNum(){
 	$.ajax({
@@ -118,7 +110,13 @@ function getFloorNum(){
 		dataType: "json",
 		success: function(data){
 			floornum = data.obj;
-			console.log(floornum);
+			buildings=	data.attributes;	
+			for (key in buildings) {
+			 	var building=buildings[key];
+			    for(key in building){
+			    	console.log(building[key].buildingname);
+			    }
+			}
 		}
 	});
 }
@@ -219,13 +217,6 @@ function setWidthByPercent(getdivid, setdivid, percent,differpx) {
 	$("#" + setdivid + "").width(($("#" + getdivid + "").get(0).offsetWidth*percent/100 - differpx) + "px");
 }
 
-function choosebuilding () {
-	$("#building-choose-main").css("display","block");
-}
-
-function hidechoose () {
-	$("#building-choose-main").css("display","none");
-}
 </script>
 
 
