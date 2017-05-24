@@ -704,14 +704,18 @@ public class LoginController extends BaseController{
 	@ResponseBody
 	public AjaxJson getFloorNum(HttpServletRequest request){
 		AjaxJson j = new AjaxJson();
+		List<ZBuildingEntity> ids=null;
+		Map<String, Object> map=new HashMap<String, Object>();
 		String buildId=request.getParameter("buildId");
 		if(buildId==null||buildId.equals("")){
 //			buildId="8a9290d85be74999015be74bca0b0000";
-			List<ZBuildingEntity> ids=jeecgMinidaoService.getAllBuildingId("1");//查询所有建筑物
+			ids=jeecgMinidaoService.getAllBuildingIdAndName();//查询所有建筑物
 			buildId=ids.get(0).getId();
 		}
+		map.put("buildings", jeecgMinidaoService.getAllBuildingIdAndName());
 		String floorNum=jeecgMinidaoService.selectFloorNum(buildId);
 		j.setObj(floorNum);
+		j.setAttributes(map);
 		return j;
 	}
 }
