@@ -7,6 +7,7 @@ import org.jeecgframework.minidao.annotation.Arguments;
 import org.jeecgframework.web.demo.entity.test.JeecgMinidaoEntity;
 
 import com.lierda.web.entity.ZBuildingEntity;
+import com.lierda.web.entity.ZFloorEntity;
 
 /**
  * Minidao例子
@@ -39,7 +40,7 @@ public interface JeecgMinidaoServiceI {
 
 	public String selectParkName(String parkid);
 	
-	public String selectFloorNum(String buildId);
+	public List<ZFloorEntity> selectFloorByBuild(String buildId);
 	
 	public List<ZBuildingEntity> getAllBuildingIdAndName();
 }
