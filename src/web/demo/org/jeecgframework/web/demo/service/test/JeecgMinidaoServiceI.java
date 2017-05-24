@@ -41,5 +41,5 @@ public interface JeecgMinidaoServiceI {
 	
 	public String selectFloorNum(String buildId);
 	
-	public List<ZBuildingEntity> getAllBuildingId(String flag);
+	public List<ZBuildingEntity> getAllBuildingIdAndName();
 }
