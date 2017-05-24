@@ -1,5 +1,6 @@
 package org.jeecgframework.web.demo.service.test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jeecgframework.minidao.annotation.Arguments;
@@ -36,4 +37,7 @@ public interface JeecgMinidaoServiceI {
 
 	public String selectParkName(String parkid);
 	
+	public String selectFloorNum(String buildId);
+	
+	public List<String>  getAllBuildingId();
 }
