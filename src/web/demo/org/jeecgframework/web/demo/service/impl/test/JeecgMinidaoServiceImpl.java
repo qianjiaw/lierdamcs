@@ -1,5 +1,6 @@
 package org.jeecgframework.web.demo.service.impl.test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jeecgframework.web.demo.dao.test.JeecgMinidaoDao;
@@ -75,6 +76,18 @@ public class JeecgMinidaoServiceImpl implements JeecgMinidaoServiceI {
 	public String selectParkName(String id) {
 		// TODO Auto-generated method stub
 		return jeecgMinidaoDao.selectParkName(id);
+	}
+
+	@Override
+	public String selectFloorNum(String buildId) {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.selectFloorNum(buildId);
+	}
+
+	@Override
+	public List<String> getAllBuildingId() {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.getAllBuildingId();
 	}
 
 }
