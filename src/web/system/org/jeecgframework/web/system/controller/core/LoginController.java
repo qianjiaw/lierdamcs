@@ -706,8 +706,8 @@ public class LoginController extends BaseController{
 		AjaxJson j = new AjaxJson();
 		String buildId=request.getParameter("buildId");
 		if(buildId==null||buildId.equals("")){
-			buildId="8a9290d85be74999015be74bca0b0000";
-			List<ZBuildingEntity> ids=jeecgMinidaoService.getAllBuildingId("1");
+//			buildId="8a9290d85be74999015be74bca0b0000";
+			List<ZBuildingEntity> ids=jeecgMinidaoService.getAllBuildingId("1");//查询所有建筑物
 			buildId=ids.get(0).getId();
 		}
 		String floorNum=jeecgMinidaoService.selectFloorNum(buildId);
