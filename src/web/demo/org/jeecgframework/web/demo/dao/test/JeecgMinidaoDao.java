@@ -10,6 +10,8 @@ import org.jeecgframework.minidao.annotation.ResultType;
 import org.jeecgframework.minidao.annotation.Sql;
 import org.jeecgframework.web.demo.entity.test.JeecgMinidaoEntity;
 
+import com.lierda.web.entity.ZBuildingEntity;
+
 /**
  * Minidao例子
  * @author fancq
@@ -49,8 +51,9 @@ public interface JeecgMinidaoDao {
 	@Arguments("buildId")
 	String selectFloorNum(String buildId);
 	
-	@Sql("select id from z_building")
-	List<String> getAllBuildingId();
+	@Arguments("flag")
+	List<ZBuildingEntity> getAllBuildingId(String flag);
+	
 	
 	/*@Arguments("jeecgMinidao")
 	int update(JeecgMinidaoEntity jeecgMinidao);
