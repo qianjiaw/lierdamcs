@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lierda.web.entity.ZBuildingEntity;
+
 /**
  * Minidao例子
  * @author fancq
@@ -85,9 +87,9 @@ public class JeecgMinidaoServiceImpl implements JeecgMinidaoServiceI {
 	}
 
 	@Override
-	public List<String> getAllBuildingId() {
+	public List<ZBuildingEntity> getAllBuildingId(String flag) {
 		// TODO Auto-generated method stub
-		return jeecgMinidaoDao.getAllBuildingId();
+		return jeecgMinidaoDao.getAllBuildingId(flag);
 	}
 
 }
