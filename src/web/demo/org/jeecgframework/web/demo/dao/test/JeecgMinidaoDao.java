@@ -51,8 +51,8 @@ public interface JeecgMinidaoDao {
 	@Arguments("buildId")
 	String selectFloorNum(String buildId);
 	
-	@Arguments("flag")
-	List<ZBuildingEntity> getAllBuildingId(String flag);
+	@Sql("select id,buildingname from z_building ")
+	List<ZBuildingEntity> getAllBuildingIdAndName();
 	
 	
 	/*@Arguments("jeecgMinidao")
