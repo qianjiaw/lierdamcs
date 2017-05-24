@@ -6,6 +6,8 @@ import java.util.List;
 import org.jeecgframework.minidao.annotation.Arguments;
 import org.jeecgframework.web.demo.entity.test.JeecgMinidaoEntity;
 
+import com.lierda.web.entity.ZBuildingEntity;
+
 /**
  * Minidao例子
  * @author fancq
@@ -39,5 +41,5 @@ public interface JeecgMinidaoServiceI {
 	
 	public String selectFloorNum(String buildId);
 	
-	public List<String>  getAllBuildingId();
+	public List<ZBuildingEntity> getAllBuildingId(String flag);
 }
