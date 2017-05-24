@@ -26,6 +26,7 @@ import org.jeecgframework.core.util.NumberComparator;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.SysThemesUtil;
 import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.web.demo.service.test.JeecgMinidaoServiceI;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.pojo.base.Client;
 import org.jeecgframework.web.system.pojo.base.TSConfig;
@@ -72,6 +73,9 @@ public class LoginController extends BaseController{
 
 		this.userService = userService;
 	}
+	
+	@Autowired
+	private JeecgMinidaoServiceI jeecgMinidaoService;
 
 	@RequestMapping(params = "goPwdInit")
 	public String goPwdInit() {
@@ -350,6 +354,7 @@ public class LoginController extends BaseController{
 	           							.append("where a.tsDepart.id=b.tsDepart.id and b.tsRole.id=rf.TSRole.id and rf.TSFunction.id=c.id and a.tsUser.id=?");
 	           List<TSFunction> list1 = systemService.findHql(hqlsb1.toString(),user.getId());
 	           List<TSFunction> list2 = systemService.findHql(hqlsb2.toString(),user.getId());
+	           System.out.println(user.getId()+"================================");
 	           for(TSFunction function:list1){
 		              loginActionlist.put(function.getId(),function);
 		       }
@@ -691,5 +696,24 @@ public class LoginController extends BaseController{
 	@RequestMapping(params = "login3")
 	public String login3(){
 		return "login/login3";
+	}
+	
+	@RequestMapping(params = "getFloorNum")
+	@ResponseBody
+	public AjaxJson getFloorNum(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		String buildId=request.getParameter("buildId");
+		if(buildId==null||buildId.equals("")){
+			buildId="8a9290d85be74999015be74bca0b0000";
+			List<String> ids=jeecgMinidaoService.getAllBuildingId();
+//			buildId=ids.get(0);
+			for (Object string : ids) {
+				System.out.println(string+"===");
+			}
+			System.out.println(buildId);
+		}
+		String floorNum=jeecgMinidaoService.selectFloorNum(buildId);
+		j.setObj(floorNum);
+		return j;
 	}
 }
