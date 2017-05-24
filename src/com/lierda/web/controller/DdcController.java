@@ -1,4 +1,5 @@
 package com.lierda.web.controller;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -101,6 +102,12 @@ public class DdcController extends BaseController {
 		//查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, ddc, request.getParameterMap());
 		this.ddcService.getDataGridReturn(cq, true);
+		List<DdcEntity> results=dataGrid.getResults();
+		DdcEntity ddcEntity=new DdcEntity();	
+		ddcEntity.setDdcmac("你是谁？？？");
+		results.add(ddcEntity);
+		dataGrid.setResults(results);
+		dataGrid.setTotal(dataGrid.getTotal()+1);
 		TagUtil.datagrid(response, dataGrid);
 	}
 
