@@ -2,6 +2,7 @@ package org.jeecgframework.web.demo.service.test;
 
 import java.util.List;
 
+import org.jeecgframework.minidao.annotation.Arguments;
 import org.jeecgframework.web.demo.entity.test.JeecgMinidaoEntity;
 
 /**
@@ -26,4 +27,13 @@ public interface JeecgMinidaoServiceI {
 	public Integer getCount();
 	
 	public Integer getSumSalary();
+	
+	public String selectName(String id);
+	
+	public String selectFloorName(String id);
+	
+	public String selectRoomName(String id);
+
+	public String selectParkName(String parkid);
+	
 }
