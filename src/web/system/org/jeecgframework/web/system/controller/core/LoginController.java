@@ -47,6 +47,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.lierda.web.entity.ZBuildingEntity;
+
 /**
  * 登陆初始化控制器
  * @author 张代浩
@@ -705,12 +707,8 @@ public class LoginController extends BaseController{
 		String buildId=request.getParameter("buildId");
 		if(buildId==null||buildId.equals("")){
 			buildId="8a9290d85be74999015be74bca0b0000";
-			List<String> ids=jeecgMinidaoService.getAllBuildingId();
-//			buildId=ids.get(0);
-			for (Object string : ids) {
-				System.out.println(string+"===");
-			}
-			System.out.println(buildId);
+			List<ZBuildingEntity> ids=jeecgMinidaoService.getAllBuildingId("1");
+			buildId=ids.get(0).getId();
 		}
 		String floorNum=jeecgMinidaoService.selectFloorNum(buildId);
 		j.setObj(floorNum);
