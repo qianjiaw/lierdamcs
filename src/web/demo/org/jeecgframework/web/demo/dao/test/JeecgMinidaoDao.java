@@ -11,6 +11,7 @@ import org.jeecgframework.minidao.annotation.Sql;
 import org.jeecgframework.web.demo.entity.test.JeecgMinidaoEntity;
 
 import com.lierda.web.entity.ZBuildingEntity;
+import com.lierda.web.entity.ZFloorEntity;
 
 /**
  * Minidao例子
@@ -49,7 +50,7 @@ public interface JeecgMinidaoDao {
 	String selectParkName(String parkid);
 	
 	@Arguments("buildId")
-	String selectFloorNum(String buildId);
+	List<ZFloorEntity> selectFloorByBuild(String buildId);
 	
 	@Sql("select id,buildingname from z_building ")
 	List<ZBuildingEntity> getAllBuildingIdAndName();
