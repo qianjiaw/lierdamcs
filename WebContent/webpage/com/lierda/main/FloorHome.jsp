@@ -167,19 +167,42 @@
 
 <script>
 	var room = [{"name":88101},{"name":88102},{"name":88103},{"name":88104},{"name":88105},{"name":88106},{"name":88107},{"name":88108},{"name":88109},{"name":88110},{"name":88111},{"name":88112},{"name":88113},{"name":88114},{"name":88115},{"name":88116},{"name":88117},{"name":88118}]
-	var floornum = 18;
+	var buildId="";
+	var buildName = "";
+	var showBuilding = {};
+	var buildings=[];
+	var floors=[];
+	var floornum = 0;
+
+	function getFloorNum(){
+		$.ajax({
+			type:"post",
+			async: false,
+			url:"/mcs/loginController.do?getFloorNum",
+			data: {'buildId':buildId},
+			dataType: "json",
+			success: function(data){
+				floornum = data.obj;
+				attributes=	data.attributes;
+				buildings=attributes['buildings'];//所有建筑物id，name
+				showBuilding = buildings[0];
+				floors=attributes['floors'];//对应建筑物楼层id,name
+				floornum=floors.length;
+			}
+		});
+	}
 
 	$(function() {
 		var req = getRequest();
-		$("#this-floor-top").text(req.floor + "F楼层房态图");
-		$("#this-floor-cen").text(req.floor + "F楼层控制模式");
+		$("#this-floor-top").text(req.floorid + "F楼层房态图");
+		$("#this-floor-cen").text(req.floorid + "F楼层控制模式");
 		
 		///////////////////////////////set Height and Width
 		setHAndW();
 		window.onresize = function () {
 			setHAndW();
 		}
-		
+		getFloorNum();
 		addBuilding();
 		drawroomstate(room);
 		drawroomcheck(room);
@@ -248,7 +271,7 @@
 		var height = width/2;
 		$("#controller-main-first").append('<form id="roomcheckform"></form>');
 		for (var i = 0; i < room.length; i++) {
-			$("#roomcheckform").append('<div id="room-check-'+i+'" style="height:'+height+'px;width:'+width+'px;float:left;margin-left:2px;margin-top:2px;"></div>');
+			$("#roomcheckform").append('<div id="room-check-'+i+'" style="height:'+height+'px;width:'+width+'px;min-width:50px;float:left;margin-left:2px;margin-top:2px;"></div>');
 			$("#room-check-"+i+"").append('<input type="checkbox" style="top: 50%;margin-top: -6px;position: relative;float:left;"  value="'+room[i].name+'"></input>');
 			$("#room-check-"+i+"").append('<a href="/mcs/webpage/com/lierda/main/RoomHome.jsp?room='+room[i].name+'" style="float: left;position:relative;font-size: 10px;line-height: '+height+'px;">'+room[i].name+'</a>');
 		}

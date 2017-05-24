@@ -326,7 +326,7 @@
 						<t:menu style="ace" menuFun="${menuMap}"></t:menu>
 					</ul><!-- /.nav-list -->
 
-					<div class="sidebar-collapse" id="sidebar-collapse">
+					<div class="sidebar-collapse menu-min" id="sidebar-collapse">
 						<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
 					</div>
 

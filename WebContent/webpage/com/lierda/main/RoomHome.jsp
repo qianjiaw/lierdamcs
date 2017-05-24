@@ -116,7 +116,30 @@
 
 <script>
 	var room = [{"name":88101},{"name":88102},{"name":88103},{"name":88104},{"name":88105},{"name":88106},{"name":88107},{"name":88108},{"name":88109},{"name":88110},{"name":88111},{"name":88112},{"name":88113},{"name":88114},{"name":88115},{"name":88116},{"name":88117},{"name":88118}]
-	var floornum = 18;
+	var buildId="";
+	var buildName = "";
+	var showBuilding = {};
+	var buildings=[];
+	var floors=[];
+	var floornum = 0;
+
+	function getFloorNum(){
+		$.ajax({
+			type:"post",
+			async: false,
+			url:"/mcs/loginController.do?getFloorNum",
+			data: {'buildId':buildId},
+			dataType: "json",
+			success: function(data){
+				floornum = data.obj;
+				attributes=	data.attributes;
+				buildings=attributes['buildings'];//所有建筑物id，name
+				showBuilding = buildings[0];
+				floors=attributes['floors'];//对应建筑物楼层id,name
+				floornum=floors.length;
+			}
+		});
+	}
 
 	$(function() {
 		var req = getRequest();
@@ -129,7 +152,7 @@
 			setHAndW();
 			resizePowerChart();
 		}
-		
+		getFloorNum();
 		addBuilding();
 		drawPowerChart();
 		addtable();

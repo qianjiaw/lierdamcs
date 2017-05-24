@@ -294,15 +294,26 @@ select::-ms-expand { display: none; }
 .building-choose-main {
     width: 100%;
     height: 100%;
-    position: absolute;
-    background: #cccccc;
-    opacity: 0.5;
+    position: absolute;    
+    background: rgba(204, 204, 204, 0.9);
     top: 0px;
     z-index: 99;
     display: none;
 }
 
-.each-building {
-	
+.each-building {    
+	width: 140px;
+    height: 186px;
+    float: left;
+    margin-left: 20%;
+    margin-top: 50px;
 }
 
+.building-choose-font {
+	height: 30px;
+    width: 100%;
+    text-align: center;
+    font-family: 楷体;
+    font-size: larger;
+    line-height: 30px;
+}
