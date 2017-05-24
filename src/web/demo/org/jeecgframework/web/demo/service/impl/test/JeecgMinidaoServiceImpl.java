@@ -1,6 +1,7 @@
 package org.jeecgframework.web.demo.service.impl.test;
 
 import java.util.List;
+
 import org.jeecgframework.web.demo.dao.test.JeecgMinidaoDao;
 import org.jeecgframework.web.demo.entity.test.JeecgMinidaoEntity;
 import org.jeecgframework.web.demo.service.test.JeecgMinidaoServiceI;
@@ -55,4 +56,25 @@ public class JeecgMinidaoServiceImpl implements JeecgMinidaoServiceI {
 	public Integer getSumSalary() {
 		return jeecgMinidaoDao.getSumSalary();
 	}
+
+	public String selectName(String id) {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.selectName(id);
+	}
+
+	public String selectFloorName(String id) {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.selectFloorName(id);
+	}
+
+	public String selectRoomName(String id) {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.selectRoomName(id);
+	}
+
+	public String selectParkName(String id) {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.selectParkName(id);
+	}
+
 }
