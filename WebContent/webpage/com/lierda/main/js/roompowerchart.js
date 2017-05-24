@@ -4,7 +4,7 @@ function drawPowerChart () {
 
 option = {
     title: {
-        text: 'LOREM IPSUM DOLOR SIT AMET',
+        text: 'LOREM IPSUM DOLOR SIT AME',
         textStyle:{
         	fontSize:10
         }
@@ -33,7 +33,7 @@ option = {
         id: 'a',
         name: 'Current Year',
         type: 'line',
-        smooth: true,
+        smooth: false,
         symbolSize: symbolSize,
         data: [
 	    	['2010', 12],
@@ -48,7 +48,7 @@ option = {
     }, {
         name: 'Last Year',
         type: 'line',
-        smooth: true,
+        smooth: false,
         symbolSize: symbolSize,
         data: [
 	    	['2010', 15],
@@ -63,7 +63,7 @@ option = {
     }, {
         name: 'Avg. Last 3 Months',
         type: 'line',
-        smooth: true,
+        smooth: false,
         symbolSize: symbolSize,
         data: [
 	    	['2010', 27],
@@ -78,7 +78,7 @@ option = {
     }, {
         name: 'Avg. Last 6 Months',
         type: 'line',
-        smooth: true,
+        smooth: false,
         symbolSize: symbolSize,
         data: [
 	    	['2010', 48],
