@@ -97,9 +97,10 @@
 <script src="/mcs/webpage/com/lierda/main/js/spline.js"></script>
 <script>
 
-var floornum = "";
+var floornum = 13;
 var buildId="";
 var buildings="";
+var floors="";
 
 function getFloorNum(){
 	$.ajax({
@@ -109,14 +110,9 @@ function getFloorNum(){
 		data: {'buildId':buildId},
 		dataType: "json",
 		success: function(data){
-			floornum = data.obj;
-			buildings=	data.attributes;	
-			for (key in buildings) {
-			 	var building=buildings[key];
-			    for(key in building){
-			    	console.log(building[key].buildingname);
-			    }
-			}
+			attributes=	data.attributes;	
+			buildings=attributes['buildings'];//所有建筑物id，name
+			floors=attributes['floors'];//对应建筑物楼层id,name
 		}
 	});
 }
