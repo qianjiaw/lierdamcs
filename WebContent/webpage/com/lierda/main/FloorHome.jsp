@@ -250,7 +250,7 @@
 		for (var i = 0; i < room.length; i++) {
 			$("#roomcheckform").append('<div id="room-check-'+i+'" style="height:'+height+'px;width:'+width+'px;float:left;margin-left:2px;margin-top:2px;"></div>');
 			$("#room-check-"+i+"").append('<input type="checkbox" style="top: 50%;margin-top: -6px;position: relative;float:left;"  value="'+room[i].name+'"></input>');
-			$("#room-check-"+i+"").append('<p href="/mcs/webpage/com/lierda/main/RoomHome.jsp?room='+room.name+'" style="float: left;position:relative;font-size: 10px;line-height: '+height+'px;">'+room[i].name+'</p>');
+			$("#room-check-"+i+"").append('<a href="/mcs/webpage/com/lierda/main/RoomHome.jsp?room='+room[i].name+'" style="float: left;position:relative;font-size: 10px;line-height: '+height+'px;">'+room[i].name+'</a>');
 		}
 	}
 	
