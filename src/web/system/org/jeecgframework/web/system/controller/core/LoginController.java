@@ -48,6 +48,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.lierda.web.entity.ZBuildingEntity;
+import com.lierda.web.entity.ZFloorEntity;
 
 /**
  * 登陆初始化控制器
@@ -712,9 +713,13 @@ public class LoginController extends BaseController{
 			ids=jeecgMinidaoService.getAllBuildingIdAndName();//查询所有建筑物
 			buildId=ids.get(0).getId();
 		}
+		List<ZFloorEntity> floors=jeecgMinidaoService.selectFloorByBuild(buildId);
+		for (ZFloorEntity zFloorEntity : floors) {
+			System.out.println(zFloorEntity.getFloorname());
+		}
 		map.put("buildings", jeecgMinidaoService.getAllBuildingIdAndName());
-		String floorNum=jeecgMinidaoService.selectFloorNum(buildId);
-		j.setObj(floorNum);
+		System.out.println(buildId);
+		map.put("floors", jeecgMinidaoService.selectFloorByBuild(buildId));
 		j.setAttributes(map);
 		return j;
 	}
