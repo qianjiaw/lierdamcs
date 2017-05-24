@@ -32,7 +32,19 @@ public interface JeecgMinidaoDao {
 
 	@Sql("SELECT SUM(salary) FROM jeecg_minidao")
 	Integer getSumSalary();
-
+	
+	@Arguments("id")
+	String selectName(String id);
+	
+	@Arguments("id")
+	String selectFloorName(String id);
+	
+	@Arguments("id")
+	String selectRoomName(String id);
+	
+	@Arguments("id")
+	String selectParkName(String parkid);
+	
 	/*@Arguments("jeecgMinidao")
 	int update(JeecgMinidaoEntity jeecgMinidao);
 
