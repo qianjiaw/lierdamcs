@@ -235,7 +235,10 @@
 		var width = getWidth("floor-main") / 6 - 5;
 		var height = width/2;
 		for (var i = 0; i < room.length; i++) {
-			$("#floor-main").append('<div id="room-state-'+room[i].name+'" onclick="selectRoom(this)" style="height:'+height+'px;width:'+width+'px;background-color:skyblue;float:left;margin-left:2px;margin-top:2px;">'+room[i].name+'</div>');
+			$("#floor-main").append('<div id="room-state-'+room[i].name+'" onclick="selectRoom(this)" style="height:'+height+'px;width:'+width+'px;background-color:skyblue;float:left;margin-left:2px;margin-top:2px;">'+
+			'<div ></div>'+
+			'<span>'+room[i].name+'</span>'+
+			'</div>');
 		}
 	}
 
@@ -247,7 +250,7 @@
 		for (var i = 0; i < room.length; i++) {
 			$("#roomcheckform").append('<div id="room-check-'+i+'" style="height:'+height+'px;width:'+width+'px;float:left;margin-left:2px;margin-top:2px;"></div>');
 			$("#room-check-"+i+"").append('<input type="checkbox" style="top: 50%;margin-top: -6px;position: relative;float:left;"  value="'+room[i].name+'"></input>');
-			$("#room-check-"+i+"").append('<p style="float: left;position:relative;font-size: 10px;line-height: '+height+'px;">'+room[i].name+'</p>');
+			$("#room-check-"+i+"").append('<p href="/mcs/webpage/com/lierda/main/RoomHome.jsp?room='+room.name+'" style="float: left;position:relative;font-size: 10px;line-height: '+height+'px;">'+room[i].name+'</p>');
 		}
 	}
 	
