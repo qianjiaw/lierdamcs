@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lierda.web.entity.ZBuildingEntity;
+import com.lierda.web.entity.ZFloorEntity;
 
 /**
  * Minidao例子
@@ -81,9 +82,9 @@ public class JeecgMinidaoServiceImpl implements JeecgMinidaoServiceI {
 	}
 
 	@Override
-	public String selectFloorNum(String buildId) {
+	public List<ZFloorEntity> selectFloorByBuild(String buildId) {
 		// TODO Auto-generated method stub
-		return jeecgMinidaoDao.selectFloorNum(buildId);
+		return jeecgMinidaoDao.selectFloorByBuild(buildId);
 	}
 
 	@Override
