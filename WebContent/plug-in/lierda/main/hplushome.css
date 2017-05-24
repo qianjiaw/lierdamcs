@@ -54,6 +54,25 @@
     position: absolute;
 }
 
+.building-select {
+	appearance:none;
+	-webkit-appearance: none;
+	/*background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;*/
+	width: 146px;
+    height: 26px;
+    line-height: 26px;
+    margin: 2px auto;
+    text-align: center;
+    font-family: 楷体;
+    font-weight: 600;
+    color: white;
+    background-color: #728ce3;
+}  
+  
+  
+/*清除ie的默认选择框样式清除，隐藏下拉箭头*/  
+select::-ms-expand { display: none; }  
+
 .building-container {
     width: 100%;
     position: absolute;
@@ -92,7 +111,7 @@
 	margin:0px auto;
 	text-align:center;
 	background-color:white;
-	box-shadow: 0 0 7px 0 rgba(114, 140, 227, 0.13);
+	box-shadow: 0px 0px 7px 4px rgba(114, 140, 227, 0.13);
 }
 
 .eachfloor {
@@ -271,3 +290,19 @@
 	width:60%;
 	float:right;
 }
+
+.building-choose-main {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: #cccccc;
+    opacity: 0.5;
+    top: 0px;
+    z-index: 99;
+    display: none;
+}
+
+.each-building {
+	
+}
+
