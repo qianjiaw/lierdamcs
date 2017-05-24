@@ -194,6 +194,8 @@ public class ZRoomController extends BaseController {
 
 		//保存
 		zRoomService.save(zRoom);
+		
+		
 
 		//按照Restful风格约定，创建指向新任务的url, 也可以直接返回id或对象.
 		String id = zRoom.getId();
