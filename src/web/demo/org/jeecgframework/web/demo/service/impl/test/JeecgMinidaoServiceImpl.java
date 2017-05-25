@@ -107,7 +107,7 @@ public class JeecgMinidaoServiceImpl implements JeecgMinidaoServiceI {
 	}
 
 	@Override
-	public List<ZBuildingEntity> getBuidingByFloorId(String floorid) {
+	public List<ZFloorEntity> getBuidingByFloorId(String floorid) {
 		// TODO Auto-generated method stub
 		return jeecgMinidaoDao.getBuidingByFloorId(floorid);
 	}
