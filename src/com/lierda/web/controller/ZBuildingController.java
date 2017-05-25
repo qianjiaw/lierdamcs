@@ -78,10 +78,11 @@ public class ZBuildingController extends BaseController {
 	@Autowired
 	private SystemService systemService;
 	@Autowired
-	private JeecgMinidaoServiceI jeecgMinidaoService;
+	private  JeecgMinidaoServiceI jeecgMinidaoService;
 	@Autowired
 	private Validator validator;
 	
+	 public  static 	List<ZBuildingEntity> buildings;
 
 
 	/**
@@ -255,8 +256,8 @@ public class ZBuildingController extends BaseController {
 		Map<String, Object> map=new HashMap<String, Object>();
 		List<ZBuildingEntity> ids=jeecgMinidaoService.getAllBuildingIdAndName();//查询所有建筑物
 		map.put("buildings", ids);
+		buildings=ids;
 		j.setAttributes(map);
 		return j;
-	}
-	
+	}	
 }
