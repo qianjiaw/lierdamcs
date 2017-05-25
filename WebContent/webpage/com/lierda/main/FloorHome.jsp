@@ -173,21 +173,23 @@
 	var buildings=[];
 	var floors=[];
 	var floornum = 0;
-
+	var floorid=getRequest().floorid;
+	var rooms=[];
+		
 	function getFloorNum(){
 		$.ajax({
 			type:"post",
 			async: false,
-			url:"/mcs/loginController.do?getFloorNum",
-			data: {'buildId':buildId},
+			url:"/mcs/loginController.do?getFloorDetail",
+			data: {'floorid':floorid},
 			dataType: "json",
 			success: function(data){
-				floornum = data.obj;
 				attributes=	data.attributes;
 				buildings=attributes['buildings'];//所有建筑物id，name
 				showBuilding = buildings[0];
-				floors=attributes['floors'];//对应建筑物楼层id,name
-				floornum=floors.length;
+ 				floors=attributes['floors'];//对应建筑物楼层id,name
+ 				floornum=floors.length;
+				rooms=attributes['rooms'];
 			}
 		});
 	}
