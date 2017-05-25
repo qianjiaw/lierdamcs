@@ -49,6 +49,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
+import com.lierda.web.entity.ZRoomEntity;
+import com.lierda.web.service.ZFloorServiceI;
+import com.lierda.web.service.impl.ZFloorServiceImpl;
 
 /**
  * 登陆初始化控制器
@@ -79,6 +82,8 @@ public class LoginController extends BaseController{
 	
 	@Autowired
 	private JeecgMinidaoServiceI jeecgMinidaoService;
+	
+
 
 	@RequestMapping(params = "goPwdInit")
 	public String goPwdInit() {
@@ -723,4 +728,27 @@ public class LoginController extends BaseController{
 		j.setAttributes(map);
 		return j;
 	}
+	
+	@RequestMapping(params = "getFloorDetail")
+	@ResponseBody
+	public AjaxJson getFloorDetail(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		String floorid=request.getParameter("floorid");
+		String buildId=request.getParameter("buildId");
+		Map<String, Object> map=new HashMap<String, Object>();
+		List<ZBuildingEntity> ids=null;
+		if(buildId==null||buildId.equals("")){
+//			buildId="8a9290d85be74999015be74bca0b0000";
+			ids=jeecgMinidaoService.getAllBuildingIdAndName();//查询所有建筑物
+			buildId=ids.get(0).getId();
+		}
+		List<ZRoomEntity> rooms=jeecgMinidaoService.selectRoomByFloor(floorid);
+		List<ZFloorEntity> floors=jeecgMinidaoService.selectFloorById(floorid);
+		map.put("buildings", ids);
+		map.put("rooms", rooms);
+		map.put("floors", floors);
+		j.setAttributes(map);
+		return j;
+	}
+
 }
