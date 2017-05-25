@@ -32,11 +32,16 @@
 		      <label class="Validform_label">所属建筑:</label>
 		      <select id="buildingid" name="buildingid">
 				<c:forEach items="${zbuildingList}" var="item">
-					<option class="inputxt" value="${item.id}">${item.buildingname}</option>
+					<option id="${item.id}" class="inputxt">${item.parkname}-${item.buildingname}</option>
 				</c:forEach>
 			  </select>
 		      <span class="Validform_checktip"></span>
 		    </div>
 	    </fieldset>
   </t:formvalid>
+  
+  <script>
+  	$("#${zBuildingPage.id}").attr("selected",true);
+  </script>
+  
  </body>

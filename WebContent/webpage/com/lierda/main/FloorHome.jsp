@@ -23,7 +23,11 @@
 				<p class="main-message-text">基本信息</p>
 			</div>
 			<div id="building-main" class="building-main">
-				<div id="building-text" class="building-text"></div>
+				<div id="building-text" class="building-text">
+					<div id="building-select" class="building-select" onclick="choosebuilding()">
+						<p id="buildingname"></p>
+					</div>
+				</div>
 				<div id="building-container" class="building-container">
 					<div id="building-building" class="building-building">
 						<div id="building-header" class="building-header">
@@ -159,7 +163,9 @@
 
 	</div>
 
-
+	<div id="building-choose-main" class="building-choose-main" onclick="hidechoose()">
+		
+	</div>
 
 </body>
 
@@ -188,8 +194,10 @@
 				buildings=attributes['buildings'];//所有建筑物id，name
 				showBuilding = buildings[0];
  				floors=attributes['floors'];//对应建筑物楼层id,name
+ 				console.log(floors);
  				floornum=floors.length;
 				rooms=attributes['rooms'];
+				console.log(rooms);
 			}
 		});
 	}
@@ -250,12 +258,21 @@
 	function addBuilding (){
 		$("#building-building").height((floornum*28+20+70)+"px");
 		$("#building-eachfloor").height((floornum*28+20)+"px");
-		for(var i=floornum;i>0;i--){
-			$("#building-eachfloor").append('<div id="floor-'+i+'" onclick="changetopshow(this)" class="eachfloor"><span class="floor-font">'+i+'F</span></div>')
+		for(i in floors){
+			$("#building-eachfloor").append('<div id="floor-'+floors[(floors.length-1)-i].id+'" onclick="selectFloor(this)" class="eachfloor"><span class="floor-font">'+floors[(floors.length-1)-i].floorname+'F</span></div>')
 		}
-		
+		$("#buildingname").text(""+showBuilding.buildingname+"");
 	}
-	
+	function refreshBuilding (buildName){
+		$("#building-building").height((floornum*28+20+70)+"px");
+		$("#building-eachfloor").height((floornum*28+20)+"px");
+		$("#building-eachfloor").empty();
+		for(i in floors){
+			$("#building-eachfloor").append('<div id="floor-'+floors[(floors.length-1)-i].id+'" onclick="selectFloor(this)" class="eachfloor"><span class="floor-font">'+floors[(floors.length-1)-i].floorname+'F</span></div>')
+		}
+
+		$("#buildingname").text(""+buildName+"");
+	}
 	function drawroomstate (room) {
 		var width = getWidth("floor-main") / 6 - 5;
 		var height = width/2;
@@ -347,9 +364,36 @@
 		$("#this-floor-cen").text(id + "F楼层控制模式");
 	}
 	
+	function selectFloor(obj){
+		var id = obj.id.split("-")[1];
+		window.location.href="/mcs/webpage/com/lierda/main/FloorHome.jsp?floorid="+id+"";
+	}
+	
 	function selectRoom (thisroom) {
 		var id = thisroom.id.split("-")[2];
 		window.location.href="/mcs/webpage/com/lierda/main/RoomHome.jsp?room="+id+"";
+	}
+	function choosebuilding () {
+		$("#building-choose-main").css("display","block");
+		$("#building-choose-main").empty();
+		for(key in buildings){
+			$("#building-choose-main").append(
+				'<div id="building-'+buildings[key].id+'-'+buildings[key].buildingname+'" onclick="doChooseBuilding(this)" class="each-building">'+
+	    			'<img style="width: 100%;height:156px;" alt="" src="/mcs/images/lierda/main-icon/building-choose.png"></img>'+
+	    			'<p class="building-choose-font">'+buildings[key].buildingname+'</p>'+
+	    		'</div>'
+	    	);
+	    }
+	}
+
+	function hidechoose () {
+		$("#building-choose-main").css("display","none");
+	}
+	function doChooseBuilding (obj) {
+		buildId = obj.id.split("-")[1];
+		buildName = obj.id.split("-")[2];
+		getFloorNum();
+		refreshBuilding(buildName);
 	}
 </script>
 
