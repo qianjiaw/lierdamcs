@@ -48,4 +48,6 @@ public interface JeecgMinidaoServiceI {
 	public List<ZRoomEntity> selectRoomByFloor(String floorid);
 	
 	public List<ZFloorEntity> selectFloorById(String floorid);
+	
+	public List<ZBuildingEntity> getBuidingByFloorId(String floorid);
 }
