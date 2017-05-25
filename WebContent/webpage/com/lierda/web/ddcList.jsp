@@ -26,11 +26,12 @@
 		$.ajax({
 			type:"post",
 			async: false,
-			url:"ddcController.do?getName",
-			data: {'roomid':value},
+			url:"ddcController.do?datagrid",
+			data: {'roomid':row.roomid,'floorid':row.floorid,'buildid':row.buildid,'parkid':row.parkid},
 			dataType: "json",
 			success: function(data){
-				room = data.obj;
+
+				console.log('dddddddddddddddddddd'');
 			}
 		});
 		return room;
@@ -46,6 +47,7 @@
 			dataType: "json",
 			success: function(data){
 				floor = data.obj;
+				console.log(row.id);
 			}
 		});
 		return floor;
@@ -61,6 +63,7 @@
 			dataType: "json",
 			success: function(data){
 				build = data.obj;
+				console.log(row.id);
 			}
 		});
 		return build;
@@ -76,6 +79,7 @@
 			dataType: "json",
 			success: function(data){
 				park = data.obj;
+				console.log(row.id);
 			}
 		});
 		return park;
