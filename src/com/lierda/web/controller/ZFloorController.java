@@ -22,10 +22,12 @@ import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.MyBeanUtils;
 
+import com.lierda.web.entity.VBuildingEntity;
 import com.lierda.web.entity.VFloorEntity;
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZParkEntity;
+import com.lierda.web.service.ZBuildingServiceI;
 import com.lierda.web.service.ZFloorServiceI;
 
 import org.springframework.http.ResponseEntity;
@@ -64,6 +66,8 @@ public class ZFloorController extends BaseController {
 
 	@Autowired
 	private ZFloorServiceI zFloorService;
+	@Autowired
+	private ZBuildingServiceI zBuildingService;
 	@Autowired
 	private SystemService systemService;
 	@Autowired
@@ -159,9 +163,11 @@ public class ZFloorController extends BaseController {
 	public ModelAndView addorupdate(ZFloorEntity zFloor, HttpServletRequest req) {
 		if (StringUtil.isNotEmpty(zFloor.getId())) {
 			zFloor = zFloorService.getEntity(ZFloorEntity.class, zFloor.getId());
+			ZBuildingEntity zBuilding = zBuildingService.getEntity(ZBuildingEntity.class, zFloor.getBuildingid());
 			req.setAttribute("zFloorPage", zFloor);
+			req.setAttribute("zBuildingPage", zBuilding);
 		}
-		List<ZBuildingEntity> zbuilding = systemService.getList(ZBuildingEntity.class);
+		List<VBuildingEntity> zbuilding = systemService.getList(VBuildingEntity.class);
 		req.setAttribute("zbuildingList", zbuilding);
 		return new ModelAndView("com/lierda/web/zFloor");
 	}

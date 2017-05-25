@@ -22,10 +22,12 @@ import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.MyBeanUtils;
 
+import com.lierda.web.entity.VFloorEntity;
 import com.lierda.web.entity.VRoomEntity;
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZRoomEntity;
+import com.lierda.web.service.ZFloorServiceI;
 import com.lierda.web.service.ZRoomServiceI;
 
 import org.springframework.http.ResponseEntity;
@@ -42,6 +44,8 @@ import org.jeecgframework.core.beanvalidator.BeanValidators;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+
+import java.io.Console;
 import java.net.URI;
 import org.springframework.http.MediaType;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -64,6 +68,8 @@ public class ZRoomController extends BaseController {
 
 	@Autowired
 	private ZRoomServiceI zRoomService;
+	@Autowired
+	private ZFloorServiceI zFloorService;
 	@Autowired
 	private SystemService systemService;
 	@Autowired
@@ -159,9 +165,11 @@ public class ZRoomController extends BaseController {
 	public ModelAndView addorupdate(ZRoomEntity zRoom, HttpServletRequest req) {
 		if (StringUtil.isNotEmpty(zRoom.getId())) {
 			zRoom = zRoomService.getEntity(ZRoomEntity.class, zRoom.getId());
+			ZFloorEntity zFloor = zFloorService.getEntity(ZFloorEntity.class, zRoom.getFloorid());
 			req.setAttribute("zRoomPage", zRoom);
+			req.setAttribute("zFloorPage", zFloor);
 		}
-		List<ZFloorEntity> zfloor = systemService.getList(ZFloorEntity.class);
+		List<VFloorEntity> zfloor = systemService.getList(VFloorEntity.class);
 		req.setAttribute("zfloorList", zfloor);
 		return new ModelAndView("com/lierda/web/zRoom");
 	}

@@ -68,6 +68,7 @@ public class ZBuildingController extends BaseController {
 
 	@Autowired
 	private ZBuildingServiceI zBuildingService;
+	@Autowired
 	private ZParkServiceI zParkService;
 	@Autowired
 	private SystemService systemService;
@@ -166,7 +167,9 @@ public class ZBuildingController extends BaseController {
 	public ModelAndView addorupdate(ZBuildingEntity zBuilding, HttpServletRequest req) {
 		if (StringUtil.isNotEmpty(zBuilding.getId())) {
 			zBuilding = zBuildingService.getEntity(ZBuildingEntity.class, zBuilding.getId());
+			ZParkEntity zPark = zParkService.getEntity(ZParkEntity.class, zBuilding.getParkid());
 			req.setAttribute("zBuildingPage", zBuilding);
+			req.setAttribute("zParkPage", zPark);
 		}
 		//List<ZParkEntity> zList = systemService.findListbySql("select * from z_park");
 		List<ZParkEntity> zpark = systemService.getList(ZParkEntity.class);
