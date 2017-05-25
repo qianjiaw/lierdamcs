@@ -768,6 +768,7 @@ public class LoginController extends BaseController{
 		map.put("rooms", rooms);
 		map.put("floor", floor);//当前楼层
 		map.put("floors", jeecgMinidaoService.selectFloorByBuild(buildId));//建筑物对应所有楼层
+		map.put("floors1", jeecgMinidaoService.selectFloorByBuild(floorid));
 		j.setAttributes(map);
 		return j;
 	}
