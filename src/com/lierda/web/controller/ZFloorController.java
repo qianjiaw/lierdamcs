@@ -1,5 +1,7 @@
 package com.lierda.web.controller;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
@@ -29,6 +30,7 @@ import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZParkEntity;
 import com.lierda.web.service.ZBuildingServiceI;
 import com.lierda.web.service.ZFloorServiceI;
+import com.lierda.web.service.impl.ZFloorServiceImpl;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -41,10 +43,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.jeecgframework.core.beanvalidator.BeanValidators;
+
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+
 import java.net.URI;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -229,5 +235,34 @@ public class ZFloorController extends BaseController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable("id") String id) {
 		zFloorService.deleteEntityById(ZFloorEntity.class, id);
+	}
+	
+	/**
+	 * 通过建筑物id获取楼层id和名称
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "getFloorNum")
+	@ResponseBody
+	public AjaxJson getFloorNum(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		List<ZBuildingEntity> ids=null;
+		Map<String, Object> map=new HashMap<String, Object>();
+		String buildId=request.getParameter("buildId");
+		if(buildId==null||buildId.equals("")){
+			buildId="8a9290d85be74999015be74bca0b0000";
+//			ids=jeecgMinidaoService.getAllBuildingIdAndName();//查询所有建筑物
+//			buildId=ids.get(0).getId();
+		}
+//		List<ZFloorEntity> floors=jeecgMinidaoService.selectFloorByBuild(buildId);
+		List<ZFloorEntity> floors=zFloorService.findListbySql("select id,floorname from z_floor where buildingid="+buildId+"");
+		for (ZFloorEntity zFloorEntity : floors) {
+			System.out.println(zFloorEntity.getFloorname()+"LOOK");
+		}
+//		map.put("buildings", jeecgMinidaoService.getAllBuildingIdAndName());
+//		System.out.println(buildId);
+		map.put("floors", floors);
+		j.setAttributes(map);
+		return j;
 	}
 }
