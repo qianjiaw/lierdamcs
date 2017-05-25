@@ -65,6 +65,8 @@ public interface JeecgMinidaoDao {
 	@Arguments("floorid")
 	List<ZFloorEntity> getBuidingByFloorId(String floorid);
 	
+	@Arguments("buildingid")
+	List<ZBuildingEntity> getBuidingBybuildingid(String buildingid);
 	/*@Arguments("jeecgMinidao")
 	int update(JeecgMinidaoEntity jeecgMinidao);
 
