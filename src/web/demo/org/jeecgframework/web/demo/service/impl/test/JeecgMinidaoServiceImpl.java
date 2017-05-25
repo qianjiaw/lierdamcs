@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
+import com.lierda.web.entity.ZRoomEntity;
 
 /**
  * Minidao例子
@@ -91,6 +92,18 @@ public class JeecgMinidaoServiceImpl implements JeecgMinidaoServiceI {
 	public List<ZBuildingEntity> getAllBuildingIdAndName() {
 		// TODO Auto-generated method stub
 		return jeecgMinidaoDao.getAllBuildingIdAndName();
+	}
+
+	@Override
+	public List<ZRoomEntity> selectRoomByFloor(String floorid) {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.selectRoomByFloor(floorid);
+	}
+
+	@Override
+	public List<ZFloorEntity> selectFloorById(String floorid) {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.selectFloorById(floorid);
 	}
 
 }
