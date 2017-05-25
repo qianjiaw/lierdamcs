@@ -182,7 +182,6 @@
 	var floorid=getRequest().floorid;
 	var rooms=[];
 	var floor=[];
-	var buildID=[];
 		
 	function getFloorNum(){
 		$.ajax({
@@ -196,7 +195,8 @@
 				buildings=attributes['buildings'];//所有建筑物id，name
 				showBuilding = buildings[0];
  				floors=attributes['floors'];//对应建筑物楼层id,name
- 				console.log(floors);
+ 				console.log(floors[0].buildingid+"-------------------------------------------");
+ 				console.log(floors[0].floorname+"-------------------------------------------");
  				floornum=floors.length;
 				rooms=attributes['rooms'];
 				floor=attributes['floor'];//当前楼层
