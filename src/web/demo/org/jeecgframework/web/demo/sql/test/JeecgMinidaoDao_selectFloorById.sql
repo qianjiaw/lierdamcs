@@ -1,1 +1,1 @@
-select id,floorname from z_floor where id='${floorid}'
+select id,floorname,buildingid from z_floor where id='${floorid}'
