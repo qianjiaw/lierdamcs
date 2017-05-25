@@ -181,6 +181,7 @@
 	var floornum = 0;
 	var floorid=getRequest().floorid;
 	var rooms=[];
+	var floor=[];
 		
 	function getFloorNum(){
 		$.ajax({
@@ -197,6 +198,7 @@
  				console.log(floors);
  				floornum=floors.length;
 				rooms=attributes['rooms'];
+				floor=attributes['floor'];//当前楼层
 				console.log(rooms);
 			}
 		});
