@@ -83,7 +83,8 @@ public class LoginController extends BaseController{
 	@Autowired
 	private JeecgMinidaoServiceI jeecgMinidaoService;
 	
-
+	@Autowired
+	private ZFloorServiceI zFloorService;
 
 	@RequestMapping(params = "goPwdInit")
 	public String goPwdInit() {
@@ -706,6 +707,11 @@ public class LoginController extends BaseController{
 		return "login/login3";
 	}
 	
+	/**
+	 * 通过建筑物id获取楼层id和名称
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(params = "getFloorNum")
 	@ResponseBody
 	public AjaxJson getFloorNum(HttpServletRequest request){
@@ -722,6 +728,14 @@ public class LoginController extends BaseController{
 		for (ZFloorEntity zFloorEntity : floors) {
 			System.out.println(zFloorEntity.getFloorname());
 		}
+//		System.out.println(buildId+"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+//		List<ZFloorEntity> floors=zFloorService.findHql("select f  from ZFloorEntity f where buildingid=?",new String[]{buildId});
+//		for (ZFloorEntity zFloorEntity : floors) {
+//			System.out.println(zFloorEntity.getFloorname()+"LOOK");
+////			zFloorService.f
+//			
+//		}
+		
 		map.put("buildings", jeecgMinidaoService.getAllBuildingIdAndName());
 		System.out.println(buildId);
 		map.put("floors", jeecgMinidaoService.selectFloorByBuild(buildId));
@@ -729,6 +743,11 @@ public class LoginController extends BaseController{
 		return j;
 	}
 	
+	/**
+	 * 根据楼层id获取(所有建筑物，该楼层房间，该楼层)的id和名称
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(params = "getFloorDetail")
 	@ResponseBody
 	public AjaxJson getFloorDetail(HttpServletRequest request){
@@ -743,10 +762,11 @@ public class LoginController extends BaseController{
 			buildId=ids.get(0).getId();
 		}
 		List<ZRoomEntity> rooms=jeecgMinidaoService.selectRoomByFloor(floorid);
-		List<ZFloorEntity> floors=jeecgMinidaoService.selectFloorById(floorid);
+		List<ZFloorEntity> floor=jeecgMinidaoService.selectFloorById(floorid);
 		map.put("buildings", ids);
 		map.put("rooms", rooms);
-		map.put("floors", floors);
+		map.put("floor", floor);//当前楼层
+		map.put("floors", jeecgMinidaoService.selectFloorByBuild(buildId));//建筑物对应所有楼层
 		j.setAttributes(map);
 		return j;
 	}
