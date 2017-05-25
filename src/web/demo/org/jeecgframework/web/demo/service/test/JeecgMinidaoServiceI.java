@@ -8,6 +8,7 @@ import org.jeecgframework.web.demo.entity.test.JeecgMinidaoEntity;
 
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
+import com.lierda.web.entity.ZRoomEntity;
 
 /**
  * Minidao例子
@@ -43,4 +44,8 @@ public interface JeecgMinidaoServiceI {
 	public List<ZFloorEntity> selectFloorByBuild(String buildId);
 	
 	public List<ZBuildingEntity> getAllBuildingIdAndName();
+	
+	public List<ZRoomEntity> selectRoomByFloor(String floorid);
+	
+	public List<ZFloorEntity> selectFloorById(String floorid);
 }
