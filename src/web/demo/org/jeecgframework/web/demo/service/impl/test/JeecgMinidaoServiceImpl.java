@@ -106,4 +106,10 @@ public class JeecgMinidaoServiceImpl implements JeecgMinidaoServiceI {
 		return jeecgMinidaoDao.selectFloorById(floorid);
 	}
 
+	@Override
+	public List<ZBuildingEntity> getBuidingByFloorId(String floorid) {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.getBuidingByFloorId(floorid);
+	}
+
 }
