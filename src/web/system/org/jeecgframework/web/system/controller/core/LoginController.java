@@ -69,6 +69,7 @@ public class LoginController extends BaseController{
 	@Autowired
 	private MutiLangServiceI mutiLangService;
 	
+	
 	@Autowired
 	public void setSystemService(SystemService systemService) {
 		this.systemService = systemService;
@@ -742,7 +743,7 @@ public class LoginController extends BaseController{
 		j.setAttributes(map);
 		return j;
 	}
-	
+		
 	/**
 	 * 根据楼层id获取(所有建筑物，该楼层房间，该楼层)的id和名称
 	 * @param request
@@ -763,9 +764,12 @@ public class LoginController extends BaseController{
 		}
 		List<ZRoomEntity> rooms=jeecgMinidaoService.selectRoomByFloor(floorid);
 		List<ZFloorEntity> floor=jeecgMinidaoService.selectFloorById(floorid);
+		String floorId=floor.get(0).getId();
+		List<String> buildID=zFloorService.findListbySql("select buildingid from z_floor where id='"+floorId+"'");
 		map.put("buildings", ids);
 		map.put("rooms", rooms);
 		map.put("floor", floor);//当前楼层
+		map.put("buildID", buildID);
 		map.put("floors", jeecgMinidaoService.selectFloorByBuild(buildId));//建筑物对应所有楼层
 		j.setAttributes(map);
 		return j;
