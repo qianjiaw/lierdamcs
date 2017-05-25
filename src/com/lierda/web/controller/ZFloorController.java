@@ -19,6 +19,7 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
+import org.jeecgframework.web.demo.service.test.JeecgMinidaoServiceI;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.MyBeanUtils;
@@ -28,6 +29,7 @@ import com.lierda.web.entity.VFloorEntity;
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZParkEntity;
+import com.lierda.web.entity.ZRoomEntity;
 import com.lierda.web.service.ZBuildingServiceI;
 import com.lierda.web.service.ZFloorServiceI;
 import com.lierda.web.service.impl.ZFloorServiceImpl;
@@ -76,6 +78,8 @@ public class ZFloorController extends BaseController {
 	private ZBuildingServiceI zBuildingService;
 	@Autowired
 	private SystemService systemService;
+	@Autowired
+	private JeecgMinidaoServiceI jeecgMinidaoService;
 	@Autowired
 	private Validator validator;
 	
@@ -237,6 +241,35 @@ public class ZFloorController extends BaseController {
 		zFloorService.deleteEntityById(ZFloorEntity.class, id);
 	}
 	
+//	/**
+//	 * 通过建筑物id获取楼层id和名称
+//	 * @param request
+//	 * @return
+//	 */
+//	@RequestMapping(params = "getFloorNum")
+//	@ResponseBody
+//	public AjaxJson getFloorNum(HttpServletRequest request){
+//		AjaxJson j = new AjaxJson();
+//		List<ZBuildingEntity> ids=null;
+//		Map<String, Object> map=new HashMap<String, Object>();
+//		String buildId=request.getParameter("buildId");
+//		if(buildId==null||buildId.equals("")){
+//			buildId="8a9290d85be74999015be74bca0b0000";
+////			ids=jeecgMinidaoService.getAllBuildingIdAndName();//查询所有建筑物
+////			buildId=ids.get(0).getId();
+//		}
+////		List<ZFloorEntity> floors=jeecgMinidaoService.selectFloorByBuild(buildId);
+//		List<ZFloorEntity> floors=zFloorService.findListbySql("select id,floorname from z_floor where buildingid="+buildId+"");
+//		for (ZFloorEntity zFloorEntity : floors) {
+//			System.out.println(zFloorEntity.getFloorname()+"LOOK");
+//		}
+////		map.put("buildings", jeecgMinidaoService.getAllBuildingIdAndName());
+////		System.out.println(buildId);
+//		map.put("floors", floors);
+//		j.setAttributes(map);
+//		return j;
+//	}
+	
 	/**
 	 * 通过建筑物id获取楼层id和名称
 	 * @param request
@@ -250,18 +283,119 @@ public class ZFloorController extends BaseController {
 		Map<String, Object> map=new HashMap<String, Object>();
 		String buildId=request.getParameter("buildId");
 		if(buildId==null||buildId.equals("")){
-			buildId="8a9290d85be74999015be74bca0b0000";
-//			ids=jeecgMinidaoService.getAllBuildingIdAndName();//查询所有建筑物
-//			buildId=ids.get(0).getId();
+//			buildId="8a9290d85be74999015be74bca0b0000";
+			ids=jeecgMinidaoService.getAllBuildingIdAndName();//查询所有建筑物
+			buildId=ids.get(0).getId();
 		}
-//		List<ZFloorEntity> floors=jeecgMinidaoService.selectFloorByBuild(buildId);
-		List<ZFloorEntity> floors=zFloorService.findListbySql("select id,floorname from z_floor where buildingid="+buildId+"");
+		List<ZFloorEntity> floors=jeecgMinidaoService.selectFloorByBuild(buildId);
 		for (ZFloorEntity zFloorEntity : floors) {
-			System.out.println(zFloorEntity.getFloorname()+"LOOK");
+			System.out.println(zFloorEntity.getFloorname());
 		}
-//		map.put("buildings", jeecgMinidaoService.getAllBuildingIdAndName());
-//		System.out.println(buildId);
-		map.put("floors", floors);
+//		System.out.println(buildId+"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+//		List<ZFloorEntity> floors=zFloorService.findHql("select f  from ZFloorEntity f where buildingid=?",new String[]{buildId});
+//		for (ZFloorEntity zFloorEntity : floors) {
+//			System.out.println(zFloorEntity.getFloorname()+"LOOK");
+////			zFloorService.f
+//			
+//		}
+		
+		map.put("buildings", jeecgMinidaoService.getAllBuildingIdAndName());
+		System.out.println(buildId);
+		map.put("floors", jeecgMinidaoService.selectFloorByBuild(buildId));
+		j.setAttributes(map);
+		return j;
+	}
+		
+	/**
+	 * 根据楼层id获取(所有建筑物，该楼层房间，该楼层)的id和名称
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "getFloorDetail")
+	@ResponseBody
+	public AjaxJson getFloorDetail(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		String floorid=request.getParameter("floorid");
+		String buildId=request.getParameter("buildId");
+		Map<String, Object> map=new HashMap<String, Object>();
+		List<ZBuildingEntity> ids=null;
+		if(buildId==null||buildId.equals("")){
+//			buildId="8a9290d85be74999015be74bca0b0000";
+			ids=jeecgMinidaoService.getAllBuildingIdAndName();//查询所有建筑物
+			buildId=ids.get(0).getId();
+		}
+		List<ZRoomEntity> rooms=jeecgMinidaoService.selectRoomByFloor(floorid);
+		List<ZFloorEntity> floor=jeecgMinidaoService.selectFloorById(floorid);
+		map.put("buildings", ids);
+		map.put("rooms", rooms);
+		map.put("floor", floor);//当前楼层
+		map.put("floors", jeecgMinidaoService.selectFloorByBuild(buildId));//建筑物对应所有楼层
+		j.setAttributes(map);
+		return j;
+	}
+	
+	/**
+	 * 根据楼层id获取(该楼层)的id和名称
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "getCurrentFloor")
+	@ResponseBody
+	public AjaxJson getCurrentFloor(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		String floorid=request.getParameter("floorid");
+		Map<String, Object> map=new HashMap<String, Object>();
+		List<ZFloorEntity> floor=jeecgMinidaoService.selectFloorById(floorid);
+		map.put("floor", floor);//当前楼层
+		j.setAttributes(map);
+		return j;
+	}
+	
+	/**
+	 * 根据楼层id获取该楼层房间的id和名称
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "getRoomsByFloorId")
+	@ResponseBody
+	public AjaxJson getRoomsByFloorId(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		String floorid=request.getParameter("floorid");
+		Map<String, Object> map=new HashMap<String, Object>();
+		List<ZRoomEntity> rooms=jeecgMinidaoService.selectRoomByFloor(floorid);
+		map.put("rooms", rooms);
+		j.setAttributes(map);
+		return j;
+	}
+	
+	/**
+	 * 根据楼层buildId获取建筑物所有楼层的id和名称
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "getFloorsInBuidings")
+	@ResponseBody
+	public AjaxJson getFloorsInBuidings(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		String buildId=request.getParameter("buildId");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("floors", jeecgMinidaoService.selectFloorByBuild(buildId));//建筑物对应所有楼层
+		j.setAttributes(map);
+		return j;
+	}
+	
+	/**
+	 * 根据楼层floorId获取建筑物的id和名称
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "getBuidingByFloorId")
+	@ResponseBody
+	public AjaxJson getBuidingByFloorId(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		String floorid=request.getParameter("floorid");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("building", jeecgMinidaoService.getBuidingByFloorId(floorid));//建筑物对应所有楼层
 		j.setAttributes(map);
 		return j;
 	}
