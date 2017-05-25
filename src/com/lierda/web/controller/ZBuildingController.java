@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
@@ -20,13 +19,16 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
+import org.jeecgframework.web.demo.service.test.JeecgMinidaoServiceI;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.MyBeanUtils;
 
 import com.lierda.web.entity.VBuildingEntity;
 import com.lierda.web.entity.ZBuildingEntity;
+import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZParkEntity;
+import com.lierda.web.entity.ZRoomEntity;
 import com.lierda.web.service.ZBuildingServiceI;
 import com.lierda.web.service.ZParkServiceI;
 
@@ -41,12 +43,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.jeecgframework.core.beanvalidator.BeanValidators;
+
 import java.util.Set;
 import java.util.TreeMap;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+
 import java.net.URI;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -72,6 +77,8 @@ public class ZBuildingController extends BaseController {
 	private ZParkServiceI zParkService;
 	@Autowired
 	private SystemService systemService;
+	@Autowired
+	private JeecgMinidaoServiceI jeecgMinidaoService;
 	@Autowired
 	private Validator validator;
 	
@@ -235,4 +242,21 @@ public class ZBuildingController extends BaseController {
 	public void delete(@PathVariable("id") String id) {
 		zBuildingService.deleteEntityById(ZBuildingEntity.class, id);
 	}
+	
+	/**
+	 * 获取所有建筑物的id和名称
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "getAllBuildings")
+	@ResponseBody
+	public AjaxJson getAllBuildings(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		Map<String, Object> map=new HashMap<String, Object>();
+		List<ZBuildingEntity> ids=jeecgMinidaoService.getAllBuildingIdAndName();//查询所有建筑物
+		map.put("buildings", ids);
+		j.setAttributes(map);
+		return j;
+	}
+	
 }
