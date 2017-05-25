@@ -103,10 +103,30 @@ public class DdcController extends BaseController {
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, ddc, request.getParameterMap());
 		this.ddcService.getDataGridReturn(cq, true);
 		List<DdcEntity> results=dataGrid.getResults();
-		DdcEntity ddcEntity=new DdcEntity();	
-		ddcEntity.setDdcmac("你是谁？？？");
-		results.add(ddcEntity);
-		dataGrid.setResults(results);
+		String roomid=request.getParameter("roomid");
+		String  floorid=request.getParameter("floorid");
+		String buildid=request.getParameter("buildid");
+		String parkid=request.getParameter("parkid");
+//		if(roomid!=null){
+//			name=jeecgMinidaoService.selectRoomName(roomid);
+//		}if (floorid!=null) {
+//			name=jeecgMinidaoService.selectFloorName(floorid);
+//		}if (buildid!=null) {
+//			name=jeecgMinidaoService.selectName(buildid);
+//		}if (parkid!=null) {
+//			name=jeecgMinidaoService.selectParkName(parkid);
+//		}
+		System.out.println(roomid+"r");
+		System.out.println(floorid+"d");
+		System.out.println(buildid+"b");
+		System.out.println(parkid+"p");
+//		DdcEntity ddcEntity=new DdcEntity();	
+//		for (DdcEntity ddcEntity : results) {
+//			ddcEntity.setDdcmac("坏笑");
+//		}
+//		ddcEntity.setDdcmac("你是谁？？？");
+//		results.add(ddcEntity);
+//		dataGrid.setResults(results);
 		dataGrid.setTotal(dataGrid.getTotal()+1);
 		TagUtil.datagrid(response, dataGrid);
 	}
