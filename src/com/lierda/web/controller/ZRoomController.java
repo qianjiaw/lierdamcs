@@ -251,19 +251,21 @@ public class ZRoomController extends BaseController {
 	@ResponseBody
 	public AjaxJson getDetailByRoomid(HttpServletRequest request){
 		AjaxJson j = new AjaxJson();
-		String roomid=request.getParameter("roomid");
-		List<ZFloorEntity> currentBuilding=null;
-		String floorid="";
-		String buildid="";
-		Map<String, Object> map=new HashMap<String, Object>();
-		List<ZBuildingEntity> allBuildings=ZBuildingController.buildings;
-		List<ZFloorEntity> currentFloor=jeecgMinidaoService.getFloorByRoomId(roomid);
-		floorid=currentFloor.get(0).getId();//当前楼层id
-		currentBuilding=jeecgMinidaoService.getBuildingByFloorId(floorid);
-		buildid=currentBuilding.get(0).getId();//当前建筑物id
+		String roomid = request.getParameter("roomid");
+		List<ZFloorEntity> currentBuilding = null;
+		String floorid = "";
+		String buildid = "";
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<ZBuildingEntity> allBuildings = ZBuildingController.buildings;
+		List<ZRoomEntity> currentFloorId = jeecgMinidaoService
+				.getFloorByRoomId(roomid);
+		floorid = currentFloorId.get(0).getFloorid();// 当前楼层id
+		List<ZFloorEntity> currentFloor=jeecgMinidaoService.selectFloorById(floorid);
+		currentBuilding = jeecgMinidaoService.getBuildingByFloorId(floorid);
+		buildid = currentBuilding.get(0).getId();// 当前建筑物id
 		map.put("devices", jeecgMinidaoService.getDeviceByRoomid(roomid));
 		map.put("ddcs", jeecgMinidaoService.getDdcByRoomId(roomid));
-		map.put("currentRoom",jeecgMinidaoService.getRoomByRoomId(roomid));
+		map.put("currentRoom", jeecgMinidaoService.getRoomByRoomId(roomid));
 		map.put("floors", jeecgMinidaoService.selectFloorByBuild(buildid));
 		map.put("currentBuilding", currentBuilding);
 		map.put("allBuildings", allBuildings);
