@@ -126,16 +126,16 @@ public class JeecgMinidaoServiceImpl implements JeecgMinidaoServiceI {
 		return jeecgMinidaoDao.getFloorByRoomId(roomid);
 	}
 
-public List<ZBuildingEntity> getAllBuildingsByParkId(String parkid) {
-	// TODO Auto-generated method stub
-	return jeecgMinidaoDao.getAllBuildingsByParkId(parkid);
-}
+	public List<ZBuildingEntity> getAllBuildingsByParkId(String parkid) {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.getAllBuildingsByParkId(parkid);
+	}
 
-@Override
-public List<ZFloorEntity> getAllFloorsByBuildId(String buildid) {
-	// TODO Auto-generated method stub
-	return jeecgMinidaoDao.getAllFloorsByBuildId(buildid);
-}
+	@Override
+	public List<ZFloorEntity> getAllFloorsByBuildId(String buildid) {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.getAllFloorsByBuildId(buildid);
+	}
 
 	@Override
 	public List<ZRoomEntity> getRoomByRoomId(String roomid) {
