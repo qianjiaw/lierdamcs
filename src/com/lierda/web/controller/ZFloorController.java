@@ -385,7 +385,7 @@ public class ZFloorController extends BaseController {
 	}
 	
 	/**
-	 * 根据楼层buildId获取(建筑物所有楼层,当前建筑物,当前建筑物的所有楼层)的id和名称
+	 * 根据楼层buildId获取(所有建筑物,当前建筑物,当前建筑物的所有楼层)的id和名称
 	 * @param request
 	 * @return
 	 */
@@ -408,7 +408,7 @@ public class ZFloorController extends BaseController {
 	}
 	
 	/**
-	 * 根据楼层floorid获取(建筑物所有楼层,当前建筑物,当前建筑物的所有楼层,当前楼层，当前楼层的所有房间)的id和名称
+	 * 根据楼层floorid获取(所有建筑物,当前建筑物,当前建筑物的所有楼层,当前楼层，当前楼层的所有房间)的id和名称
 	 * @param request
 	 * @return
 	 */
