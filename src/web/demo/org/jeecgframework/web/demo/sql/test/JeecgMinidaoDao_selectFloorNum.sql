@@ -1,1 +1,1 @@
-select count(*) from z_floor where buildingid='${buildId}'
+select count(*) from z_floor where buildingid=:buildId
