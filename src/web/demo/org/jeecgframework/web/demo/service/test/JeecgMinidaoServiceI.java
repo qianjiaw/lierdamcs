@@ -47,13 +47,19 @@ public interface JeecgMinidaoServiceI {
 	
 	public List<ZBuildingEntity> getAllBuildingIdAndName();
 	
+	public List<ZBuildingEntity> getAllBuildingsByParkId(String parkid);
+	
+	public List<ZFloorEntity> getAllFloorsByBuildId(String buildid);
+	
+	
 	public List<ZRoomEntity> selectRoomByFloor(String floorid);
 	
 	public List<ZFloorEntity> selectFloorById(String floorid);
 	
-	public List<ZFloorEntity> getBuidingByFloorId(String floorid);
+	public List<ZFloorEntity> getBuildingByFloorId(String floorid);
 	
-	public List<ZBuildingEntity> getBuidingBybuildingid(String buildingid);
+	public List<ZBuildingEntity> getBuildingBybuildingid(String buildingid);
+
 	
 	public List<ZFloorEntity> getFloorByRoomId(String roomid);
 	
@@ -62,4 +68,5 @@ public interface JeecgMinidaoServiceI {
 	public List<DdcEntity>  getDdcByRoomId(String roomid);
 	
 	public List<DeviceEntity> getDeviceByRoomid(String roomid);
+
 }
