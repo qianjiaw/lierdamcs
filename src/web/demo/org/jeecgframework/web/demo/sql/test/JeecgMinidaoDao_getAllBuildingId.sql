@@ -1,1 +1,1 @@
-select id from z_building where 1='${flag}'
+select id from z_building where 1=:flag
