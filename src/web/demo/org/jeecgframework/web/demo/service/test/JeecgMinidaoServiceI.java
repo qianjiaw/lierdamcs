@@ -60,8 +60,7 @@ public interface JeecgMinidaoServiceI {
 	
 	public List<ZBuildingEntity> getBuildingBybuildingid(String buildingid);
 
-	
-	public List<ZFloorEntity> getFloorByRoomId(String roomid);
+	public List<ZRoomEntity> getFloorByRoomId(String roomid);
 	
 	public List<ZRoomEntity> getRoomByRoomId(String roomid);
 	
