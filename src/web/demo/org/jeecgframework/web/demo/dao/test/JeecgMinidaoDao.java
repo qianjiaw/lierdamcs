@@ -10,6 +10,8 @@ import org.jeecgframework.minidao.annotation.ResultType;
 import org.jeecgframework.minidao.annotation.Sql;
 import org.jeecgframework.web.demo.entity.test.JeecgMinidaoEntity;
 
+import com.lierda.web.entity.DdcEntity;
+import com.lierda.web.entity.DeviceEntity;
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZRoomEntity;
@@ -67,6 +69,18 @@ public interface JeecgMinidaoDao {
 	
 	@Arguments("buildingid")
 	List<ZBuildingEntity> getBuidingBybuildingid(String buildingid);
+	
+	@Arguments("roomid")
+	List<ZFloorEntity> getFloorByRoomId(String roomid);
+	
+	@Arguments("roomid")
+	List<ZRoomEntity> getRoomByRoomId(String roomid);
+	
+	@Arguments("roomid")
+	List<DdcEntity>  getDdcByRoomId(String roomid);
+	
+	@Arguments("roomid")
+	List<DeviceEntity> getDeviceByRoomid(String roomid);
 	/*@Arguments("jeecgMinidao")
 	int update(JeecgMinidaoEntity jeecgMinidao);
 
