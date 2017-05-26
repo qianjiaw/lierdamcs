@@ -1,1 +1,1 @@
-select floorid from z_room where id='${roomid}'
+select floorid from z_room where id=:roomid
