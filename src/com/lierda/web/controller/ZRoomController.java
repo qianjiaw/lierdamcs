@@ -252,7 +252,8 @@ public class ZRoomController extends BaseController {
 	public AjaxJson getDetailByRoomid(HttpServletRequest request){
 		AjaxJson j = new AjaxJson();
 		String roomid = request.getParameter("roomid");
-		List<ZFloorEntity> currentBuilding = null;
+		List<ZFloorEntity> currentBuildingId = null;
+		List<ZBuildingEntity> currentBuilding = null;
 		String floorid = "";
 		String buildid = "";
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -261,7 +262,9 @@ public class ZRoomController extends BaseController {
 				.getFloorByRoomId(roomid);
 		floorid = currentFloorId.get(0).getFloorid();// 当前楼层id
 		List<ZFloorEntity> currentFloor=jeecgMinidaoService.selectFloorById(floorid);
-		currentBuilding = jeecgMinidaoService.getBuildingByFloorId(floorid);
+		currentBuildingId= jeecgMinidaoService.getBuildingByFloorId(floorid);
+		currentBuilding=jeecgMinidaoService.getBuildingBybuildingid(currentBuildingId.get(0)
+				.getBuildingid());
 		buildid = currentBuilding.get(0).getId();// 当前建筑物id
 		map.put("devices", jeecgMinidaoService.getDeviceByRoomid(roomid));
 		map.put("ddcs", jeecgMinidaoService.getDdcByRoomId(roomid));
