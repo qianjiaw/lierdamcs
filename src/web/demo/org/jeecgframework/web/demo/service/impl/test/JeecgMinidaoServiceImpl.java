@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lierda.web.entity.DdcEntity;
+import com.lierda.web.entity.DeviceEntity;
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZRoomEntity;
@@ -116,6 +118,30 @@ public class JeecgMinidaoServiceImpl implements JeecgMinidaoServiceI {
 	public List<ZBuildingEntity> getBuidingBybuildingid(String buildingid) {
 		// TODO Auto-generated method stub
 		return jeecgMinidaoDao.getBuidingBybuildingid(buildingid);
+	}
+
+	@Override
+	public List<ZFloorEntity> getFloorByRoomId(String roomid) {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.getFloorByRoomId(roomid);
+	}
+
+	@Override
+	public List<ZRoomEntity> getRoomByRoomId(String roomid) {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.getRoomByRoomId(roomid);
+	}
+
+	@Override
+	public List<DdcEntity> getDdcByRoomId(String roomid) {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.getDdcByRoomId(roomid);
+	}
+
+	@Override
+	public List<DeviceEntity> getDeviceByRoomid(String roomid) {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.getDeviceByRoomid(roomid);
 	}
 
 }
