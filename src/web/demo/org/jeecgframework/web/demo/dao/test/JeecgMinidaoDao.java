@@ -65,10 +65,17 @@ public interface JeecgMinidaoDao {
 	List<ZFloorEntity> selectFloorById(String floorid);
 	
 	@Arguments("floorid")
-	List<ZFloorEntity> getBuidingByFloorId(String floorid);
+	List<ZFloorEntity> getBuildingByFloorId(String floorid);
 	
 	@Arguments("buildingid")
-	List<ZBuildingEntity> getBuidingBybuildingid(String buildingid);
+	List<ZBuildingEntity> getBuildingBybuildingid(String buildingid);
+	
+	@Arguments("parkid")
+	List<ZBuildingEntity> getAllBuildingsByParkId(String parkid);
+	
+	@Arguments("buildid")
+	List<ZFloorEntity> getAllFloorsByBuildId(String buildid);
+	
 	
 	@Arguments("roomid")
 	List<ZFloorEntity> getFloorByRoomId(String roomid);
