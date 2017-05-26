@@ -5,5 +5,5 @@ on p.roomid=r.id
 join z_ddc ddc
 on ddc.ddcmac=p.ddcmac
 join z_device d
-on d.ddcId=ddc.ddcid
+on d.ddcId=ddc.id
 where r.id=:roomid
