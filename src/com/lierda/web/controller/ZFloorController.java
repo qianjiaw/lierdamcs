@@ -290,13 +290,13 @@ public class ZFloorController extends BaseController {
 		}
 		List<ZFloorEntity> floors=jeecgMinidaoService.selectFloorByBuild(buildId);
 //		select new Link(id,name) from Link
-		List<ZFloorResult> floors1=zFloorService.findHql("select new ZFloorResult(id,floorname) from ZFloorResult where buildingid=?", new String[]{""+buildId+""});
-		for (ZFloorEntity zFloorEntity : floors) {
-			System.out.println(zFloorEntity.getFloorname());
-		}
-		for (ZFloorResult zFloorResult : floors1) {
-			System.out.println(zFloorResult.getFloorname());
-		}
+//		List<ZFloorResult> floors1=zFloorService.findHql("select new ZFloorResult(id,floorname) from ZFloorResult where buildingid=?", new String[]{""+buildId+""});
+//		for (ZFloorEntity zFloorEntity : floors) {
+//			System.out.println(zFloorEntity.getFloorname());
+//		}
+//		for (ZFloorResult zFloorResult : floors1) {
+//			System.out.println(zFloorResult.getFloorname());
+//		}
 //		System.out.println(buildId+"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
 //		List<ZFloorEntity> floors=zFloorService.findHql("select f  from ZFloorEntity f where buildingid=?",new String[]{buildId});
 //		for (ZFloorEntity zFloorEntity : floors) {
