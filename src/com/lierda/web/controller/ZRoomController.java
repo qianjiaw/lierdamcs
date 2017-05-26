@@ -258,6 +258,11 @@ public class ZRoomController extends BaseController {
 		String buildid = "";
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<ZBuildingEntity> allBuildings = ZBuildingController.buildings;
+		if(roomid==null||roomid.equals("")){
+			buildid=allBuildings.get(0).getId();
+			floorid=(String) zFloorService.findListbySql("select id from z_floor where buildingid='"+buildid+"'").get(0);
+			roomid=(String) zRoomService.findListbySql("select id from z_room where floorid='"+floorid+"'").get(0);
+		}
 		List<ZRoomEntity> currentFloorId = jeecgMinidaoService.getFloorByRoomId(roomid);
 		floorid = currentFloorId.get(0).getFloorid();// 当前楼层id
 		List<ZFloorEntity> currentFloor=jeecgMinidaoService.selectFloorById(floorid);
