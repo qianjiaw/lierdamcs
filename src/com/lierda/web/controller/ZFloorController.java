@@ -30,6 +30,7 @@ import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZParkEntity;
 import com.lierda.web.entity.ZRoomEntity;
+import com.lierda.web.resultEntity.ZFloorResult;
 import com.lierda.web.service.ZBuildingServiceI;
 import com.lierda.web.service.ZFloorServiceI;
 import com.lierda.web.service.impl.ZFloorServiceImpl;
@@ -288,9 +289,14 @@ public class ZFloorController extends BaseController {
 			buildId = ids.get(0).getId();
 		}
 		List<ZFloorEntity> floors=jeecgMinidaoService.selectFloorByBuild(buildId);
-//		for (ZFloorEntity zFloorEntity : floors) {
-//			System.out.println(zFloorEntity.getFloorname());
-//		}
+//		select new Link(id,name) from Link
+		List<ZFloorResult> floors1=zFloorService.findHql("select new ZFloorResult(id,floorname) from ZFloorResult where buildingid=?", new String[]{""+buildId+""});
+		for (ZFloorEntity zFloorEntity : floors) {
+			System.out.println(zFloorEntity.getFloorname());
+		}
+		for (ZFloorResult zFloorResult : floors1) {
+			System.out.println(zFloorResult.getFloorname());
+		}
 //		System.out.println(buildId+"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
 //		List<ZFloorEntity> floors=zFloorService.findHql("select f  from ZFloorEntity f where buildingid=?",new String[]{buildId});
 //		for (ZFloorEntity zFloorEntity : floors) {
