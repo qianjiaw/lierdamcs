@@ -17,9 +17,9 @@ import javax.persistence.SequenceGenerator;
 
 /**   
  * @Title: Entity
- * @Description: 建筑物
+ * @Description: ddc信息
  * @author zhangdaihao
- * @date 2017-05-23 10:04:21
+ * @date 2017-05-26 09:54:57
  * @version V1.0   
  *
  */
@@ -29,117 +29,63 @@ import javax.persistence.SequenceGenerator;
 @DynamicInsert(true)
 @SuppressWarnings("serial")
 public class DdcEntity implements java.io.Serializable {
-	/**id*/
-	private java.lang.String id;
-	/**ddcmac地址*/
+	/**主键*/
+	private java.lang.Integer id;
+	/**ddcmac*/
 	private java.lang.String ddcmac;
-	/**房间id*/
-	private java.lang.String roomid;
-	/**房间id*/
-	private java.lang.String floorid;
-	/**建筑物id*/
-	private java.lang.String buildid;
-	/**园区id*/
-	private java.lang.String parkid;
+	/**isssl*/
+	private java.lang.Integer isssl;
 	
 	/**
-	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  id
+	 *方法: 取得java.lang.Integer
+	 *@return: java.lang.Integer  主键
 	 */
 	
 	@Id
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
-	@Column(name ="ID",nullable=false,length=36)
-	public java.lang.String getId(){
+	@Column(name ="ID",nullable=false,precision=10,scale=0)
+	public java.lang.Integer getId(){
 		return this.id;
 	}
 
 	/**
-	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  id
+	 *方法: 设置java.lang.Integer
+	 *@param: java.lang.Integer  主键
 	 */
-	public void setId(java.lang.String id){
+	public void setId(java.lang.Integer id){
 		this.id = id;
 	}
 	/**
 	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  ddcmac地址
+	 *@return: java.lang.String  ddcmac
 	 */
-	@Column(name ="DDCMAC",nullable=true,length=20)
+	@Column(name ="DDCMAC",nullable=false,length=20)
 	public java.lang.String getDdcmac(){
 		return this.ddcmac;
 	}
 
 	/**
 	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  ddcmac地址
+	 *@param: java.lang.String  ddcmac
 	 */
 	public void setDdcmac(java.lang.String ddcmac){
 		this.ddcmac = ddcmac;
 	}
 	/**
-	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  房间id
+	 *方法: 取得java.lang.Integer
+	 *@return: java.lang.Integer  isssl
 	 */
-	@Column(name ="ROOMID",nullable=true,length=36)
-	public java.lang.String getRoomid(){
-		return this.roomid;
+	@Column(name ="ISSSL",nullable=false,precision=10,scale=0)
+	public java.lang.Integer getIsssl(){
+		return this.isssl;
 	}
 
 	/**
-	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  房间id
+	 *方法: 设置java.lang.Integer
+	 *@param: java.lang.Integer  isssl
 	 */
-	public void setRoomid(java.lang.String roomid){
-		this.roomid = roomid;
-	}
-	/**
-	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  房间id
-	 */
-	@Column(name ="FLOORID",nullable=true,length=36)
-	public java.lang.String getFloorid(){
-		return this.floorid;
-	}
-
-	/**
-	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  房间id
-	 */
-	public void setFloorid(java.lang.String floorid){
-		this.floorid = floorid;
-	}
-	/**
-	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  建筑物id
-	 */
-	@Column(name ="BUILDID",nullable=true,length=36)
-	public java.lang.String getBuildid(){
-		return this.buildid;
-	}
-
-	/**
-	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  建筑物id
-	 */
-	public void setBuildid(java.lang.String buildid){
-		this.buildid = buildid;
-	}
-	/**
-	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  园区id
-	 */
-	@Column(name ="PARKID",nullable=true,length=36)
-	public java.lang.String getParkid(){
-		return this.parkid;
-	}
-
-	/**
-	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  园区id
-	 */
-	public void setParkid(java.lang.String parkid){
-		this.parkid = parkid;
+	public void setIsssl(java.lang.Integer isssl){
+		this.isssl = isssl;
 	}
 }
