@@ -103,40 +103,58 @@
 <script src="/mcs/webpage/com/lierda/main/js/spline.js"></script>
 <script>
 
-var buildId="";
-var buildName = "";
-var showBuilding = {};
 var buildings=[];
 var floors=[];
 var floornum = 0;
+var showBuilding = {};
+var buildId="";
+var buildName = "";
 
-function getFloorNum(){
+function getAllBuilding(){
 	$.ajax({
 		type:"post",
 		async: false,
-		url:"/mcs/loginController.do?getFloorNum",
-		data: {'buildId':buildId},
+		url:"/mcs/zBuildingController.do?getAllBuildings",
+		data: {},
 		dataType: "json",
 		success: function(data){
-			floornum = data.obj;
 			attributes=	data.attributes;
 			buildings=attributes['buildings'];//所有建筑物id，name
-			showBuilding = buildings[0];
-			floors=attributes['floors'];//对应建筑物楼层id,name
-			floornum=floors.length;
 		}
 	});
 }
 
+function getBuildFloorMessage(){
+	$.ajax({
+		type:"post",
+		async: false,
+		url:"/mcs/zFloorController.do?getDetailByBuildingid",
+		data: {'buildId':buildId},
+		dataType: "json",
+		success: function(data){
+			attributes=	data.attributes;
+			var currentBuild=attributes['currentBuild'];
+			showBuilding = currentBuild[0];
+			floors=attributes['floors'];
+			floornum = floors.length;
+		}
+	});
+}
 
 $(function(){
-	getFloorNum();
-	setHAndWonload();
+	getdata();
 	window.onresize = function () {
 		freshHAndW();
 	}
 	
 });
+
+function getdata () {
+	getAllBuilding();
+	getBuildFloorMessage();
+	console.log(showBuilding);
+	setHAndWonload();
+}
 
 function setHAndWonload () {
 	////////////////////////////////setheight
@@ -252,7 +270,7 @@ function hidechoose () {
 function doChooseBuilding (obj) {
 	buildId = obj.id.split("-")[1];
 	buildName = obj.id.split("-")[2];
-	getFloorNum();
+	getBuildFloorMessage();
 	refreshBuilding(buildName);
 }
 </script>

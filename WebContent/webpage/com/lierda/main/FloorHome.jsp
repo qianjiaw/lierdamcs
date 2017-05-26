@@ -172,54 +172,84 @@
 <script src="/mcs/webpage/com/lierda/main/js/addpage.js"></script>
 
 <script>
-	var room = [{"name":88101},{"name":88102},{"name":88103},{"name":88104},{"name":88105},{"name":88106},{"name":88107},{"name":88108},{"name":88109},{"name":88110},{"name":88111},{"name":88112},{"name":88113},{"name":88114},{"name":88115},{"name":88116},{"name":88117},{"name":88118}]
 	var buildId="";
 	var buildName = "";
 	var showBuilding = {};
+	
 	var buildings=[];
+
+	var floor=[];
 	var floors=[];
 	var floornum = 0;
 	var floorid=getRequest().floorid;
+	
 	var rooms=[];
-	var floor=[];
-		
-	function getFloorNum(){
+	
+	////////////////////////////////////////////getbuildingdata
+	function getDetailByFloorid(){
 		$.ajax({
 			type:"post",
 			async: false,
-			url:"/mcs/loginController.do?getFloorDetail",
+			url:"/mcs/zFloorController.do?getDetailByFloorid",
 			data: {'floorid':floorid},
 			dataType: "json",
 			success: function(data){
 				attributes=	data.attributes;
-				buildings=attributes['buildings'];//所有建筑物id，name
-				showBuilding = buildings[0];
- 				floors=attributes['floors'];//对应建筑物楼层id,name
- 				console.log(floors[0].buildingid+"-------------------------------------------");
- 				console.log(floors[0].floorname+"-------------------------------------------");
- 				floornum=floors.length;
+				buildings=attributes['allBuildings'];
+				var building=attributes['building'];
+				showBuilding = building[0];
+				floor=attributes['floor'];
+				floors=attributes['floors'];
 				rooms=attributes['rooms'];
-				floor=attributes['floor'];//当前楼层
-				buildID=attributes['buildID'];
-				console.log(rooms);
+				
+				floornum=floors.length;
+				buildId = showBuilding.id;
+				buildName = showBuilding.buildingname;
+				console.log(showBuilding);
+				
+				///////////////////////after getdata
+				addBuilding(buildName);
+			}
+		});
+	}
+	
+	function getBuildFloorMessage(){
+		$.ajax({
+			type:"post",
+			async: false,
+			url:"/mcs/zFloorController.do?getDetailByBuildingid",
+			data: {'buildId':buildId},
+			dataType: "json",
+			success: function(data){
+				attributes=	data.attributes;
+				var currentBuild=attributes['currentBuild'];
+				showBuilding = currentBuild[0];
+				floors=attributes['floors'];
+				floornum = floors.length;
+				
+				///////////////////////after getdata
+				addBuilding(buildName);
 			}
 		});
 	}
 
 	$(function() {
-		var req = getRequest();
-		$("#this-floor-top").text(req.floorid + "F楼层房态图");
-		$("#this-floor-cen").text(req.floorid + "F楼层控制模式");
 		
 		///////////////////////////////set Height and Width
 		setHAndW();
 		window.onresize = function () {
 			setHAndW();
 		}
-		getFloorNum();
-		addBuilding();
-		drawroomstate(room);
-		drawroomcheck(room);
+		
+		/////////////////////////////////////////getdata
+		getDetailByFloorid();
+		
+		////////////////////////////////////////add show
+		$("#this-floor-top").text(floor[0].floorname + "F楼层房态图");
+		$("#this-floor-cen").text(floor[0].floorname + "F楼层控制模式");
+		
+		drawroomstate();
+		drawroomcheck();
 		addtable();
 
 	});
@@ -259,15 +289,7 @@
 	}
 	
 	//////////////////////////addbuilding
-	function addBuilding (){
-		$("#building-building").height((floornum*28+20+70)+"px");
-		$("#building-eachfloor").height((floornum*28+20)+"px");
-		for(i in floors){
-			$("#building-eachfloor").append('<div id="floor-'+floors[(floors.length-1)-i].id+'" onclick="selectFloor(this)" class="eachfloor"><span class="floor-font">'+floors[(floors.length-1)-i].floorname+'F</span></div>')
-		}
-		$("#buildingname").text(""+showBuilding.buildingname+"");
-	}
-	function refreshBuilding (buildName){
+	function addBuilding (buildName){
 		$("#building-building").height((floornum*28+20+70)+"px");
 		$("#building-eachfloor").height((floornum*28+20)+"px");
 		$("#building-eachfloor").empty();
@@ -277,31 +299,34 @@
 
 		$("#buildingname").text(""+buildName+"");
 	}
-	function drawroomstate (room) {
+	
+	function drawroomstate () {
 		var width = getWidth("floor-main") / 6 - 5;
 		var height = width/2;
-		for (var i = 0; i < room.length; i++) {
-			$("#floor-main").append('<div id="room-state-'+room[i].name+'" onclick="selectRoom(this)" style="height:'+height+'px;width:'+width+'px;background-color:skyblue;float:left;margin-left:2px;margin-top:2px;">'+
+		for (var i = 0; i < rooms.length; i++) {
+			$("#floor-main").append('<div id="room-state-'+rooms[i].id+'" onclick="selectRoom(this)" style="height:'+height+'px;width:'+width+'px;background-color:skyblue;float:left;margin-left:2px;margin-top:2px;">'+
 			'<div ></div>'+
-			'<span>'+room[i].name+'</span>'+
+			'<span>'+rooms[i].roomname+'</span>'+
 			'</div>');
 		}
 	}
 
-	function drawroomcheck (room) {
+	function drawroomcheck () {
 		var count = 0;
 		var width = getWidth("controller-main-first") / 5 - 3;
 		var height = width/2;
 		$("#controller-main-first").append('<form id="roomcheckform"></form>');
-		for (var i = 0; i < room.length; i++) {
+		for (var i = 0; i < rooms.length; i++) {
 			$("#roomcheckform").append('<div id="room-check-'+i+'" style="height:'+height+'px;width:'+width+'px;min-width:50px;float:left;margin-left:2px;margin-top:2px;"></div>');
-			$("#room-check-"+i+"").append('<input type="checkbox" style="top: 50%;margin-top: -6px;position: relative;float:left;"  value="'+room[i].name+'"></input>');
-			$("#room-check-"+i+"").append('<a href="/mcs/webpage/com/lierda/main/RoomHome.jsp?room='+room[i].name+'" style="float: left;position:relative;font-size: 10px;line-height: '+height+'px;">'+room[i].name+'</a>');
+			$("#room-check-"+i+"").append('<input type="checkbox" style="top: 50%;margin-top: -6px;position: relative;float:left;"  value="'+rooms[i].roomname+'"></input>');
+			$("#room-check-"+i+"").append('<a href="/mcs/webpage/com/lierda/main/RoomHome.jsp?room='+rooms[i].id+'" style="float: left;position:relative;font-size: 10px;line-height: '+height+'px;">'+rooms[i].roomname+'</a>');
 		}
 	}
 	
 	function addtable() {
-		$("#device-state-body").append('<tr><td>1</td><td>88101</td><td>有无</td><td>门锁</td><td>照明</td><td>窗帘</td><td>插座</td><td>地暖</td><td>音乐</td> <td>11</td><td>22</td><td>33</td><td>44</td></tr>');
+		for (var i = 0; i < rooms.length; i++) {
+			$("#device-state-body").append('<tr><td>'+(i+1)+'</td><td>'+rooms[i].roomname+'</td><td>有无</td><td>门锁</td><td>照明</td><td>窗帘</td><td>插座</td><td>地暖</td><td>音乐</td> <td>11</td><td>22</td><td>33</td><td>44</td></tr>');
+		}
 	}
 
 	function getRequest() {
@@ -396,8 +421,8 @@
 	function doChooseBuilding (obj) {
 		buildId = obj.id.split("-")[1];
 		buildName = obj.id.split("-")[2];
-		getFloorNum();
-		refreshBuilding(buildName);
+		getBuildFloorMessage();
+		addBuilding(buildName);
 	}
 </script>
 
