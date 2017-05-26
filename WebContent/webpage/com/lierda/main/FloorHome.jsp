@@ -400,7 +400,7 @@
 	
 	function selectRoom (thisroom) {
 		var id = thisroom.id.split("-")[2];
-		window.location.href="/mcs/webpage/com/lierda/main/RoomHome.jsp?room="+id+"";
+		window.location.href="/mcs/webpage/com/lierda/main/RoomHome.jsp?roomid="+id+"";
 	}
 	function choosebuilding () {
 		$("#building-choose-main").css("display","block");

@@ -121,36 +121,67 @@
 <script src="/mcs/webpage/com/lierda/main/js/roompowerchart.js"></script>
 
 <script>
-	var room = [{"name":88101},{"name":88102},{"name":88103},{"name":88104},{"name":88105},{"name":88106},{"name":88107},{"name":88108},{"name":88109},{"name":88110},{"name":88111},{"name":88112},{"name":88113},{"name":88114},{"name":88115},{"name":88116},{"name":88117},{"name":88118}]
+	var roomid = getRequest().roomid;
+	var showRoom = {};
 	var buildId="";
 	var buildName = "";
 	var showBuilding = {};
 	var buildings=[];
 	var floors=[];
+	var showFloor = {};
 	var floornum = 0;
+	var ddcs = [];
+	var devices = [];
 
-	function getFloorNum(){
+	function getDetailByRoomid(){
 		$.ajax({
 			type:"post",
 			async: false,
-			url:"/mcs/loginController.do?getFloorNum",
-			data: {'buildId':buildId},
+			url:"/mcs/zRoomController.do?getDetailByRoomid",
+			data: {'roomid':roomid},
 			dataType: "json",
 			success: function(data){
-				floornum = data.obj;
 				attributes=	data.attributes;
-				buildings=attributes['buildings'];//所有建筑物id，name
-				showBuilding = buildings[0];
-				floors=attributes['floors'];//对应建筑物楼层id,name
-				floornum=floors.length;
+				buildings=attributes['allBuildings'];
+				var currentBuilding = attributes['currentBuilding'];
+				showBuilding = currentBuilding[0];
+				var buildId=showBuilding.id;
+				var buildName = showBuilding.buildingname;
+				floors = attributes['floors'];
+				floornum = floors.length;
+				var currentFloor = attributes['currentFloor'];
+				showFloor = currentFloor[0];
+				var currentRoom = attributes['currentRoom'];
+				showRoom = currentRoom[0];
+				devices = attributes['devices'];
+					
+				//////////////////////after get data
+				addBuilding(buildName);
 			}
 		});
 	}
 
+	function getBuildFloorMessage(){
+		$.ajax({
+			type:"post",
+			async: false,
+			url:"/mcs/zFloorController.do?getDetailByBuildingid",
+			data: {'buildId':buildId},
+			dataType: "json",
+			success: function(data){
+				attributes=	data.attributes;
+				var currentBuild=attributes['currentBuild'];
+				showBuilding = currentBuild[0];
+				floors=attributes['floors'];
+				floornum = floors.length;
+				
+				///////////////////////after getdata
+				addBuilding(buildName);
+			}
+		});
+	}
+	
 	$(function() {
-		var req = getRequest();
-		$("#roomid").text(req.room + "房间");
-		$("#").text(req.room + "房间");
 		
 		///////////////////////////////set Height and Width
 		setHAndW();
@@ -158,8 +189,10 @@
 			setHAndW();
 			resizePowerChart();
 		}
-		getFloorNum();
-		addBuilding();
+		
+		/////////////////////////////getdata
+		getDetailByRoomid();
+		
 		drawPowerChart();
 		addtable();
 		
@@ -195,15 +228,7 @@
 	}
 	
 	//////////////////////////addbuilding
-	function addBuilding (){
-		$("#building-building").height((floornum*28+20+70)+"px");
-		$("#building-eachfloor").height((floornum*28+20)+"px");
-		for(i in floors){
-			$("#building-eachfloor").append('<div id="floor-'+floors[(floors.length-1)-i].id+'" onclick="selectFloor(this)" class="eachfloor"><span class="floor-font">'+floors[(floors.length-1)-i].floorname+'F</span></div>')
-		}
-		$("#buildingname").text(""+showBuilding.buildingname+"");
-	}
-	function refreshBuilding (buildName){
+	function addBuilding (buildName){
 		$("#building-building").height((floornum*28+20+70)+"px");
 		$("#building-eachfloor").height((floornum*28+20)+"px");
 		$("#building-eachfloor").empty();
@@ -213,18 +238,21 @@
 
 		$("#buildingname").text(""+buildName+"");
 	}
+	
 	/////////////////////////addTable
 	function addtable() {
-		$("#room-device-body").append(
-			'<tr>'+
-			'<td>1</td>'+
-			'<td>0000000000000000</td>'+
-			'<td>不可调</td>'+
-			'<td>000000000000</td>'+
-			'+<td>12</td>	<td>34</td>    <td>56</td>'+
-			'<td>音乐</td>'+
-			'</tr>'
-		);
+		for (i in devices) {
+			$("#room-device-body").append(
+					'<tr>'+
+					'<td>1</td>'+
+					'<td>'+device[i].name+'</td>'+
+					'<td>不可调</td>'+
+					'<td>000000000000</td>'+
+					'+<td>12</td>	<td>34</td>    <td>56</td>'+
+					'<td>音乐</td>'+
+					'</tr>'
+				);
+		}
 	}
 	
 	function getRequest() {
@@ -300,6 +328,7 @@
 	function choosebuilding () {
 		$("#building-choose-main").css("display","block");
 		$("#building-choose-main").empty();
+		console.log(buildings);
 		for(key in buildings){
 			$("#building-choose-main").append(
 				'<div id="building-'+buildings[key].id+'-'+buildings[key].buildingname+'" onclick="doChooseBuilding(this)" class="each-building">'+
@@ -316,8 +345,8 @@
 	function doChooseBuilding (obj) {
 		buildId = obj.id.split("-")[1];
 		buildName = obj.id.split("-")[2];
-		getFloorNum();
-		refreshBuilding(buildName);
+		getBuildFloorMessage();
+		addBuilding(buildName);
 	}
 </script>
 
