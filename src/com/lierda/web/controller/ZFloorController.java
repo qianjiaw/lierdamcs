@@ -288,9 +288,9 @@ public class ZFloorController extends BaseController {
 			buildId=ids.get(0).getId();
 		}
 		List<ZFloorEntity> floors=jeecgMinidaoService.selectFloorByBuild(buildId);
-		for (ZFloorEntity zFloorEntity : floors) {
-			System.out.println(zFloorEntity.getFloorname());
-		}
+//		for (ZFloorEntity zFloorEntity : floors) {
+//			System.out.println(zFloorEntity.getFloorname());
+//		}
 //		System.out.println(buildId+"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
 //		List<ZFloorEntity> floors=zFloorService.findHql("select f  from ZFloorEntity f where buildingid=?",new String[]{buildId});
 //		for (ZFloorEntity zFloorEntity : floors) {
@@ -300,7 +300,7 @@ public class ZFloorController extends BaseController {
 //		}
 		
 		map.put("buildings", jeecgMinidaoService.getAllBuildingIdAndName());
-		System.out.println(buildId);
+//		System.out.println(buildId);
 		map.put("floors", jeecgMinidaoService.selectFloorByBuild(buildId));
 		j.setAttributes(map);
 		return j;
@@ -429,7 +429,7 @@ public class ZFloorController extends BaseController {
 		currentBuilding=jeecgMinidaoService.getBuidingByFloorId(floorid);
 		currentBuildingId=currentBuilding.get(0).getBuildingid();
 		map.put("allBuildings", allBuildings);
-		map.put("building", jeecgMinidaoService.getBuidingByFloorId(floorid));
+		map.put("building", jeecgMinidaoService.getBuidingBybuildingid(currentBuildingId));
 		map.put("rooms",jeecgMinidaoService.selectRoomByFloor(floorid));
 		map.put("floor", jeecgMinidaoService.selectFloorById(floorid));
 		map.put("floors", jeecgMinidaoService.selectFloorByBuild(currentBuildingId));
