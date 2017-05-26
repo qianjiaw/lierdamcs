@@ -78,7 +78,7 @@ public interface JeecgMinidaoDao {
 	
 	
 	@Arguments("roomid")
-	List<ZFloorEntity> getFloorByRoomId(String roomid);
+	List<ZRoomEntity> getFloorByRoomId(String roomid);
 	
 	@Arguments("roomid")
 	List<ZRoomEntity> getRoomByRoomId(String roomid);
