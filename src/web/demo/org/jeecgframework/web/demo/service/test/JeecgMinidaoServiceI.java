@@ -6,6 +6,8 @@ import java.util.List;
 import org.jeecgframework.minidao.annotation.Arguments;
 import org.jeecgframework.web.demo.entity.test.JeecgMinidaoEntity;
 
+import com.lierda.web.entity.DdcEntity;
+import com.lierda.web.entity.DeviceEntity;
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZRoomEntity;
@@ -52,4 +54,12 @@ public interface JeecgMinidaoServiceI {
 	public List<ZFloorEntity> getBuidingByFloorId(String floorid);
 	
 	public List<ZBuildingEntity> getBuidingBybuildingid(String buildingid);
+	
+	public List<ZFloorEntity> getFloorByRoomId(String roomid);
+	
+	public List<ZRoomEntity> getRoomByRoomId(String roomid);
+	
+	public List<DdcEntity>  getDdcByRoomId(String roomid);
+	
+	public List<DeviceEntity> getDeviceByRoomid(String roomid);
 }
