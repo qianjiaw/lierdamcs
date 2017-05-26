@@ -759,15 +759,15 @@ public class LoginController extends BaseController{
 		List<ZBuildingEntity> ids=null;
 		if(buildId==null||buildId.equals("")){
 //			buildId="8a9290d85be74999015be74bca0b0000";
-			ids=jeecgMinidaoService.getAllBuildingIdAndName();//查询所有建筑物
 			buildId=ids.get(0).getId();
 		}
+		ids=jeecgMinidaoService.getAllBuildingIdAndName();//查询所有建筑物
 		List<ZRoomEntity> rooms=jeecgMinidaoService.selectRoomByFloor(floorid);
 		List<ZFloorEntity> floor=jeecgMinidaoService.selectFloorById(floorid);
 		map.put("buildings", ids);
 		map.put("rooms", rooms);
 		map.put("floor", floor);//当前楼层
-		map.put("floors", jeecgMinidaoService.selectFloorByBuild(buildId));//建筑物对应所有楼层
+		map.put("floors", jeecgMinidaoService.selectFloorByBuild(floor.get(0).getBuildingid()));//建筑物对应所有楼层
 		map.put("floors1", jeecgMinidaoService.selectFloorByBuild(floorid));
 		j.setAttributes(map);
 		return j;

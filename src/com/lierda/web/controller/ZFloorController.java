@@ -400,7 +400,7 @@ public class ZFloorController extends BaseController {
 		if(buildId==null||buildId.equals("")){
 			buildId=allBuildings.get(0).getId();
 		}
-		map.put("currentBuild", jeecgMinidaoService.getBuidingBybuildingid(buildId));
+		map.put("currentBuild", jeecgMinidaoService.getBuildingBybuildingid(buildId));
 		map.put("allBuildings", allBuildings);
 		map.put("floors", jeecgMinidaoService.selectFloorByBuild(buildId));//建筑物对应所有楼层
 		j.setAttributes(map);
@@ -426,10 +426,10 @@ public class ZFloorController extends BaseController {
 			buildId=allBuildings.get(0).getId();
 			floorid=(String) zFloorService.findListbySql("select id from z_floor where buildingid='"+buildId+"'").get(0);
 		}
-		currentBuilding=jeecgMinidaoService.getBuidingByFloorId(floorid);
+		currentBuilding=jeecgMinidaoService.getBuildingByFloorId(floorid);
 		currentBuildingId=currentBuilding.get(0).getBuildingid();
 		map.put("allBuildings", allBuildings);
-		map.put("building", jeecgMinidaoService.getBuidingBybuildingid(currentBuildingId));
+		map.put("building", jeecgMinidaoService.getBuildingBybuildingid(currentBuildingId));
 		map.put("rooms",jeecgMinidaoService.selectRoomByFloor(floorid));
 		map.put("floor", jeecgMinidaoService.selectFloorById(floorid));
 		map.put("floors", jeecgMinidaoService.selectFloorByBuild(currentBuildingId));
@@ -450,7 +450,7 @@ public class ZFloorController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String floorid=request.getParameter("floorid");
 		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("building", jeecgMinidaoService.getBuidingByFloorId(floorid));//建筑物对应所有楼层
+		map.put("building", jeecgMinidaoService.getBuildingByFloorId(floorid));//建筑物对应所有楼层
 		j.setAttributes(map);
 		return j;
 	}
