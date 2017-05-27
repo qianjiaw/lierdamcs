@@ -45,9 +45,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 /**   
  * @Title: Controller
- * @Description: ddc信息
+ * @Description: ddc管理
  * @author zhangdaihao
- * @date 2017-05-26 09:54:57
+ * @date 2017-05-27 15:35:49
  * @version V1.0   
  *
  */
@@ -69,7 +69,7 @@ public class DdcController extends BaseController {
 
 
 	/**
-	 * ddc信息列表 页面跳转
+	 * ddc管理列表 页面跳转
 	 * 
 	 * @return
 	 */
@@ -97,7 +97,7 @@ public class DdcController extends BaseController {
 	}
 
 	/**
-	 * 删除ddc信息
+	 * 删除ddc管理
 	 * 
 	 * @return
 	 */
@@ -107,7 +107,7 @@ public class DdcController extends BaseController {
 		String message = null;
 		AjaxJson j = new AjaxJson();
 		ddc = systemService.getEntity(DdcEntity.class, ddc.getId());
-		message = "ddc信息删除成功";
+		message = "ddc管理删除成功";
 		ddcService.delete(ddc);
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 		
@@ -117,7 +117,7 @@ public class DdcController extends BaseController {
 
 
 	/**
-	 * 添加ddc信息
+	 * 添加ddc管理
 	 * 
 	 * @param ids
 	 * @return
@@ -128,7 +128,7 @@ public class DdcController extends BaseController {
 		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(ddc.getId())) {
-			message = "ddc信息更新成功";
+			message = "ddc管理更新成功";
 			DdcEntity t = ddcService.get(DdcEntity.class, ddc.getId());
 			try {
 				MyBeanUtils.copyBeanNotNull2Bean(ddc, t);
@@ -136,10 +136,10 @@ public class DdcController extends BaseController {
 				systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 			} catch (Exception e) {
 				e.printStackTrace();
-				message = "ddc信息更新失败";
+				message = "ddc管理更新失败";
 			}
 		} else {
-			message = "ddc信息添加成功";
+			message = "ddc管理添加成功";
 			ddcService.save(ddc);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}
@@ -148,7 +148,7 @@ public class DdcController extends BaseController {
 	}
 
 	/**
-	 * ddc信息列表页面跳转
+	 * ddc管理列表页面跳转
 	 * 
 	 * @return
 	 */
