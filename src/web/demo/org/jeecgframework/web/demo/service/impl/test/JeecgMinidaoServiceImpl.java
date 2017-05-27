@@ -15,6 +15,8 @@ import com.lierda.web.entity.DeviceEntity;
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZRoomEntity;
+import com.lierda.web.resultEntity.SqlResult;
+import com.lierda.web.resultEntity.TestResult;
 
 /**
  * Minidao例子
@@ -153,5 +155,11 @@ public class JeecgMinidaoServiceImpl implements JeecgMinidaoServiceI {
 	public List<DeviceEntity> getDeviceByRoomid(String roomid) {
 		// TODO Auto-generated method stub
 		return jeecgMinidaoDao.getDeviceByRoomid(roomid);
+	}
+
+	@Override
+	public List<SqlResult> getAllDeviceByRAT(String sql) {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.getAllDeviceByRAT(sql);
 	}
 }
