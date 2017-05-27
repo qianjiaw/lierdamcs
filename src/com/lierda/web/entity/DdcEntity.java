@@ -17,9 +17,9 @@ import javax.persistence.SequenceGenerator;
 
 /**   
  * @Title: Entity
- * @Description: ddc信息
+ * @Description: ddc管理
  * @author zhangdaihao
- * @date 2017-05-26 09:54:57
+ * @date 2017-05-27 15:35:49
  * @version V1.0   
  *
  */
@@ -35,6 +35,8 @@ public class DdcEntity implements java.io.Serializable {
 	private java.lang.String ddcmac;
 	/**isssl*/
 	private java.lang.Integer isssl;
+	/**serverip*/
+	private java.lang.String serverip;
 	
 	/**
 	 *方法: 取得java.lang.Integer
@@ -87,5 +89,21 @@ public class DdcEntity implements java.io.Serializable {
 	 */
 	public void setIsssl(java.lang.Integer isssl){
 		this.isssl = isssl;
+	}
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  serverip
+	 */
+	@Column(name ="SERVERIP",nullable=true,length=50)
+	public java.lang.String getServerip(){
+		return this.serverip;
+	}
+
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  serverip
+	 */
+	public void setServerip(java.lang.String serverip){
+		this.serverip = serverip;
 	}
 }
