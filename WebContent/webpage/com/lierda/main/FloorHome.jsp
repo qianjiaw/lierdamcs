@@ -323,32 +323,32 @@
 	}
 	
 	function openallcontroller () {
-		var data = {};
-		var checkedroom = [];
-		var devicetype = [];
-		if ($("#controller-light input:checkbox")[0].checked) {
-			devicetype[0] = $("#controller-light input:checkbox")[0].value;
-			if ($("#controller-air-condition input:checkbox")[0].checked) {
-				devicetype[1] = $("#controller-air-condition input:checkbox")[0].value;
-			}
-		}
-		else if ($("#controller-air-condition input:checkbox")[0].checked) {
-			devicetype[0] = $("#controller-air-condition input:checkbox")[0].value;
-		}
+		var senddata = {};
+		var data = [];
+		
 		for (var i=0;i<$("#roomcheckform input:checkbox").length;i++) {
 			if ($("#roomcheckform input:checkbox")[i].checked) {
-				var dataobj = {};
+				var roomtype = {"roomid":"","type":[]};
 				var name = $("#roomcheckform input:checkbox")[i].value;
-				dataobj[""+name+""] = devicetype;
-				checkedroom.push(dataobj);
+				roomtype["roomid"] = name;
+				if ($("#controller-light input:checkbox")[0].checked) {
+					roomtype["type"][0] = $("#controller-light input:checkbox")[0].value;
+					if ($("#controller-air-condition input:checkbox")[0].checked) {
+						roomtype["type"][1] = $("#controller-air-condition input:checkbox")[0].value;
+					}
+				}
+				else if ($("#controller-air-condition input:checkbox")[0].checked) {
+					roomtype["type"][0] = $("#controller-air-condition input:checkbox")[0].value;
+				}
+				data.push(roomtype);
 			}
 		}
-		data = {checkedroom}
-		upsenddata(JSON.stringify(data));
+		
+		senddata = {data};
+		upsenddata(JSON.stringify(senddata));
 	}
 	
 	function upsenddata (data) {
-		console.log(data);
 		$.ajax({
 			type:"post",
 			async: false,
