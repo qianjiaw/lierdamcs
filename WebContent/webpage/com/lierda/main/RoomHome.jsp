@@ -154,6 +154,7 @@
 				var currentRoom = attributes['currentRoom'];
 				showRoom = currentRoom[0];
 				devices = attributes['devices'];
+				console.log(devices);
 					
 				//////////////////////after get data
 				addBuilding(buildName);
@@ -241,11 +242,11 @@
 	
 	/////////////////////////addTable
 	function addtable() {
-		for (i in devices) {
+		for (var i=0;i<devices.length;i++) {
 			$("#room-device-body").append(
 					'<tr>'+
-					'<td>1</td>'+
-					'<td>'+device[i].name+'</td>'+
+					'<td>'+(i+1)+'</td>'+
+					'<td>'+devices[i].name+'</td>'+
 					'<td>不可调</td>'+
 					'<td>000000000000</td>'+
 					'+<td>12</td>	<td>34</td>    <td>56</td>'+

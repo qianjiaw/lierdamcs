@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
  <head>
-  <title>ddc园区关联表</title>
+  <title>ddc关联表</title>
   <t:base type="jquery,easyui,tools,DatePicker"></t:base>
  </head>
  <body style="overflow-y: hidden" scroll="no">
@@ -11,12 +11,12 @@
 		<input id="id" name="id" type="hidden" value="${zDdcRfbpPage.id }">
 		<fieldset class="step">
 			<div class="form">
-		      <label class="Validform_label">ddcid:</label>
-		      <input class="inputxt" id="ddcid" name="ddcid" ignore="ignore"
-					   value="${zDdcRfbpPage.ddcid}">
+		      <label class="Validform_label">ddcmac:</label>
+		      <input class="inputxt" id="ddcmac" name="ddcmac" ignore="ignore"
+					   value="${zDdcRfbpPage.ddcmac}">
 		      <span class="Validform_checktip"></span>
 		    </div>
-		    <div class="form">
+			<div class="form">
 		      <label class="Validform_label">房间id:</label>
 			  <select id="roomid" name="roomid">
 				
@@ -42,7 +42,7 @@
 			  <select id="parkid" name="parkid">
 			  	<option selected="selected" disabled="disabled" style="display: none" value=""></option>
 				<c:forEach items="${zparkList}" var="item">
-					<option id="${item.id}" class="inputxt">${item.parkname}</option>
+					<option id="${item.id}" class="inputxt" value="${item.id}">${item.parkname}</option>
 				</c:forEach>
 			  </select>
 		      <span class="Validform_checktip"></span>
@@ -79,6 +79,7 @@
 		  		console.log("done");
 				attributes=	data.attributes;
 				buildings = attributes['buildings'];
+				console.log(buildings);
 				addbuildings();
 			}
 		});
@@ -120,21 +121,21 @@
 		$("#buildid").empty();
 		$("#buildid").append('<option selected="selected" disabled="disabled" style="display: none" value=""></option>');
 		for (i in buildings) {
-			$("#buildid").append('<option id="'+buildings[i].id+'">'+buildings[i].buildingname+'</option>');
+			$("#buildid").append('<option id="'+buildings[i].id+'" class="inputxt" value="'+buildings[i].id+'">'+buildings[i].buildingname+'</option>');
 		}
   	}
   	function addfloors () {
 		$("#floorid").empty();
 		$("#floorid").append('<option selected="selected" disabled="disabled" style="display: none" value=""></option>');
 		for (i in floors) {
-			$("#floorid").append('<option id="'+floors[i].id+'">'+floors[i].floorname+'</option>');
+			$("#floorid").append('<option id="'+floors[i].id+'" class="inputxt" value="'+floors[i].id+'">'+floors[i].floorname+'</option>');
 		}
   	}
   	function addrooms () {
 		$("#roomid").empty();
 		$("#roomid").append('<option selected="selected" disabled="disabled" style="display: none" value=""></option>');
 		for (i in rooms) {
-			$("#roomid").append('<option id="'+rooms[i].id+'">'+rooms[i].roomname+'</option>');
+			$("#roomid").append('<option id="'+rooms[i].id+'" class="inputxt" value="'+rooms[i].id+'">'+rooms[i].roomname+'</option>');
 		}
   	}
   </script>

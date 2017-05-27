@@ -462,6 +462,25 @@ public class ZFloorController extends BaseController {
 	}
 	
 	/**
+	 * 根据房间id和设备类型获取mac地址全0的设备
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "getAllDeviceByRAT")
+	@ResponseBody
+	public AjaxJson getAllDeviceByRAT(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		String roomtypedata=request.getParameter("roomtypedata");
+		Map<String, Object> map=new HashMap<String, Object>();
+		
+		System.out.println(roomtypedata);
+		
+		j.setAttributes(map);
+		return j;
+	}
+	
+	
+	/**
 	 * 没用的
 	 * @param request
 	 * @return

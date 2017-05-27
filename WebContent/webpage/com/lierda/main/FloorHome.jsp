@@ -81,16 +81,16 @@
 							</div>
 							<div id="controller-main-second" class="controller-main-second">
 								<div id="controller-light" class="controller-second-main">
-									<input id="controller-light-check" type="checkbox" class="controller-check"><span id="controller-light-text" class="controller-font">照明</span></input>
+									<input id="controller-light-check" type="checkbox" class="controller-check" value="1"><span id="controller-light-text" class="controller-font">照明</span></input>
 								</div>
 								<div id="controller-air-condition" class="controller-second-main">
-									<input id="controller-air-check" type="checkbox" class="controller-check"><span id="controller-air-text" class="controller-font">空调</span></input>
+									<input id="controller-air-check" type="checkbox" class="controller-check" value="15"><span id="controller-air-text" class="controller-font">空调</span></input>
 								</div>
 							</div>
 							<div id="controller-main-third" class="controller-main-third">
 								<div id="controller-third-main" class="controller-third-main">
 									<div id="controller-open-all" class="controller-open-all">
-										<p id="open-controller">全开</p>
+										<p id="open-controller" onclick="openallcontroller()">全开</p>
 									</div>
 									<div id="controller-close-all" class="controller-close-all">
 										<p id="close-controller">全关</p>
@@ -205,7 +205,6 @@
 				floornum=floors.length;
 				buildId = showBuilding.id;
 				buildName = showBuilding.buildingname;
-				console.log(showBuilding);
 				
 				///////////////////////after getdata
 				addBuilding(buildName);
@@ -318,14 +317,67 @@
 		$("#controller-main-first").append('<form id="roomcheckform"></form>');
 		for (var i = 0; i < rooms.length; i++) {
 			$("#roomcheckform").append('<div id="room-check-'+i+'" style="height:'+height+'px;width:'+width+'px;min-width:50px;float:left;margin-left:2px;margin-top:2px;"></div>');
-			$("#room-check-"+i+"").append('<input type="checkbox" style="top: 50%;margin-top: -6px;position: relative;float:left;"  value="'+rooms[i].roomname+'"></input>');
-			$("#room-check-"+i+"").append('<a href="/mcs/webpage/com/lierda/main/RoomHome.jsp?room='+rooms[i].id+'" style="float: left;position:relative;font-size: 10px;line-height: '+height+'px;">'+rooms[i].roomname+'</a>');
+			$("#room-check-"+i+"").append('<input type="checkbox" style="top: 50%;margin-top: -6px;position: relative;float:left;"  value="'+rooms[i].id+'"></input>');
+			$("#room-check-"+i+"").append('<a href="/mcs/webpage/com/lierda/main/RoomHome.jsp?roomid='+rooms[i].id+'" style="float: left;position:relative;font-size: 10px;line-height: '+height+'px;">'+rooms[i].roomname+'</a>');
 		}
+	}
+	
+	function openallcontroller () {
+		var data = [];
+		var devicetype = [];
+		if ($("#controller-light input:checkbox")[0].checked) {
+			devicetype[0] = $("#controller-light input:checkbox")[0].value;
+			if ($("#controller-air-condition input:checkbox")[0].checked) {
+				devicetype[1] = $("#controller-air-condition input:checkbox")[0].value;
+			}
+		}
+		else if ($("#controller-air-condition input:checkbox")[0].checked) {
+			devicetype[0] = $("#controller-air-condition input:checkbox")[0].value;
+		}
+		for (var i=0;i<$("#roomcheckform input:checkbox").length;i++) {
+			if ($("#roomcheckform input:checkbox")[i].checked) {
+				var dataobj = {};
+				var name = $("#roomcheckform input:checkbox")[i].value;
+				dataobj[""+name+""] = devicetype;
+				data.push(dataobj);
+			}
+		}
+
+		upsenddata(data);
+	}
+	
+	function upsenddata (data) {
+		console.log(data);
+		$.ajax({
+			type:"post",
+			async: false,
+			url:"/mcs/zFloorController.do?getAllDeviceByRAT",
+			data: {'roomtypedata':data},
+			dataType: "json",
+			success: function(data){
+				console.log(data.attributes);
+			}
+		});
 	}
 	
 	function addtable() {
 		for (var i = 0; i < rooms.length; i++) {
-			$("#device-state-body").append('<tr><td>'+(i+1)+'</td><td>'+rooms[i].roomname+'</td><td>有无</td><td>门锁</td><td>照明</td><td>窗帘</td><td>插座</td><td>地暖</td><td>音乐</td> <td>11</td><td>22</td><td>33</td><td>44</td></tr>');
+			$("#device-state-body").append(
+					'<tr>'+
+						'<td>'+(i+1)+'</td>'+
+						'<td>'+rooms[i].roomname+'</td>'+
+						'<td>有无</td>'+
+						'<td>门锁</td>'+
+						'<td>照明</td>'+
+						'<td>窗帘</td>'+	
+						'<td>插座</td>'+
+						'<td>地暖</td>'+
+						'<td>音乐</td>'+
+						'<td>11</td>'+
+						'<td>22</td>'+
+						'<td>33</td>'+
+						'<td>44</td>'+
+					'</tr>');
 		}
 	}
 

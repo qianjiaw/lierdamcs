@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
@@ -28,13 +27,16 @@ import org.jeecgframework.core.util.MyBeanUtils;
 import com.lierda.web.entity.VBuildingEntity;
 import com.lierda.web.entity.VDdcRfbpEntity;
 import com.lierda.web.entity.VFloorEntity;
-import com.lierda.web.entity.VRoomEntity;
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZDdcRfbpEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZParkEntity;
 import com.lierda.web.entity.ZRoomEntity;
+import com.lierda.web.resultEntity.ZFloorResult;
+import com.lierda.web.service.ZBuildingServiceI;
 import com.lierda.web.service.ZDdcRfbpServiceI;
+import com.lierda.web.service.ZFloorServiceI;
+import com.lierda.web.service.impl.ZFloorServiceImpl;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -47,18 +49,22 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.jeecgframework.core.beanvalidator.BeanValidators;
+
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+
 import java.net.URI;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**   
  * @Title: Controller
- * @Description: ddc园区关联表
+ * @Description: ddc关联表
  * @author zhangdaihao
- * @date 2017-05-26 09:29:05
+ * @date 2017-05-26 17:47:32
  * @version V1.0   
  *
  */
@@ -75,14 +81,14 @@ public class ZDdcRfbpController extends BaseController {
 	@Autowired
 	private SystemService systemService;
 	@Autowired
-	private  JeecgMinidaoServiceI jeecgMinidaoService;
+	private JeecgMinidaoServiceI jeecgMinidaoService;
 	@Autowired
 	private Validator validator;
 	
 
 
 	/**
-	 * ddc园区关联表列表 页面跳转
+	 * ddc关联表列表 页面跳转
 	 * 
 	 * @return
 	 */
@@ -110,7 +116,7 @@ public class ZDdcRfbpController extends BaseController {
 	}
 
 	/**
-	 * 删除ddc园区关联表
+	 * 删除ddc关联表
 	 * 
 	 * @return
 	 */
@@ -120,7 +126,7 @@ public class ZDdcRfbpController extends BaseController {
 		String message = null;
 		AjaxJson j = new AjaxJson();
 		zDdcRfbp = systemService.getEntity(ZDdcRfbpEntity.class, zDdcRfbp.getId());
-		message = "ddc园区关联表删除成功";
+		message = "ddc关联表删除成功";
 		zDdcRfbpService.delete(zDdcRfbp);
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 		
@@ -130,7 +136,7 @@ public class ZDdcRfbpController extends BaseController {
 
 
 	/**
-	 * 添加ddc园区关联表
+	 * 添加ddc关联表
 	 * 
 	 * @param ids
 	 * @return
@@ -141,7 +147,7 @@ public class ZDdcRfbpController extends BaseController {
 		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(zDdcRfbp.getId())) {
-			message = "ddc园区关联表更新成功";
+			message = "ddc关联表更新成功";
 			ZDdcRfbpEntity t = zDdcRfbpService.get(ZDdcRfbpEntity.class, zDdcRfbp.getId());
 			try {
 				MyBeanUtils.copyBeanNotNull2Bean(zDdcRfbp, t);
@@ -149,10 +155,10 @@ public class ZDdcRfbpController extends BaseController {
 				systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 			} catch (Exception e) {
 				e.printStackTrace();
-				message = "ddc园区关联表更新失败";
+				message = "ddc关联表更新失败";
 			}
 		} else {
-			message = "ddc园区关联表添加成功";
+			message = "ddc关联表添加成功";
 			zDdcRfbpService.save(zDdcRfbp);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}
@@ -161,7 +167,7 @@ public class ZDdcRfbpController extends BaseController {
 	}
 
 	/**
-	 * ddc园区关联表列表页面跳转
+	 * ddc关联表列表页面跳转
 	 * 
 	 * @return
 	 */
@@ -286,5 +292,5 @@ public class ZDdcRfbpController extends BaseController {
 		j.setAttributes(map);
 		return j;
 	}
-	
+
 }

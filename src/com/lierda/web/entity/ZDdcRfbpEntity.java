@@ -17,9 +17,9 @@ import javax.persistence.SequenceGenerator;
 
 /**   
  * @Title: Entity
- * @Description: ddc园区关联表
+ * @Description: ddc关联表
  * @author zhangdaihao
- * @date 2017-05-26 09:29:05
+ * @date 2017-05-26 17:47:32
  * @version V1.0   
  *
  */
@@ -31,8 +31,8 @@ import javax.persistence.SequenceGenerator;
 public class ZDdcRfbpEntity implements java.io.Serializable {
 	/**id*/
 	private java.lang.String id;
-	/**ddcid*/
-	private java.lang.String ddcid;
+	/**ddcmac*/
+	private java.lang.String ddcmac;
 	/**房间id*/
 	private java.lang.String roomid;
 	/**房间id*/
@@ -64,19 +64,19 @@ public class ZDdcRfbpEntity implements java.io.Serializable {
 	}
 	/**
 	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  ddcid
+	 *@return: java.lang.String  ddcmac
 	 */
-	@Column(name ="DDCID",nullable=true,length=20)
-	public java.lang.String getDdcid(){
-		return this.ddcid;
+	@Column(name ="DDCMAC",nullable=true,length=20)
+	public java.lang.String getDdcmac(){
+		return this.ddcmac;
 	}
 
 	/**
 	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  ddcid
+	 *@param: java.lang.String  ddcmac
 	 */
-	public void setDdcid(java.lang.String ddcid){
-		this.ddcid = ddcid;
+	public void setDdcmac(java.lang.String ddcmac){
+		this.ddcmac = ddcmac;
 	}
 	/**
 	 *方法: 取得java.lang.String
