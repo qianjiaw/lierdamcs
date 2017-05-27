@@ -323,7 +323,8 @@
 	}
 	
 	function openallcontroller () {
-		var data = [];
+		var data = {};
+		var checkedroom = [];
 		var devicetype = [];
 		if ($("#controller-light input:checkbox")[0].checked) {
 			devicetype[0] = $("#controller-light input:checkbox")[0].value;
@@ -339,11 +340,11 @@
 				var dataobj = {};
 				var name = $("#roomcheckform input:checkbox")[i].value;
 				dataobj[""+name+""] = devicetype;
-				data.push(dataobj);
+				checkedroom.push(dataobj);
 			}
 		}
-
-		upsenddata(data);
+		data = {checkedroom}
+		upsenddata(JSON.stringify(data));
 	}
 	
 	function upsenddata (data) {
