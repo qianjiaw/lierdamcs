@@ -15,6 +15,8 @@ import com.lierda.web.entity.DeviceEntity;
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZRoomEntity;
+import com.lierda.web.resultEntity.SqlResult;
+import com.lierda.web.resultEntity.TestResult;
 
 /**
  * Minidao例子
@@ -88,6 +90,9 @@ public interface JeecgMinidaoDao {
 	
 	@Arguments("roomid")
 	List<DeviceEntity> getDeviceByRoomid(String roomid);
+	
+	@Arguments("sql")
+	List<SqlResult> getAllDeviceByRAT(String sql);
 	/*@Arguments("jeecgMinidao")
 	int update(JeecgMinidaoEntity jeecgMinidao);
 
