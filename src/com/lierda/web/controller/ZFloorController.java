@@ -472,7 +472,9 @@ public class ZFloorController extends BaseController {
 	public AjaxJson getAllDeviceByRAT(HttpServletRequest request){
 		AjaxJson j = new AjaxJson();
 		String  s=null;
-		String sql="select device.macid as macid, ddc.ddcmac as ddcmac,ddc.serverip as serverip,ddc.id as ddcid, device.id as deviceid from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id where ";
+		List<String> types=null;
+		List<String> allTypes=new ArrayList<String>();
+		String sql="select device.macid as macid, ddc.ddcmac as ddcmac,ddc.serverip as serverip,ddc.id as ddcid, device.id as deviceid from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where ";
 		String roomtypedata=request.getParameter("roomtypedata");
 		Map<String, Object> map=new HashMap<String, Object>();
 		List<JsonResult> list1=new ArrayList<JsonResult>();
@@ -480,8 +482,16 @@ public class ZFloorController extends BaseController {
 		JSONObject object=JSON.parseObject(roomtypedata);
 		Object  data= object.get("data");
 		List<JsonResult> rs= (List<JsonResult>) JSON.parseArray(data+"", JsonResult.class);
+		for (JsonResult jsonResult : rs) {
+			types=jsonResult.getType();
+			for (String type : types) {
+				allTypes.add(type);
+			}
+		}
 		sql=getSql(rs, sql);
 		List<SqlResult> r=jeecgMinidaoService.getAllDeviceByRAT(sql);
+		map.put("result", r);
+		map.put("allTypes", allTypes);
 		j.setAttributes(map);
 		return j;
 	}
@@ -569,7 +579,7 @@ public class ZFloorController extends BaseController {
 	 * @return
 	 */
 	public String addSql(String roomid,String deviceType){
-		String sql1="device.macid='0000000000000000' and r.id='"+roomid+"' and device.type='"+deviceType+"'";
+		String sql1="device.macid='0000000000000000' and r.id='"+roomid+"' and devicetype.typename='"+deviceType+"'";
 		return sql1;
 	}
 	
