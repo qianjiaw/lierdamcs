@@ -579,7 +579,7 @@ public class ZFloorController extends BaseController {
 	 * @return
 	 */
 	public String addSql(String roomid,String deviceType){
-		String sql1="device.macid='0000000000000000' and r.id='"+roomid+"' and devicetype.typename='"+deviceType+"'";
+		String sql1="device.macid='0000000000000000' and r.id='"+roomid+"' and devicetype.typ='"+deviceType+"'";
 		return sql1;
 	}
 	
