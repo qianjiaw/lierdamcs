@@ -5,7 +5,7 @@ package com.lierda.web.entity;
  */
 public class AirConditioner {
 	/**空调状态*/
-	private String status;
+	private String status="OFF";
 	/**空调模式*/
 	private String mode;
 	/**空调温度*/
