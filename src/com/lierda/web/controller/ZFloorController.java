@@ -522,39 +522,52 @@ public class ZFloorController extends BaseController {
 			List<String> lockAttr=zFloorService.findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+roomid+"' and (device.type='10' or device.type='18')");
 			List<String> lightAttr=zFloorService.findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+roomid+"' and device.type='1'");
 			
-			for (String attribute : senseAttr) {
-				JSONObject jsonObject=JSON.parseObject(attribute);
-				String status=(String) jsonObject.get("PIR");
-				if(status.equals("YES")){
-					deviceStatus.setSenseHuman(new SenseHuman("有人"));
+			if (senseAttr != null) {
+				for (String attribute : senseAttr) {
+					JSONObject jsonObject = JSON.parseObject(attribute);
+					String status = (String) jsonObject.get("PIR");
+					if (status.equals("YES")) {
+						deviceStatus.setSenseHuman(new SenseHuman("ON"));
+					}
 				}
+			} else {
+				deviceStatus.setSenseHuman(new SenseHuman("none"));
 			}
 			
-			int lockCount=0;
-			Lock lock=new Lock();
-			for (String string : lockAttr) {
-				JSONObject jsonObject=JSON.parseObject(string);
-				String status=(String) jsonObject.get("DOR");
-				if(status.equals("OPEN")){
-					lockCount++;
-					lock.setStatus("开");
+			if (lockAttr != null) {
+				int lockCount = 0;
+				Lock lock = new Lock();
+				for (String string : lockAttr) {
+					JSONObject jsonObject = JSON.parseObject(string);
+					String status = (String) jsonObject.get("DOR");
+					if (status.equals("OPEN")) {
+						lockCount++;
+						lock.setStatus("ON");
+					}
 				}
+				lock.setCount(lockCount);
+				deviceStatus.setLock(lock);
+			} else {
+				deviceStatus.setSenseHuman(new SenseHuman("none"));
 			}
-			lock.setCount(lockCount);
-			deviceStatus.setLock(lock);
 			
-			int lightCount=0;
-			Light light=new Light();
-			for (String string : lightAttr) {
-				JSONObject jsonObject=JSON.parseObject(string);
-				String status=(String) jsonObject.get("SWI");
-				if(status.equals("ON")){
-					lightCount++;
-					light.setStatus("开");
+			if (lightAttr != null) {
+				int lightCount = 0;
+				Light light = new Light();
+				for (String string : lightAttr) {
+					JSONObject jsonObject = JSON.parseObject(string);
+					String status = (String) jsonObject.get("SWI");
+					if (status.equals("ON")) {
+						lightCount++;
+						light.setStatus("ON");
+					}
 				}
+				light.setCount(lightCount);
+				deviceStatus.setLight(light);
+			} else {
+				deviceStatus.setSenseHuman(new SenseHuman("none"));
 			}
-			light.setCount(lightCount);
-			deviceStatus.setLight(light);
+			
 			
 			
 			map.put(roomid, deviceStatus);
