@@ -6,7 +6,7 @@ package com.lierda.web.entity;
  */
 public class Bgm {
 	/**音乐状态*/
-	private String status;
+	private String status="OFF";
 	/**音乐开启数量*/
 	private int count;
 	

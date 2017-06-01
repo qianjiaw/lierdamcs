@@ -6,7 +6,7 @@ package com.lierda.web.entity;
  */
 public class Lock {
 	/**门锁状态*/
-	private String status;
+	private String status="OFF";
 	/**开启门锁数量*/
 	private int count;
 	public String getStatus() {

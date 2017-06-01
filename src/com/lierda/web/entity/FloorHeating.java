@@ -6,7 +6,7 @@ package com.lierda.web.entity;
  */
 public class FloorHeating {
 	/**地暖状态*/
-	private String status;
+	private String status="OFF";
 	/**开着的地暖数量*/
 	private int count;
 	public String getStatus() {

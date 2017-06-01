@@ -6,7 +6,7 @@ package com.lierda.web.entity;
  */
 public class Light {
 	/**照明状态*/
-	private String status;
+	private String status="OFF";
 	/**开着的灯数量*/
 	private int count;
 	public Light(String status, int count) {

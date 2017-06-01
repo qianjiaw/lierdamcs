@@ -6,7 +6,7 @@ package com.lierda.web.entity;
  */
 public class SenseHuman {
 	/**人感状态*/
-	private String status;
+	private String status="OFF";
 
 	public String getStatus() {
 		return status;

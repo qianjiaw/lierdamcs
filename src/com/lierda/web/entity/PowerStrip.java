@@ -6,7 +6,7 @@ package com.lierda.web.entity;
  */
 public class PowerStrip {
 	/**插座状态*/
-	private String status;
+	private String status="OFF";
 	/**打开的插座数量*/
 	private int count;
 	public String getStatus() {

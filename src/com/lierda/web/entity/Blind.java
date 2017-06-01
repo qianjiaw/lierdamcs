@@ -6,7 +6,7 @@ package com.lierda.web.entity;
  */
 public class Blind {
 	/**窗帘状态*/
-	private String status;
+	private String status="OFF";
 
 	public Blind(String status) {
 		super();
