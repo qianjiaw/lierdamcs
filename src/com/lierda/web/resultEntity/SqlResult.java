@@ -50,6 +50,10 @@ public class SqlResult {
 		this.ddcid = ddcid;
 		this.deviceid = deviceid;
 	}
+	public SqlResult() {
+		super();
+	}
+	
 	
 	
 }
