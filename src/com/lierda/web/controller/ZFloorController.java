@@ -27,11 +27,15 @@ import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.MyBeanUtils;
 
 import com.google.gson.JsonObject;
+import com.lierda.web.entity.Light;
+import com.lierda.web.entity.Lock;
+import com.lierda.web.entity.SenseHuman;
 import com.lierda.web.entity.VBuildingEntity;
 import com.lierda.web.entity.VFloorEntity;
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZRoomEntity;
+import com.lierda.web.resultEntity.DeviceStatus;
 import com.lierda.web.resultEntity.JsonResult;
 import com.lierda.web.resultEntity.SqlResult;
 import com.lierda.web.resultEntity.TestResult1;
@@ -477,8 +481,8 @@ public class ZFloorController extends BaseController {
 		String sql="select device.macid as macid, ddc.ddcmac as ddcmac,ddc.serverip as serverip,ddc.id as ddcid, device.id as deviceid from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where ";
 		String roomtypedata=request.getParameter("roomtypedata");
 		Map<String, Object> map=new HashMap<String, Object>();
-		List<JsonResult> list1=new ArrayList<JsonResult>();
-		List<String> list=new ArrayList<String>();
+//		List<JsonResult> list1=new ArrayList<JsonResult>();
+//		List<String> list=new ArrayList<String>();
 		JSONObject object=JSON.parseObject(roomtypedata);
 		Object  data= object.get("data");
 		List<JsonResult> rs= (List<JsonResult>) JSON.parseArray(data+"", JsonResult.class);
@@ -492,6 +496,82 @@ public class ZFloorController extends BaseController {
 		List<SqlResult> r=jeecgMinidaoService.getAllDeviceByRAT(sql);
 		map.put("result", r);
 //		map.put("allTypes", allTypes);
+		j.setAttributes(map);
+		return j;
+	}
+	
+	
+	/**
+	 * 获取指定楼层所有房间的设备状态
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "getDeviceStatus")
+	@ResponseBody
+	public AjaxJson getDeviceStatus(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		Map<String, Object> map=new HashMap<String, Object>();
+		String floorid=request.getParameter("floorid");
+		String roomid="";
+		
+		List<ZRoomEntity> rooms=jeecgMinidaoService.selectRoomByFloor(floorid);
+		for (ZRoomEntity zRoomEntity : rooms) {
+			roomid=zRoomEntity.getId();
+			DeviceStatus deviceStatus=new DeviceStatus();
+			List<String> senseAttr=zFloorService.findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+roomid+"' and (device.type='21' or device.type='20')");
+			List<String> lockAttr=zFloorService.findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+roomid+"' and (device.type='10' or device.type='18')");
+			List<String> lightAttr=zFloorService.findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+roomid+"' and device.type='1'");
+			
+			for (String attribute : senseAttr) {
+				JSONObject jsonObject=JSON.parseObject(attribute);
+				String status=(String) jsonObject.get("PIR");
+				if(status.equals("YES")){
+					deviceStatus.setSenseHuman(new SenseHuman("有人"));
+				}
+			}
+			
+			int lockCount=0;
+			Lock lock=new Lock();
+			for (String string : lockAttr) {
+				JSONObject jsonObject=JSON.parseObject(string);
+				String status=(String) jsonObject.get("DOR");
+				if(status.equals("OPEN")){
+					lockCount++;
+					lock.setStatus("开");
+				}
+			}
+			lock.setCount(lockCount);
+			deviceStatus.setLock(lock);
+			
+			int lightCount=0;
+			Light light=new Light();
+			for (String string : lightAttr) {
+				JSONObject jsonObject=JSON.parseObject(string);
+				String status=(String) jsonObject.get("SWI");
+				if(status.equals("ON")){
+					lightCount++;
+					light.setStatus("开");
+				}
+			}
+			light.setCount(lightCount);
+			deviceStatus.setLight(light);
+			
+			
+			map.put(roomid, deviceStatus);
+		}
+		System.out.println(map.size());
+//		roomid="8a9290d85c3d5121015c3d53d37a000b";
+//		DeviceStatus deviceStatus=new DeviceStatus();
+//		List<String> attributes=zFloorService.findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+roomid+"' and (device.type='21' or device.type='20')");
+//		for (String attribute : attributes) {
+//			JSONObject jsonObject=JSON.parseObject(attribute);
+//			String status=(String) jsonObject.get("PIR");
+//			if(status.equals("YES")){
+//				deviceStatus.setSenseHuman(new SenseHuman("有人"));
+//			}
+//		}
+		
+//		map.put(roomid, deviceStatus);
 		j.setAttributes(map);
 		return j;
 	}
