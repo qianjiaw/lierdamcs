@@ -1,4 +1,8 @@
 package com.lierda.web.entity;
+
+import javax.persistence.Entity;
+
+
 /**
  * 门锁
  * @author  qianjiawei

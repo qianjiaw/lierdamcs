@@ -1,4 +1,5 @@
 package com.lierda.web.entity;
+
 /**
  * 照明
  * @author  qianjiawei

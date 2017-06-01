@@ -1,4 +1,9 @@
 package com.lierda.web.entity;
+
+import javax.persistence.Entity;
+
+import org.springframework.stereotype.Component;
+
 /**
  * 插座
  * @author  qianjiawei

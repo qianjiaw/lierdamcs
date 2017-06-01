@@ -1,4 +1,7 @@
 package com.lierda.web.entity;
+
+import javax.persistence.Entity;
+
 /**
  * 空调
  * @author qianjiawei
