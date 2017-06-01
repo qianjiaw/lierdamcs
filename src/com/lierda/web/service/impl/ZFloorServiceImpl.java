@@ -69,10 +69,13 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 			
 			// 人感
 			SenseHuman senseHuman=new SenseHuman();
-			if (senseAttr != null) {
+			if (senseAttr.size()!=0) {
 				for (String attribute : senseAttr) {
 					JSONObject jsonObject = JSON.parseObject(attribute);
 					String status = (String) jsonObject.get("PIR");
+					if(status==null){
+						senseHuman.setStatus("none");
+					}
 					if (status!=null&&status.equals("YES")) {
 						senseHuman.setStatus("ON");
 					}
@@ -84,11 +87,14 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 			
 			// 门磁
 			Lock lock = new Lock();
-			if (lockAttr != null) {
+			if (lockAttr.size()!=0) {
 				int lockCount = 0;
 				for (String string : lockAttr) {
 					JSONObject jsonObject = JSON.parseObject(string);
 					String status = (String) jsonObject.get("DOR");
+					if(status==null){
+						lock.setStatus("none");
+					}
 					if (status!=null&&status.equals("OPEN")) {
 						lockCount++;
 						lock.setStatus("ON");
@@ -102,11 +108,14 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 
 			// 照明
 			Light light = new Light();
-			if (lightAttr != null) {
+			if (lightAttr.size()!=0) {
 				int lightCount = 0;
 				for (String string : lightAttr) {
 					JSONObject jsonObject = JSON.parseObject(string);
 					String status = (String) jsonObject.get("SWI");
+					if(status==null){
+						light.setStatus("none");
+					}
 					if (status!=null&&status.equals("ON")) {
 						lightCount++;
 						light.setStatus("ON");
@@ -120,10 +129,13 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 			
 			// 窗帘
 			Blind blind = new Blind();
-			if (blindAttr != null) {
+			if (blindAttr.size()!=0) {
 				for (String string : blindAttr) {
 					JSONObject jsonObject = JSON.parseObject(string);
 					String status = (String) jsonObject.get("WIN");
+					if(status==null){
+						blind.setStatus("none");
+					}
 					if (status!=null&&status.equals("OPEN")) {
 						blind.setStatus("ON");
 						String action = status;
@@ -144,11 +156,14 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 			
 			// 插座
 			PowerStrip powerStrip=new PowerStrip();
-			if (stripAttr != null) {
+			if (stripAttr.size()!=0) {
 				int stripCount = 0;
 				for (String string : stripAttr) {
 					JSONObject jsonObject = JSON.parseObject(string);
 					String status = (String) jsonObject.get("SWI");
+					if(status==null){
+						powerStrip.setStatus("none");
+					}
 					if (status!=null&&status.equals("ON")) {
 						stripCount++;
 						powerStrip.setStatus("ON");
@@ -162,11 +177,14 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 			
 			//地暖
 			FloorHeating floorHeating=new FloorHeating();
-			if (heatingAttr != null) {
+			if (heatingAttr.size()!=0) {
 				int heatingCount = 0;
 				for (String string : heatingAttr) {
 					JSONObject jsonObject = JSON.parseObject(string);
 					String status = (String) jsonObject.get("SWI");
+					if(status==null){
+						floorHeating.setStatus("none");
+					}
 					if (status!=null&&status.equals("ON")) {
 						heatingCount++;
 						floorHeating.setStatus("ON");
@@ -180,11 +198,14 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 			
 			//音乐
 			Bgm bgm=new Bgm();
-			if (bgmAttr != null) {
+			if (bgmAttr.size()!=0) {
 				int bgmCount = 0;
 				for (String string : bgmAttr) {
 					JSONObject jsonObject = JSON.parseObject(string);
 					String status = (String) jsonObject.get("SWI");
+					if(status==null){
+						bgm.setStatus("none");
+					}
 					if (status!=null&&status.equals("ON")) {
 						bgmCount++;
 						bgm.setStatus("ON");
@@ -198,10 +219,13 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 			
 			//空调
 			AirConditioner airConditioner=new AirConditioner();
-			if (conditionerAttr != null) {
+			if (conditionerAttr.size()!=0) {
 				for (String string : conditionerAttr) {
 					JSONObject jsonObject = JSON.parseObject(string);
 					String status = (String) jsonObject.get("TUN");
+					if(status==null){
+						airConditioner.setStatus("none");
+					}
 					if (status!=null&&status.equals("OPEN")) {
 						airConditioner.setStatus("ON");
 						String mode = (String) jsonObject.get("SMD");// 模式
