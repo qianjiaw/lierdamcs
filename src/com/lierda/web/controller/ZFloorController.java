@@ -5,11 +5,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,6 +44,7 @@ import com.lierda.web.resultEntity.TestResult1;
 import com.lierda.web.resultEntity.ZFloorResult;
 import com.lierda.web.service.ZBuildingServiceI;
 import com.lierda.web.service.ZFloorServiceI;
+import com.lierda.web.service.impl.ZFloorServiceImpl;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -89,6 +92,9 @@ public class ZFloorController extends BaseController {
 	private SystemService systemService;
 	@Autowired
 	private JeecgMinidaoServiceI jeecgMinidaoService;
+	@Autowired
+	@Qualifier("zFloorService")
+	private ZFloorServiceI floorServiceImpl;
 	@Autowired
 	private Validator validator;
 	
@@ -492,7 +498,7 @@ public class ZFloorController extends BaseController {
 //				allTypes.add(type);
 //			}
 //		}
-		sql=getSql(rs, sql);
+		sql=floorServiceImpl.getSql(rs, sql);
 		List<SqlResult> r=jeecgMinidaoService.getAllDeviceByRAT(sql);
 		map.put("result", r);
 //		map.put("allTypes", allTypes);
@@ -512,169 +518,13 @@ public class ZFloorController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		Map<String, Object> map=new HashMap<String, Object>();
 		String floorid=request.getParameter("floorid");
-		String roomid="";
-		
-		List<ZRoomEntity> rooms=jeecgMinidaoService.selectRoomByFloor(floorid);
-		for (ZRoomEntity zRoomEntity : rooms) {
-			roomid=zRoomEntity.getId();
-			DeviceStatus deviceStatus=new DeviceStatus();
-			List<String> senseAttr=zFloorService.findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+roomid+"' and (device.type='21' or device.type='20')");
-			List<String> lockAttr=zFloorService.findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+roomid+"' and (device.type='10' or device.type='18')");
-			List<String> lightAttr=zFloorService.findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+roomid+"' and device.type='1'");
-			
-			if (senseAttr != null) {
-				for (String attribute : senseAttr) {
-					JSONObject jsonObject = JSON.parseObject(attribute);
-					String status = (String) jsonObject.get("PIR");
-					if (status.equals("YES")) {
-						deviceStatus.setSenseHuman(new SenseHuman("ON"));
-					}
-				}
-			} else {
-				deviceStatus.setSenseHuman(new SenseHuman("none"));
-			}
-			
-			if (lockAttr != null) {
-				int lockCount = 0;
-				Lock lock = new Lock();
-				for (String string : lockAttr) {
-					JSONObject jsonObject = JSON.parseObject(string);
-					String status = (String) jsonObject.get("DOR");
-					if (status.equals("OPEN")) {
-						lockCount++;
-						lock.setStatus("ON");
-					}
-				}
-				lock.setCount(lockCount);
-				deviceStatus.setLock(lock);
-			} else {
-				deviceStatus.setSenseHuman(new SenseHuman("none"));
-			}
-			
-			if (lightAttr != null) {
-				int lightCount = 0;
-				Light light = new Light();
-				for (String string : lightAttr) {
-					JSONObject jsonObject = JSON.parseObject(string);
-					String status = (String) jsonObject.get("SWI");
-					if (status.equals("ON")) {
-						lightCount++;
-						light.setStatus("ON");
-					}
-				}
-				light.setCount(lightCount);
-				deviceStatus.setLight(light);
-			} else {
-				deviceStatus.setSenseHuman(new SenseHuman("none"));
-			}
-			
-			
-			
-			map.put(roomid, deviceStatus);
-		}
-		System.out.println(map.size());
-//		roomid="8a9290d85c3d5121015c3d53d37a000b";
-//		DeviceStatus deviceStatus=new DeviceStatus();
-//		List<String> attributes=zFloorService.findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+roomid+"' and (device.type='21' or device.type='20')");
-//		for (String attribute : attributes) {
-//			JSONObject jsonObject=JSON.parseObject(attribute);
-//			String status=(String) jsonObject.get("PIR");
-//			if(status.equals("YES")){
-//				deviceStatus.setSenseHuman(new SenseHuman("有人"));
-//			}
-//		}
-		
-//		map.put(roomid, deviceStatus);
+		map=floorServiceImpl.getDeviceStatus(floorid);
 		j.setAttributes(map);
 		return j;
 	}
 	
 	
-	/**
-	 * 没用的
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(params = "getAllBuildings1")
-	@ResponseBody
-	public AjaxJson getAllBuildings1(HttpServletRequest request){
-		AjaxJson j = new AjaxJson();
-		Map<String, Object> map=new HashMap<String, Object>();
-		List<ZBuildingEntity> ids=ZBuildingController.buildings;//查询所有建筑物
-		map.put("buildings", ids);
-		j.setAttributes(map);
-		return j;
-	}
 	
-//	/**
-//	 * 测试的  所有type
-//	 * @param request
-//	 * @return
-//	 */
-//	@RequestMapping(params = "test1")
-	@ResponseBody
-//	public AjaxJson test1(HttpServletRequest request){
-//		AjaxJson j = new AjaxJson();
-//		Map<String, Object> map=new HashMap<String, Object>();
-//		List<TestResult1> list=new ArrayList<TestResult1>();
-//		String str=request.getParameter("str");
-//		list=parseStringToList(str);
-//		System.out.println(str);		
-//		for (TestResult1 testResult1 : list) {
-//			System.out.println(testResult1.getRoomid()+"????"+testResult1.getMacid()+"???"+testResult1.getDeviceType());
-//		}
-////		String sql="select r.roomname as roomname, ddc.ddcmac as ddcmac from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id where device.macid='"+list.get(0).getMacid()+"' and r.id='"+list.get(0).getRoomid()+"' and device.type='1'";
-//		String sql="select device.macid as macid, ddc.ddcmac as ddcmac from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id where ";
-//		String sql1="device.macid='"+list.get(0).getMacid()+"' and r.id='"+list.get(0).getRoomid()+"' and device.type='1'";
-//		String sql2="select distinct r.roomname as roomname, ddc.ddcmac as ddcmac from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id where ";
-//
-//		sql=getSql(list, sql);
-//		System.out.println(sql+"sql");
-//		List<TestResult> r=jeecgMinidaoService.test1(sql);
-//		System.out.println(r.get(0).getDdcmac()+"========="+r.get(0).getRoomname());
-//		j.setAttributes(map);
-//		return j;
-//	}
-	/**
-	 * 根据传入参数获取sql语句
-	 * @param list
-	 * @param sql
-	 * @return
-	 */
-	public String getSql(List<JsonResult> list,String sql){
-		StringBuffer sqlpart=new StringBuffer();
-		List<String> types=null;
-		JsonResult result1=null;
-		for (int i=0;i<list.size();i++) {
-			if(!(i<1)){
-				sqlpart=sqlpart.append(" or ");
-			}
-			result1=list.get(i);
-			String roomid=result1.getRoomid();
-			types=result1.getType();
-			String deviceType="";
-			for (int j = 0; j < types.size(); j++) {
-				deviceType=types.get(j);
-				sqlpart=sqlpart.append(addSql(roomid,deviceType));
-				if(!(j==types.size()-1)){
-					sqlpart=sqlpart.append(" or ");
-				}
-			}
-		}
-		sql=sql+sqlpart.toString();
-		return sql;
-	}
-	
-	/**
-	 * 根据传入参数拼接sql语句
-	 * @param roomid
-	 * @param deviceType
-	 * @return
-	 */
-	public String addSql(String roomid,String deviceType){
-		String sql1="device.macid='0000000000000000' and r.id='"+roomid+"' and devicetype.typ='"+deviceType+"'";
-		return sql1;
-	}
 	
 	/**
 	 * 用不上
