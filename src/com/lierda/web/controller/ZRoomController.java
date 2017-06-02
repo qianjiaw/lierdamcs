@@ -252,6 +252,7 @@ public class ZRoomController extends BaseController {
 	public AjaxJson getDetailByRoomid(HttpServletRequest request){
 		AjaxJson j = new AjaxJson();
 		String roomid = request.getParameter("roomid");
+		System.out.println(roomid+"..............................");
 		List<ZFloorEntity> currentBuildingId = null;
 		List<ZBuildingEntity> currentBuilding = null;
 		String floorid = "";

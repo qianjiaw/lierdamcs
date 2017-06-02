@@ -36,7 +36,10 @@ import com.lierda.web.resultEntity.ZFloorResult;
 import com.lierda.web.service.ZBuildingServiceI;
 import com.lierda.web.service.ZDdcRfbpServiceI;
 import com.lierda.web.service.ZFloorServiceI;
+import com.lierda.web.service.ZParkServiceI;
+import com.lierda.web.service.ZRoomServiceI;
 import com.lierda.web.service.impl.ZFloorServiceImpl;
+import com.lierda.web.service.impl.ZParkServiceImpl;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -78,6 +81,14 @@ public class ZDdcRfbpController extends BaseController {
 
 	@Autowired
 	private ZDdcRfbpServiceI zDdcRfbpService;
+	@Autowired
+	private ZParkServiceI ZParkService;
+	@Autowired
+	private ZBuildingServiceI ZBuildingService;
+	@Autowired
+	private ZFloorServiceI ZFloorService;
+	@Autowired
+	private ZRoomServiceI ZRoomService;
 	@Autowired
 	private SystemService systemService;
 	@Autowired
@@ -175,7 +186,15 @@ public class ZDdcRfbpController extends BaseController {
 	public ModelAndView addorupdate(ZDdcRfbpEntity zDdcRfbp, HttpServletRequest req) {
 		if (StringUtil.isNotEmpty(zDdcRfbp.getId())) {
 			zDdcRfbp = zDdcRfbpService.getEntity(ZDdcRfbpEntity.class, zDdcRfbp.getId());
+			ZParkEntity zp = ZParkService.getEntity(ZParkEntity.class, zDdcRfbp.getParkid());
+			ZBuildingEntity zb = ZBuildingService.getEntity(ZBuildingEntity.class, zDdcRfbp.getBuildid());
+			ZFloorEntity zf = ZFloorService.getEntity(ZFloorEntity.class, zDdcRfbp.getFloorid());
+			ZRoomEntity zr = ZRoomService.getEntity(ZRoomEntity.class, zDdcRfbp.getRoomid());
 			req.setAttribute("zDdcRfbpPage", zDdcRfbp);
+			req.setAttribute("zp", zp);
+			req.setAttribute("zb", zb);
+			req.setAttribute("zf", zf);
+			req.setAttribute("zr", zr);
 		}
 		List<ZParkController> zpark = systemService.getList(ZParkEntity.class);
 		req.setAttribute("zparkList", zpark);

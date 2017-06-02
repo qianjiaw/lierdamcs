@@ -28,7 +28,6 @@ import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.MyBeanUtils;
 
-import com.google.gson.JsonObject;
 import com.lierda.web.entity.Light;
 import com.lierda.web.entity.Lock;
 import com.lierda.web.entity.SenseHuman;
@@ -40,7 +39,6 @@ import com.lierda.web.entity.ZRoomEntity;
 import com.lierda.web.resultEntity.DeviceStatus;
 import com.lierda.web.resultEntity.JsonResult;
 import com.lierda.web.resultEntity.SqlResult;
-import com.lierda.web.resultEntity.TestResult1;
 import com.lierda.web.resultEntity.ZFloorResult;
 import com.lierda.web.service.ZBuildingServiceI;
 import com.lierda.web.service.ZFloorServiceI;
@@ -98,7 +96,6 @@ public class ZFloorController extends BaseController {
 	@Autowired
 	private Validator validator;
 	
-
 
 	/**
 	 * 楼层管理列表 页面跳转
@@ -482,6 +479,7 @@ public class ZFloorController extends BaseController {
 	public AjaxJson getAllDeviceByRAT(HttpServletRequest request){
 		AjaxJson j = new AjaxJson();
 		String  s=null;
+		List<SqlResult> r=null;
 //		List<String> types=null;
 //		List<String> allTypes=new ArrayList<String>();
 		String sql="select device.macid as macid, ddc.ddcmac as ddcmac,ddc.serverip as serverip,ddc.id as ddcid, device.id as deviceid from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where ";
@@ -489,6 +487,7 @@ public class ZFloorController extends BaseController {
 		Map<String, Object> map=new HashMap<String, Object>();
 //		List<JsonResult> list1=new ArrayList<JsonResult>();
 //		List<String> list=new ArrayList<String>();
+
 		JSONObject object=JSON.parseObject(roomtypedata);
 		Object  data= object.get("data");
 		List<JsonResult> rs= (List<JsonResult>) JSON.parseArray(data+"", JsonResult.class);
@@ -499,7 +498,7 @@ public class ZFloorController extends BaseController {
 //			}
 //		}
 		sql=floorServiceImpl.getSql(rs, sql);
-		List<SqlResult> r=jeecgMinidaoService.getAllDeviceByRAT(sql);
+		r=jeecgMinidaoService.getAllDeviceByRAT(sql);
 		map.put("result", r);
 //		map.put("allTypes", allTypes);
 		j.setAttributes(map);
@@ -527,30 +526,13 @@ public class ZFloorController extends BaseController {
 	
 	
 	/**
-	 * 用不上
-	 * @param str
+	 * 根据传入参数拼接sql语句
+	 * @param roomid
+	 * @param deviceType
 	 * @return
 	 */
-	public List<TestResult1> parseStringToList(String str){
-		str=str.replace("[", "").replace("]", "");
-		String[] strs=str.split(";");
-		List<TestResult1> list=new ArrayList<TestResult1>();
-		for (String string : strs) {
-			System.out.println(string+"==");
-			string=string.replace("{", "").replace("}", "");
-			String[] strs1=string.split(",");
-			ArrayList<String> value=new ArrayList<String>();
-			TestResult1 result=new TestResult1();
-			for (String string2 : strs1) {
-				string2=string2.replace("'", "");
-				String[] str3=string2.split("=");
-				value.add(str3[1]);
-			}
-			result.setRoomid(value.get(0));
-			result.setMacid(value.get(1));
-			result.setDeviceType(value.get(2));
-			list.add(result);
-		}
-		return list;
+	public String addSql(String roomid,String deviceType){
+		String sql1="device.macid='0000000000000000' and r.id='"+roomid+"' and devicetype.typ='"+deviceType+"'";
+		return sql1;
 	}
 }
