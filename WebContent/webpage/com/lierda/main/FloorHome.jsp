@@ -211,6 +211,7 @@
 				
 				///////////////////////after getdata
 				addBuilding(buildName);
+				drawroomcheck();
 			}
 		});
 	}
@@ -226,6 +227,10 @@
 			success: function(data){
 				attributes=	data.attributes;
 				roomsState = attributes;
+				
+				//////////////////////after getdata
+				drawroomstate();
+				addtable();
 			}
 		});
 	}
@@ -247,6 +252,7 @@
 				
 				///////////////////////after getdata
 				addBuilding(buildName);
+				drawroomcheck();
 			}
 		});
 	}
@@ -268,9 +274,6 @@
 		$("#this-floor-top").text(floor[0].floorname + "F楼层房态图");
 		$("#this-floor-cen").text(floor[0].floorname + "F楼层控制模式");
 		
-		drawroomstate();
-		drawroomcheck();
-		addtable();
 
 	});
 	
@@ -323,16 +326,17 @@
 	function drawroomstate () {
 		var width = getWidth("floor-main") / 6 - 5;
 		var height = getHeight("floor-main")/4;
-		var stateheight = height*2/3;
-		var lineheight = height*1/3;
+		var stateheight = height*3/5;
+		var lineheight = height*2/5;
 		for (var i = 0; i < rooms.length; i++) {
+			var roomState = roomsState[""+rooms[i].id+""];
 			$("#floor-main").append('<div id="room-state-'+rooms[i].id+'" onclick="selectRoom(this)" style="height:'+height+'px;width:'+width+'px;line-height:'+lineheight+'px;font-size:'+lineheight+'px;text-align:center;background-color:skyblue;float:left;margin-left:2px;margin-top:2px;">'+
 			'<div id="room-state-pic" class="room-state-pic" style="height:'+stateheight+'px">'+
-			'<div id="room-light-state" class="room-light-state"></div>'+
-			'<div id="room-air-state" class="room-air-state"></div>'+
-			'<div id="room-person-state" class="room-person-state"></div>'+
+			'<div id="room-light-state" class="room-light-'+roomState.light.status+'"></div>'+
+			'<div id="room-air-state" class="room-air-'+roomState.airConditioner.status+'"></div>'+
+			'<div id="room-person-state" class="room-person-'+roomState.senseHuman.status+'"></div>'+
 			'</div>'+
-			'<span>'+rooms[i].roomname+'</span>'+
+			'<span class="room-state-font">'+rooms[i].roomname+'</span>'+
 			'</div>');
 		}
 	}
