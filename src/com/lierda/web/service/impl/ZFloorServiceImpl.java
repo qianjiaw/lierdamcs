@@ -47,24 +47,39 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 			DeviceStatus deviceStatus = new DeviceStatus();
 			//获取当前房间各设备状态
 			
+//			// 人感
+//			List<String> senseAttr = findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+ roomid + "' and (device.type='21' or device.type='20')");
+//			// 门磁
+//			List<String> lockAttr = findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+ roomid + "' and (device.type='10' or device.type='18')");
+//			// 照明
+//			List<String> lightAttr = findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+ roomid + "' and device.type='1'");
+//			// 窗帘
+//			List<String> blindAttr = findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+ roomid + "' and (device.type='5' or device.type='17')");
+//			// 插座
+//			List<String> stripAttr = findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+ roomid + "' and device.type='26'");
+//			//地暖
+//			List<String> heatingAttr=findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+ roomid + "' and device.type='13'");
+//			//音乐
+//			List<String> bgmAttr=findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+ roomid + "' and device.type='27'");
+//			//空调
+//			List<String> conditionerAttr=findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+ roomid + "' and device.type='15'");
+			
 			// 人感
-			List<String> senseAttr = findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+ roomid + "' and (device.type='21' or device.type='20')");
+			List<String> senseAttr = findHql("select device.attributes as attributes from ZRoomEntity r join ZDdcRfbpEntity rfbp on r.id=rfbp.roomid join DdcEntity ddc on ddc.ddcmac=rfbp.ddcmac join DeviceEntity device on device.ddcId=ddc.id join ZDeviceTypeEntity devicetype on devicetype.id=device.type where r.id=? and (device.type='21' or device.type='20')",roomid);
 			// 门磁
-			List<String> lockAttr = findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+ roomid + "' and (device.type='10' or device.type='18')");
+			List<String> lockAttr = findHql("select device.attributes as attributes from ZRoomEntity r join ZDdcRfbpEntity rfbp on r.id=rfbp.roomid join DdcEntity ddc on ddc.ddcmac=rfbp.ddcmac join DeviceEntity device on device.ddcId=ddc.id join ZDeviceTypeEntity devicetype on devicetype.id=device.type where r.id=? and (device.type='10' or device.type='18')",roomid);
 			// 照明
-			List<String> lightAttr = findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+ roomid + "' and device.type='1'");
+			List<String> lightAttr = findHql("select device.attributes as attributes from ZRoomEntity r join ZDdcRfbpEntity rfbp on r.id=rfbp.roomid join DdcEntity ddc on ddc.ddcmac=rfbp.ddcmac join DeviceEntity device on device.ddcId=ddc.id join ZDeviceTypeEntity devicetype on devicetype.id=device.type where r.id=? and device.type='1'",roomid);
 			// 窗帘
-			List<String> blindAttr = findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+ roomid + "' and (device.type='5' or device.type='17')");
+			List<String> blindAttr = findHql("select device.attributes as attributes from ZRoomEntity r join ZDdcRfbpEntity rfbp on r.id=rfbp.roomid join DdcEntity ddc on ddc.ddcmac=rfbp.ddcmac join DeviceEntity device on device.ddcId=ddc.id join ZDeviceTypeEntity devicetype on devicetype.id=device.type where r.id=? and (device.type='5' or device.type='17')",roomid);
 			// 插座
-			List<String> stripAttr = findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+ roomid + "' and device.type='26'");
+			List<String> stripAttr = findHql("select device.attributes as attributes from ZRoomEntity r join ZDdcRfbpEntity rfbp on r.id=rfbp.roomid join DdcEntity ddc on ddc.ddcmac=rfbp.ddcmac join DeviceEntity device on device.ddcId=ddc.id join ZDeviceTypeEntity devicetype on devicetype.id=device.type where r.id=? and device.type='26'",roomid);
 			//地暖
-			List<String> heatingAttr=findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+ roomid + "' and device.type='13'");
+			List<String> heatingAttr=findHql("select device.attributes as attributes from ZRoomEntity r join ZDdcRfbpEntity rfbp on r.id=rfbp.roomid join DdcEntity ddc on ddc.ddcmac=rfbp.ddcmac join DeviceEntity device on device.ddcId=ddc.id join ZDeviceTypeEntity devicetype on devicetype.id=device.type where r.id=? and device.type='13'",roomid);
 			//音乐
-			List<String> bgmAttr=findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+ roomid + "' and device.type='27'");
+			List<String> bgmAttr=findHql("select device.attributes as attributes from ZRoomEntity r join ZDdcRfbpEntity rfbp on r.id=rfbp.roomid join DdcEntity ddc on ddc.ddcmac=rfbp.ddcmac join DeviceEntity device on device.ddcId=ddc.id join ZDeviceTypeEntity devicetype on devicetype.id=device.type where r.id=? and device.type='27'",roomid);
 			//空调
-			List<String> conditionerAttr=findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+ roomid + "' and device.type='15'");
-			
-			
+			List<String> conditionerAttr=findHql("select device.attributes as attributes from ZRoomEntity r join ZDdcRfbpEntity rfbp on r.id=rfbp.roomid join DdcEntity ddc on ddc.ddcmac=rfbp.ddcmac join DeviceEntity device on device.ddcId=ddc.id join ZDeviceTypeEntity devicetype on devicetype.id=device.type where r.id=? and device.type='15'",roomid);
 			//根据上面获取的数据组装当前房间各设备对象
 			
 			// 人感
