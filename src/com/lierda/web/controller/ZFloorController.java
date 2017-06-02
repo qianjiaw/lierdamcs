@@ -522,17 +522,4 @@ public class ZFloorController extends BaseController {
 		return j;
 	}
 	
-	
-	
-	
-	/**
-	 * 根据传入参数拼接sql语句
-	 * @param roomid
-	 * @param deviceType
-	 * @return
-	 */
-	public String addSql(String roomid,String deviceType){
-		String sql1="device.macid='0000000000000000' and r.id='"+roomid+"' and devicetype.typ='"+deviceType+"'";
-		return sql1;
-	}
 }
