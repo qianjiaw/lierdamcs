@@ -1,6 +1,7 @@
 package com.lierda.web.resultEntity;
 
 public class SqlResult {
+
 	/**macid*/
 	private java.lang.String macid;
 	/**ddcmac*/
