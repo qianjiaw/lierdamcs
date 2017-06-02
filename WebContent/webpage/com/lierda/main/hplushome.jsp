@@ -50,15 +50,19 @@
 					<div id="bar-1" class="each-bar">
 						
 					</div>
+					<div class="bar-text" style="left:0px;margin-left: 1%;">照明设备</div>
 					<div id="bar-2" class="each-bar">
 						
 					</div>
+					<div class="bar-text" style="left:0px;margin-left: 25.75%;">空调设备</div>
 					<div id="bar-3" class="each-bar">
 						
 					</div>
+					<div class="bar-text" style="right:0px;margin-right: 25.75%;">插座设备</div>
 					<div id="bar-4" class="each-bar">
 						
 					</div>
+					<div class="bar-text" style="right:0px;margin-right: 1%;">其他设备</div>
 				</div>
 			</div>
 			<div id="right_cen" class="right_cen">
@@ -273,6 +277,7 @@ function doChooseBuilding (obj) {
 	getBuildFloorMessage();
 	refreshBuilding(buildName);
 }
+
 </script>
 
 

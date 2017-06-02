@@ -16,7 +16,6 @@ import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZRoomEntity;
 import com.lierda.web.resultEntity.SqlResult;
-import com.lierda.web.resultEntity.TestResult;
 
 /**
  * Minidao例子

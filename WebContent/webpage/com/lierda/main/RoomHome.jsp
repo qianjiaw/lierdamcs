@@ -20,7 +20,7 @@
 		<div id="left" class="left">
 			<div id="building-title" class="main-left-title">
 				<span class="main-message"></span>
-				<p class="main-message-text">基本信息</p>
+				<p class="main-main-text">基本信息</p>
 			</div>
 			<div id="building-main" class="building-main">
 				<div id="building-text" class="building-text">
@@ -48,7 +48,7 @@
 			<div id="roommain" class="roommain">
 				<div id="room-sence-power" class="room-sence-power">
 					<div id="room-sence-power-title" class="main-right-title">
-						<p id="roomid" class="main-message-text"></p>
+						<p id="roomname" class="main-message-text"></p>
 					</div>
 					<div id="room-sence" class="room-sence">
 						<div id="sence-title" class="sence-title">
@@ -134,6 +134,7 @@
 	var devices = [];
 
 	function getDetailByRoomid(){
+
 		$.ajax({
 			type:"post",
 			async: false,
@@ -142,6 +143,7 @@
 			dataType: "json",
 			success: function(data){
 				attributes=	data.attributes;
+				console.log(attributes);
 				buildings=attributes['allBuildings'];
 				var currentBuilding = attributes['currentBuilding'];
 				showBuilding = currentBuilding[0];
@@ -158,6 +160,7 @@
 					
 				//////////////////////after get data
 				addBuilding(buildName);
+				settitle();
 			}
 		});
 	}
@@ -216,6 +219,7 @@
 		setHeight("room-sence-power", "room-sence", 40);
 		setHeight("room-sence-power", "room-power", 40);
 
+		setHeight("room-device", "room-device-main", 40);
 		
 		
 		////////////////////////////////setLineHeight
@@ -240,8 +244,15 @@
 		$("#buildingname").text(""+buildName+"");
 	}
 	
+	////////////////////////////////setTitle
+	function settitle () {
+		console.log(showRoom.roomnam);
+		$("#roomname").text(""+showRoom.roomname+"房间");
+	}
+	
 	/////////////////////////addTable
 	function addtable() {
+		console.log(devices);
 		for (var i=0;i<devices.length;i++) {
 			$("#room-device-body").append(
 					'<tr>'+

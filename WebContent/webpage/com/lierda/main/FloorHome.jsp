@@ -20,7 +20,7 @@
 		<div id="left" class="left">
 			<div id="building-title" class="main-left-title">
 				<span class="main-message"></span>
-				<p class="main-message-text">基本信息</p>
+				<p class="main-main-text">基本信息</p>
 			</div>
 			<div id="building-main" class="building-main">
 				<div id="building-text" class="building-text">
@@ -81,19 +81,19 @@
 							</div>
 							<div id="controller-main-second" class="controller-main-second">
 								<div id="controller-light" class="controller-second-main">
-									<input id="controller-light-check" type="checkbox" class="controller-check" value="1"><span id="controller-light-text" class="controller-font">照明</span></input>
+									<input id="controller-light-check" type="checkbox" class="controller-check" value="LT-CTM"><span id="controller-light-text" class="controller-font">照明</span></input>
 								</div>
 								<div id="controller-air-condition" class="controller-second-main">
-									<input id="controller-air-check" type="checkbox" class="controller-check" value="15"><span id="controller-air-text" class="controller-font">空调</span></input>
+									<input id="controller-air-check" type="checkbox" class="controller-check" value="CL-RL6"><span id="controller-air-text" class="controller-font">空调</span></input>
 								</div>
 							</div>
 							<div id="controller-main-third" class="controller-main-third">
 								<div id="controller-third-main" class="controller-third-main">
 									<div id="controller-open-all" class="controller-open-all">
-										<p id="open-controller" onclick="openallcontroller()">全开</p>
+										<p id="open-controller" onclick="allcontroller(this)">全开</p>
 									</div>
 									<div id="controller-close-all" class="controller-close-all">
-										<p id="close-controller">全关</p>
+										<p id="close-controller" onclick="allcontroller(this)">全关</p>
 									</div>
 								</div>
 							</div>
@@ -184,6 +184,9 @@
 	var floorid=getRequest().floorid;
 	
 	var rooms=[];
+	var roomsState = {};
+	
+
 	
 	////////////////////////////////////////////getbuildingdata
 	function getDetailByFloorid(){
@@ -212,6 +215,22 @@
 		});
 	}
 	
+	////////////////////////////////////////////获取当前楼层所有房间设备状态
+	function getDeviceStatus () {
+		$.ajax({
+			type:"post",
+			async: false,
+			url:"/mcs/zFloorController.do?getDeviceStatus",
+			data: {'floorid':floorid},
+			dataType: "json",
+			success: function(data){
+				attributes=	data.attributes;
+				roomsState = attributes;
+			}
+		});
+	}
+	
+	/////////////////////////////////////////更改建筑
 	function getBuildFloorMessage(){
 		$.ajax({
 			type:"post",
@@ -231,6 +250,7 @@
 			}
 		});
 	}
+	
 
 	$(function() {
 		
@@ -242,6 +262,7 @@
 		
 		/////////////////////////////////////////getdata
 		getDetailByFloorid();
+		getDeviceStatus();
 		
 		////////////////////////////////////////add show
 		$("#this-floor-top").text(floor[0].floorname + "F楼层房态图");
@@ -301,10 +322,16 @@
 	
 	function drawroomstate () {
 		var width = getWidth("floor-main") / 6 - 5;
-		var height = width/2;
+		var height = getHeight("floor-main")/4;
+		var stateheight = height*2/3;
+		var lineheight = height*1/3;
 		for (var i = 0; i < rooms.length; i++) {
-			$("#floor-main").append('<div id="room-state-'+rooms[i].id+'" onclick="selectRoom(this)" style="height:'+height+'px;width:'+width+'px;background-color:skyblue;float:left;margin-left:2px;margin-top:2px;">'+
-			'<div ></div>'+
+			$("#floor-main").append('<div id="room-state-'+rooms[i].id+'" onclick="selectRoom(this)" style="height:'+height+'px;width:'+width+'px;line-height:'+lineheight+'px;font-size:'+lineheight+'px;text-align:center;background-color:skyblue;float:left;margin-left:2px;margin-top:2px;">'+
+			'<div id="room-state-pic" class="room-state-pic" style="height:'+stateheight+'px">'+
+			'<div id="room-light-state" class="room-light-state"></div>'+
+			'<div id="room-air-state" class="room-air-state"></div>'+
+			'<div id="room-person-state" class="room-person-state"></div>'+
+			'</div>'+
 			'<span>'+rooms[i].roomname+'</span>'+
 			'</div>');
 		}
@@ -318,16 +345,20 @@
 		for (var i = 0; i < rooms.length; i++) {
 			$("#roomcheckform").append('<div id="room-check-'+i+'" style="height:'+height+'px;width:'+width+'px;min-width:50px;float:left;margin-left:2px;margin-top:2px;"></div>');
 			$("#room-check-"+i+"").append('<input type="checkbox" style="top: 50%;margin-top: -6px;position: relative;float:left;"  value="'+rooms[i].id+'"></input>');
-			$("#room-check-"+i+"").append('<a href="/mcs/webpage/com/lierda/main/RoomHome.jsp?roomid='+rooms[i].id+'" style="float: left;position:relative;font-size: 10px;line-height: '+height+'px;">'+rooms[i].roomname+'</a>');
+			$("#room-check-"+i+"").append('<a style="float:left;position:relative;font-size: 12px;font-weight:bold;line-height:'+height+'px;">'+rooms[i].roomname+'</a>');
+			//href="/mcs/webpage/com/lierda/main/RoomHome.jsp?roomid='+rooms[i].id+'"
 		}
 	}
 	
-	function openallcontroller () {
+	function allcontroller (obj) {
+		var controllertype = obj.id.split("-")[0];
+		console.log(controllertype);
 		var senddata = {};
 		var data = [];
-		
+		var checkroom = 0;
 		for (var i=0;i<$("#roomcheckform input:checkbox").length;i++) {
 			if ($("#roomcheckform input:checkbox")[i].checked) {
+				checkroom++;
 				var roomtype = {"roomid":"","type":[]};
 				var name = $("#roomcheckform input:checkbox")[i].value;
 				roomtype["roomid"] = name;
@@ -340,15 +371,24 @@
 				else if ($("#controller-air-condition input:checkbox")[0].checked) {
 					roomtype["type"][0] = $("#controller-air-condition input:checkbox")[0].value;
 				}
+				else {
+					alert("请选择设备类型");
+					return false;
+				}
 				data.push(roomtype);
 			}
 		}
-		
+		if (checkroom == 0) {
+			alert("请选择房间");
+			return false;
+		}
 		senddata = {data};
-		upsenddata(JSON.stringify(senddata));
+		var devicetype = roomtype["type"];
+		upsenddata(JSON.stringify(senddata),devicetype,controllertype);
 	}
 	
-	function upsenddata (data) {
+	function upsenddata (data,devicetype,controllertype) {
+		
 		$.ajax({
 			type:"post",
 			async: false,
@@ -356,29 +396,110 @@
 			data: {'roomtypedata':data},
 			dataType: "json",
 			success: function(data){
-				console.log(data.attributes);
+				attributes=	data.attributes;
+				var r = attributes['result'];
+				if (r.length>0) {
+					///////////////////////////getbackdata
+					var ddcmac = r[0].ddcmac;
+					var serverip = r[0].serverip;
+					var type = devicetype;
+					
+					/////////////////////////sendcmd
+					if (type.length == 1) {
+						sendcmd(serverip,ddcmac,type[0],controllertype);
+					}
+					else if (type.length == 2) {
+
+						console.log(type[0]);
+						sendcmd(serverip,ddcmac,type[0],controllertype);
+						sendcmd(serverip,ddcmac,type[1],controllertype);
+					}
+				}
+				else {
+					console.log("no device");
+					return false;	
+				}
 			}
 		});
+
+	}
+	
+	function sendcmd (serverip,ddcmac,type,controllertype) {
+		var cmd = {
+				"sourceId":"123456",
+				"serialNum":(new Date().getTime())%10000,
+				"requestType":"cmd",
+				"id":"0000000000000000",
+				"ddcId":"",
+				"attributes":{"GRP":"ff"}
+		};
+		cmd["ddcId"] = ddcmac;
+		cmd["attributes"]["TYP"] = type;
+		if ("open" == controllertype) {
+			cmd["attributes"]["SWI"] = "ON";
+		}
+		else {
+			cmd["attributes"]["SWI"] = "OFF";
+		}
+		var jsoncmd = JSON.stringify(cmd);
+		console.log(jsoncmd);
+		console.log("http://" +serverip+ ":8006/action");
+		
+		$.ajax({
+			type:"post",
+			async: false,
+			url:"http://202.107.200.162:8006/action",
+			data: {'pn':'cmd','cmdStr':jsoncmd},
+			dataType: "json",
+			success: function(data){
+				console.log(data);
+				
+				///////////////////////////getbackdata
+				
+				/////////////////////////sendcmd
+				
+			},
+			false: function (data) {
+				console.log("false");
+			}
+		});
+
 	}
 	
 	function addtable() {
 		for (var i = 0; i < rooms.length; i++) {
+			var roomState = roomsState[""+rooms[i].id+""];
+			console.log(rooms[i].roomname);
+			console.log(roomState);
 			$("#device-state-body").append(
-					'<tr>'+
-						'<td>'+(i+1)+'</td>'+
-						'<td>'+rooms[i].roomname+'</td>'+
-						'<td>有无</td>'+
-						'<td>门锁</td>'+
-						'<td>照明</td>'+
-						'<td>窗帘</td>'+	
-						'<td>插座</td>'+
-						'<td>地暖</td>'+
-						'<td>音乐</td>'+
-						'<td>11</td>'+
-						'<td>22</td>'+
-						'<td>33</td>'+
-						'<td>44</td>'+
-					'</tr>');
+				'<tr style="height:22px;font-size:14px;">'+
+					'<td>'+(i+1)+'</td>'+
+					'<td>'+rooms[i].roomname+'</td>'+
+					'<td><div class="table-user-'+roomState.senseHuman.status+'"></div></td>'+
+					'<td><div class="table-switch-'+roomState.lock.status+'"></div></td>'+
+					'<td><div class="table-switch-'+roomState.light.status+'"></div></td>'+
+					'<td><div class="table-switch-'+roomState.blind.status+'"></div></td>'+	
+					'<td><div class="table-switch-'+roomState.powerStrip.status+'"></div></td>'+
+					'<td><div class="table-switch-'+roomState.floorHeating.status+'"></div></td>'+
+					'<td><div class="table-switch-'+roomState.bgm.status+'"></div></td>'+
+					'<td style="height:20px;width:20px;"><div class="table-switch-'+roomState.airConditioner.status+'"></div></td>'+
+					'<td id="air-mode" style="height:20px;width:20px;"></td>'+
+					'<td id="air-temperature" style="height:20px;width:20px;"></td>'+
+					'<td id="air-windSpeed" style="height:20px;width:20px;"></td>'+
+				'</tr>'
+			);
+			if (roomState.airConditioner.status == "ON") {
+				$("#air-mode").append('<img src="/mcs/images/lierda/roomstate/'+roomState.airConditioner.status+'.png" style="height:100%;width:100%;"></img>');
+				$("#air-mode").append('<span>'+roomState.airConditioner.temperature+'℃</span>');
+				switch(roomState.airConditioner.windSpeed)
+				{
+				case 1 :$("#air-mode").append('<img src="/mcs/images/lierda/roomstate/airwind-1.png" style="height:100%;width:100%;"></img>');
+				case 2 :$("#air-mode").append('<img src="/mcs/images/lierda/roomstate/airwind-2.png" style="height:100%;width:100%;"></img>');
+				case 3 :$("#air-mode").append('<img src="/mcs/images/lierda/roomstate/airwind-3.png" style="height:100%;width:100%;"></img>');
+				default:$("#air-mode").append('');
+				};
+				
+			}
 		}
 	}
 

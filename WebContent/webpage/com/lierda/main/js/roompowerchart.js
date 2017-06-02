@@ -4,7 +4,7 @@ function drawPowerChart () {
 
 option = {
     title: {
-        text: 'LOREM IPSUM DOLOR SIT AME',
+        text: 'LOREM IPSUM DOLOR SIT AMET',
         textStyle:{
         	fontSize:10
         }

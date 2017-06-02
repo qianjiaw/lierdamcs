@@ -19,7 +19,7 @@ a:active {text-decoration:none ; color:black;}
 	width:98%;
 	min-width:500px;
 	margin-left:1%;
-	height:35%;
+	height:30%;
 	overflow:hidden;
 	overflow-y:auto;
 	margin-top:1%;
@@ -31,7 +31,7 @@ a:active {text-decoration:none ; color:black;}
 	width:98%;
 	min-width:640px;
 	margin-left:1%;
-	height:45%;
+	height:35%;
 	margin-top:1%;
 	margin-bottom:1%;
 	overflow:hidden;
@@ -65,6 +65,31 @@ a:active {text-decoration:none ; color:black;}
 	margin-top:45px;
 	position:absolute;
 	overflow-y: auto;
+}
+
+.room-state-pic {
+	width:100%;
+}
+.room-light-state {
+	width:32%;
+	margin-left:1%;
+	float:left;
+	height:100%;
+	background-color:black;
+}
+.room-air-state {
+	width:32%;
+	margin-left:1%;
+	float:left;
+	height:100%;
+	background-color:white;
+}
+.room-person-state {
+	width:32%;
+	margin-left:1%;
+	float:left;
+	height:100%;
+	background-color:blue;
 }
 
 .floor-controller {
@@ -241,13 +266,61 @@ a:active {text-decoration:none ; color:black;}
 .device-state-body {
 }
 
+.table-switch-ON {
+	height:20px;
+	width:20px;
+	margin: 1px auto;
+	background:url(/mcs/images/lierda/roomstate/device-ON.png) no-repeat;
+	background-size:100%;
+}
+
+.table-switch-OFF {
+	height:20px;
+	width:20px;
+	margin: 1px auto;
+	background:url(/mcs/images/lierda/roomstate/device-OFF.png) no-repeat;
+	background-size:100%;
+}
+
+.table-switch-none {
+	height:20px;
+	width:20px;
+	margin: 1px auto;
+	background:url(/mcs/images/lierda/roomstate/device-none.png) no-repeat;
+	background-size:100%;
+}
+
+.table-user-ON {
+	height:20px;
+	width:20px;
+	margin: 1px auto;
+	background:url(/mcs/images/lierda/roomstate/user-ON.png) no-repeat;
+	background-size:100%;
+}
+
+.table-user-OFF {
+	height:20px;
+	width:20px;
+	margin: 1px auto;
+	background:url(/mcs/images/lierda/roomstate/user-OFF.png) no-repeat;
+	background-size:100%;
+}
+
+.table-user-none {
+	height:20px;
+	width:20px;
+	margin: 1px auto;
+	background:url(/mcs/images/lierda/roomstate/user-none.png) no-repeat;
+	background-size:100%;
+}
+
 .device-state-head th {
 	border-top: 1px solid rgba(0, 0, 255, 0.6);
     border-bottom: 1px solid rgba(0, 0, 255, 0.6);
     border-left: 1px solid rgba(0, 0, 255, 0.6);
     background: powderblue;
     font-size: 8px;
-    line-height: 16px;
+    line-height: 20px;
 }
 .last-th {
 	border-right: 1px solid rgba(0, 0, 255, 0.6);
@@ -258,6 +331,7 @@ a:active {text-decoration:none ; color:black;}
     background-size: 100%;
     width: 16px;
     height: 16px;
+    margin-top:2px;
     float: right;
     border: none;
 }
@@ -266,6 +340,7 @@ a:active {text-decoration:none ; color:black;}
     background-size: 100%;
     width: 16px;
     height: 16px;
+    margin-top:2px;
     float: right;
     border: none;
 }
@@ -274,6 +349,7 @@ a:active {text-decoration:none ; color:black;}
     background-size: 100%;
     width: 16px;
     height: 16px;
+    margin-top:2px;
     float: right;
     border: none;
 }

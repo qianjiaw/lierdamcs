@@ -35,7 +35,7 @@ function addMainBar (divid,height) {
 						textAlign : 'center',
 						fontSize : '12px',
 					},
-	                verticalAlign:'bottom',
+	                verticalAlign:'top',
 					x : 0,
 					y : 5
 				},
