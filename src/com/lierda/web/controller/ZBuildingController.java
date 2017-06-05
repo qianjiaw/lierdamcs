@@ -359,25 +359,4 @@ public class ZBuildingController extends BaseController {
 		return j;
 	}	
 	
-	
-	public static void main(String[] args) {
-//		String s="a:1,b:2;a:2,b:3";
-//		String[] ss=s.split(";");
-//		System.out.println(ss.length);
-//		for (String string : ss) {
-//			System.out.println(string);
-//		}
-//		String s="{\"time\":\"1\",\"power\":\"2\",}";
-//		JSONObject object=JSONObject.parseObject(s);
-//		System.out.println(object.get("time"));
-//		System.out.println(object.get("power"));
-		long a=1;
-		long b=2;
-//		System.out.println(a<b);
-		if(a>b){
-			System.out.println("s");
-		}else if (a==1) {
-			System.out.println("f");
-		}
-	}
 }
