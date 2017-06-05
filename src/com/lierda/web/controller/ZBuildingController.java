@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -287,11 +288,14 @@ public class ZBuildingController extends BaseController {
 		Set<String> macids=new HashSet<String>();
 		String buildId=request.getParameter("buildId");
 		System.out.println(buildId+"bbbbbbbbbbbbbbbbbbb");
-		long timeStart=new Date().getTime()/1000;
-		long timeStop=timeStart+3600*10;
+//		long timeStart=new Date().getTime()/1000;
+//		long timeStop=timeStart+3600*10;
+		long timeStop=new Date().getTime()/1000;
+		long timeStart=timeStop-3600*10;
 		System.out.println(timeStart+"timeStart");
 		System.out.println(timeStop+"timeStop");
-		String sql="select zpr.* from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.macid join z_power_type zpt on zpt.devicemac=zpr.macid where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+timeStop+", '%Y-%m-%d %H:%i:%S')";
+		String sql="select zpr.* from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+timeStop+", '%Y-%m-%d %H:%i:%S')  group by zpr.macid";
+		System.out.println(sql);
 		List<PowerRecordingEntity> recordingEntities=jeecgMinidaoService.getPowerBybid(sql);
 		System.out.println(recordingEntities.size()+"-----------------");
 		for (PowerRecordingEntity powerRecordingEntity : recordingEntities) {
@@ -309,6 +313,15 @@ public class ZBuildingController extends BaseController {
 			}
 			powerMap.put(key, value.toString());
 		}
+//		zBuildingService.getPowerMap(macids, recordingEntities);
+		
+		Iterator<Map.Entry<String, String>> it=powerMap.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry<String, String> entry = it.next();
+			System.out.println(entry.getKey()+"key====");
+			System.out.println(entry.getValue()+"value====");
+		}
+		
 		
 		Set<Entry<String, String>> entrySet=powerMap.entrySet();
 		List<PowerRecordingEntity> entities=new ArrayList<PowerRecordingEntity>();
@@ -333,6 +346,7 @@ public class ZBuildingController extends BaseController {
 				entity.setRealtimepower(Double.valueOf((String) object.get("power")));
 				entities.add(entity);
 			}
+			System.out.println(entities.size()+"=========================");
 			Double[] avgPower=zBuildingService.getPower(entities,timeStart);
 			currentPower.put(entry.getKey(), avgPower);
 		}
@@ -351,12 +365,19 @@ public class ZBuildingController extends BaseController {
 		List<PowerRecordingEntity> recordingEntities=new ArrayList<PowerRecordingEntity>();
 		long timeStart=new Date().getTime()/1000;
 		long timeStop=timeStart+3600*10;
-		String sql="select zpr.* from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.macid join z_power_type zpt on zpt.devicemac=zpr.macid where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+timeStop+", '%Y-%m-%d %H:%i:%S')";
-		if(jeecgMinidaoService.getPowerBybid(sql)!=null){
-			recordingEntities=jeecgMinidaoService.getPowerBybid(sql);
-		}
+		String hql="select r from ZRoomEntity r where r.floorid='8a9290d85c38fd45015c3904457d0005'";
+//		String sql="select zpr.* from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.macid join z_power_type zpt on zpt.devicemac=zpr.macid where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+timeStop+", '%Y-%m-%d %H:%i:%S')";
+//		if(jeecgMinidaoService.getPowerBybid(sql)!=null){
+//			recordingEntities=jeecgMinidaoService.getPowerBybid(sql);
+//		}
+		
 		j.setAttributes(map);
 		return j;
 	}	
+
 	
+	public static void main(String[] args) {
+		System.out.println(new Date().getTime()/1000);
+		System.out.println(1496647496-3600);
+	}
 }
