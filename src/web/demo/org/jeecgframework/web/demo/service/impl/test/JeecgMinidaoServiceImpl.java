@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lierda.web.entity.DdcEntity;
 import com.lierda.web.entity.DeviceEntity;
+import com.lierda.web.entity.PowerRecordingEntity;
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZRoomEntity;
@@ -160,5 +161,11 @@ public class JeecgMinidaoServiceImpl implements JeecgMinidaoServiceI {
 	public List<SqlResult> getAllDeviceByRAT(String sql) {
 		// TODO Auto-generated method stub
 		return jeecgMinidaoDao.getAllDeviceByRAT(sql);
+	}
+
+	@Override
+	public List<PowerRecordingEntity> getPowerBybid(String sql) {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.getPowerBybid(sql);
 	}
 }
