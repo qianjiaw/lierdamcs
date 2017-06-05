@@ -8,6 +8,7 @@ import org.jeecgframework.web.demo.entity.test.JeecgMinidaoEntity;
 
 import com.lierda.web.entity.DdcEntity;
 import com.lierda.web.entity.DeviceEntity;
+import com.lierda.web.entity.PowerRecordingEntity;
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZRoomEntity;
@@ -70,5 +71,7 @@ public interface JeecgMinidaoServiceI {
 	public List<DeviceEntity> getDeviceByRoomid(String roomid);
 	
 	public List<SqlResult> getAllDeviceByRAT(String sql);
+	
+	public List<PowerRecordingEntity>getPowerBybid(String sql);
 
 }
