@@ -1,7 +1,13 @@
 package com.lierda.web.controller;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,11 +25,15 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
+import org.jeecgframework.web.demo.dao.test.JeecgMinidaoDao;
 import org.jeecgframework.web.demo.service.test.JeecgMinidaoServiceI;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.MyBeanUtils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.lierda.web.entity.PowerRecordingEntity;
 import com.lierda.web.entity.VBuildingEntity;
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
@@ -82,7 +92,7 @@ public class ZBuildingController extends BaseController {
 	@Autowired
 	private Validator validator;
 	
-	 public  static 	List<ZBuildingEntity> buildings;
+	public static List<ZBuildingEntity> buildings;
 
 
 	/**
@@ -254,10 +264,181 @@ public class ZBuildingController extends BaseController {
 	public AjaxJson getAllBuildings(HttpServletRequest request){
 		AjaxJson j = new AjaxJson();
 		Map<String, Object> map=new HashMap<String, Object>();
-		List<ZBuildingEntity> ids=jeecgMinidaoService.getAllBuildingIdAndName();//查询所有建筑物
+		List<ZBuildingEntity> ids = jeecgMinidaoService
+				.getAllBuildingIdAndName();// 查询所有建筑物
 		map.put("buildings", ids);
 		buildings=ids;
 		j.setAttributes(map);
 		return j;
 	}	
+	
+	/**
+	 * 根据建筑物id和计量统计类型获取该类型对应的计量信息
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "getPowerBybid")
+	@ResponseBody
+	public AjaxJson getPowerBybid(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		Map<String, Object> map=new HashMap<String, Object>();
+		Map<String, String> powerMap=new HashMap<String, String>();
+		Map<String, Object> currentPower=new HashMap<String, Object>();
+		Set<String> macids=new HashSet<String>();
+		String buildId=request.getParameter("buildId");
+		System.out.println(buildId+"bbbbbbbbbbbbbbbbbbb");
+		long timeStart=new Date().getTime()/1000;
+		long timeStop=timeStart+3600*10;
+		System.out.println(timeStart+"timeStart");
+		System.out.println(timeStop+"timeStop");
+		String sql="select zpr.* from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.macid join z_power_type zpt on zpt.devicemac=zpr.macid where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+timeStop+", '%Y-%m-%d %H:%i:%S')";
+		List<PowerRecordingEntity> recordingEntities=jeecgMinidaoService.getPowerBybid(sql);
+		System.out.println(recordingEntities.size()+"-----------------");
+		for (PowerRecordingEntity powerRecordingEntity : recordingEntities) {
+			macids.add(powerRecordingEntity.getMacid());
+		}
+		
+		for (String  macid : macids) {
+			String key=macid;
+			StringBuffer value=new StringBuffer("");
+			for (PowerRecordingEntity powerRecordingEntity : recordingEntities) {
+				if(powerRecordingEntity.getMacid().equals(macid)){
+					String time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(powerRecordingEntity.getSavingtime());
+					value.append("{\"time\":\""+time+"\",\"power\":\""+powerRecordingEntity.getRealtimepower()+"\"};");
+				}
+			}
+			powerMap.put(key, value.toString());
+		}
+		
+		Set<Entry<String, String>> entrySet=powerMap.entrySet();
+		List<PowerRecordingEntity> entities=new ArrayList<PowerRecordingEntity>();
+		for (Entry<String, String> entry : entrySet) {
+			if(entities.size()!=0){
+				entities.clear();
+			}
+			PowerRecordingEntity entity=new PowerRecordingEntity();
+			String[] values=entry.getValue().split(";");
+			for (String string : values) {
+				JSONObject object=JSONObject.parseObject(string);
+				 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				 Date date=null;
+				try {
+					date = sdf.parse((String) object.get("time"));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				entity.setMacid(entry.getKey());
+				entity.setSavingtime(date);
+				entity.setRealtimepower(Double.valueOf((String) object.get("power")));
+				entities.add(entity);
+			}
+			Double[] avgPower=getPower(entities,timeStart);
+			currentPower.put(entry.getKey(), avgPower);
+		}
+		
+		map.put("currentPower", currentPower);//含有macid和各时间段功率
+		map.put("recordingEntities", recordingEntities);//当前建筑物内所有设备功率信息
+		j.setAttributes(map);
+		return j;
+	}	
+	
+	
+	/**
+	 * 获取各个时间段内功率
+	 * @param entities
+	 * @param timeStart
+	 * @return
+	 */
+	public Double[] getPower(List<PowerRecordingEntity> entities,long timeStart){
+		List<Double> powerArray0=new ArrayList<Double>();
+		List<Double> powerArray1=new ArrayList<Double>();
+		List<Double> powerArray2=new ArrayList<Double>();
+		List<Double> powerArray3=new ArrayList<Double>();
+		List<Double> powerArray4=new ArrayList<Double>();
+		List<Double> powerArray5=new ArrayList<Double>();
+		List<Double> powerArray6=new ArrayList<Double>();
+		List<Double> powerArray7=new ArrayList<Double>();
+		List<Double> powerArray8=new ArrayList<Double>();
+		List<Double> powerArray9=new ArrayList<Double>();
+		for (PowerRecordingEntity powerRecordingEntity : entities) {
+			long date=powerRecordingEntity.getSavingtime().getTime()/1000;
+			if(date<timeStart+3600*1){
+				powerArray0.add(powerRecordingEntity.getRealtimepower());
+			}else if (date<timeStart+3600*2) {
+				powerArray1.add(powerRecordingEntity.getRealtimepower());
+			}else if (date<timeStart+3600*3) {
+				powerArray2.add(powerRecordingEntity.getRealtimepower());
+			}else if (date<timeStart+3600*4) {
+				powerArray3.add(powerRecordingEntity.getRealtimepower());
+			}else if (date<timeStart+3600*5) {
+				powerArray4.add(powerRecordingEntity.getRealtimepower());
+			}else if (date<timeStart+3600*6) {
+				powerArray5.add(powerRecordingEntity.getRealtimepower());
+			}else if (date<timeStart+3600*7) {
+				powerArray6.add(powerRecordingEntity.getRealtimepower());
+			}else if (date<timeStart+3600*8) {
+				powerArray7.add(powerRecordingEntity.getRealtimepower());
+			}else if (date<timeStart+3600*9) {
+				powerArray8.add(powerRecordingEntity.getRealtimepower());
+			}else if (date<timeStart+3600*10) {
+				powerArray9.add(powerRecordingEntity.getRealtimepower());
+			}
+		}
+		Double[] avgPower={AvgPower(powerArray0),AvgPower(powerArray1),AvgPower(powerArray2),AvgPower(powerArray3),AvgPower(powerArray4),AvgPower(powerArray5),AvgPower(powerArray6),AvgPower(powerArray7),AvgPower(powerArray8),AvgPower(powerArray9)};
+		return avgPower;
+	}
+	
+	/**
+	 * 获取单个时间段内功率
+	 * @param powerArray
+	 * @return
+	 */
+	public Double AvgPower(List<Double> powerArray){
+		int count=powerArray.size();
+		Double total=(double) 0;
+		for (Double power : powerArray) {
+			total=power+total;
+		}
+		return total/count;
+	}
+	
+	
+	
+	public AjaxJson getPowerBybid1(String buildId){
+		AjaxJson j = new AjaxJson();
+		Map<String, Object> map=new HashMap<String, Object>();
+//		String buildId=request.getParameter("buildId");
+		List<PowerRecordingEntity> recordingEntities=new ArrayList<PowerRecordingEntity>();
+		long timeStart=new Date().getTime()/1000;
+		long timeStop=timeStart+3600*10;
+		String sql="select zpr.* from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.macid join z_power_type zpt on zpt.devicemac=zpr.macid where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+timeStop+", '%Y-%m-%d %H:%i:%S')";
+		if(jeecgMinidaoService.getPowerBybid(sql)!=null){
+			recordingEntities=jeecgMinidaoService.getPowerBybid(sql);
+		}
+		j.setAttributes(map);
+		return j;
+	}	
+	
+	
+	public static void main(String[] args) {
+//		String s="a:1,b:2;a:2,b:3";
+//		String[] ss=s.split(";");
+//		System.out.println(ss.length);
+//		for (String string : ss) {
+//			System.out.println(string);
+//		}
+//		String s="{\"time\":\"1\",\"power\":\"2\",}";
+//		JSONObject object=JSONObject.parseObject(s);
+//		System.out.println(object.get("time"));
+//		System.out.println(object.get("power"));
+		long a=1;
+		long b=2;
+//		System.out.println(a<b);
+		if(a>b){
+			System.out.println("s");
+		}else if (a==1) {
+			System.out.println("f");
+		}
+	}
 }
