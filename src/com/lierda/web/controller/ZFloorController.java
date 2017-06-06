@@ -96,7 +96,6 @@ public class ZFloorController extends BaseController {
 	@Autowired
 	private Validator validator;
 	
-
 	/**
 	 * 楼层管理列表 页面跳转
 	 * 
@@ -519,8 +518,10 @@ public class ZFloorController extends BaseController {
 		String buildId=buildings.get(0).getId();
 		Map<String, Object> map=new HashMap<String, Object>();
 		String floorid=request.getParameter("floorid");
+		if(floorid==null||floorid.equals("")){
+			floorid=jeecgMinidaoService.selectFloorByBuild(buildId).get(0).getId();
+		}
 		map=floorServiceImpl.getDeviceStatus(floorid);
-		map.put("floor", jeecgMinidaoService.selectFloorByBuild(buildId).get(0));
 		j.setAttributes(map);
 		return j;
 	}
