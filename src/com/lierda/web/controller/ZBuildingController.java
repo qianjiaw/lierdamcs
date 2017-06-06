@@ -304,8 +304,9 @@ public class ZBuildingController extends BaseController {
 			StringBuffer value=new StringBuffer("");
 			for (PowerRecordingEntity powerRecordingEntity : recordingEntities) {
 				if(powerRecordingEntity.getMacid().equals(macid)){
-					String time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(powerRecordingEntity.getSavingtime());
+					String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(powerRecordingEntity.getSavingtime());
 					value.append("{\"time\":\""+time+"\",\"power\":\""+powerRecordingEntity.getRealtimepower()+"\"};");
+					System.out.println(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
 				}
 			}
 			powerMap.put(key, value.toString());
@@ -336,11 +337,14 @@ public class ZBuildingController extends BaseController {
 				entity.setRealtimepower(Double.valueOf((String) object.get("power")));
 				entities.add(entity);
 			}
+			
+			
 			Double[] avgPower=zBuildingService.getPower(entities,timeStart);
 			currentPower.put(entry.getKey(), avgPower);
-			currentPowerTotal=zBuildingService.getTotalPower(currentPower);
+			
 		}
-		
+
+		currentPowerTotal=zBuildingService.getTotalPower(currentPower);
 		typePowerMap=zBuildingService.getPowerByType(recordingEntities, currentPower);
 		
 		map.put("currentPower", currentPower);//含有macid和各时间段功率
@@ -374,5 +378,8 @@ public class ZBuildingController extends BaseController {
 		System.out.println(new Date().getTime()/1000);
 		System.out.println(1496647496-3600);
 		System.out.println(new Date().getTime()/1000<(new Date().getTime()/1000-1000));
+		System.out.println(1496678400);
+		System.out.println(new Date().getTime()/1000);
+		System.out.println((new Date().getTime()/1000-1496678400)/3600);
 	}
 }
