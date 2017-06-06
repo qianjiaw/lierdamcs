@@ -174,14 +174,14 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 	 * @param recordingEntities
 	 * @param currentPower
 	 */
-	public Map<String, Double[]> getPowerByType(List<PowerRecordingEntity> recordingEntities,Map<String, Object> currentPower){
+	public Map<String, double[]> getPowerByType(List<PowerRecordingEntity> recordingEntities,Map<String, Object> currentPower){
 		List<String> type1=new ArrayList<String>();
 		List<String> type15=new ArrayList<String>();
 		List<String> type26=new ArrayList<String>();
-		Map<String, Double[]> powerMap=new HashMap<String, Double[]>();
-		Double[] total1=new Double[24];
-		Double[] total15=new Double[24];
-		Double[] total26=new Double[24];
+		Map<String, double[]> powerMap=new HashMap<String, double[]>();
+		double[] total1=new double[24];
+		double[] total15=new double[24];
+		double[] total26=new double[24];
 		
 		Double count1T0=(double) 0;Double count1T1=(double) 0;Double count1T2=(double) 0;Double count1T3=(double) 0;Double count1T4=(double) 0;Double count1T5=(double) 0;Double count1T6=(double) 0;Double count1T7=(double) 0;Double count1T8=(double) 0;Double count1T9=(double) 0;Double count1T10=(double) 0;
 		Double count1T11=(double) 0;Double count1T12=(double) 0;Double count1T13=(double) 0;Double count1T14=(double) 0;Double count1T15=(double) 0;Double count1T16=(double) 0;Double count1T17=(double) 0;Double count1T18=(double) 0;Double count1T19=(double) 0;Double count1T20=(double) 0;
@@ -205,26 +205,33 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 			}
 		}
 		
-		for (String string : type1) {
-			Double[] avgPower=(Double[]) currentPower.get(string);
-//			count1T0=count1T0+avgPower[0];count1T1=count1T1+avgPower[1];count1T2=count1T2+avgPower[2];count1T3=count1T3+avgPower[3];count1T4=count1T4+avgPower[4];count1T5=count1T5+avgPower[5];count1T6=count1T6+avgPower[6];count1T7=count1T7+avgPower[7];count1T8=count1T8+avgPower[8];count1T9=count1T9+avgPower[9];
-//			count1T10=count1T10+avgPower[10];count1T11=count1T11+avgPower[11];count1T12=count1T12+avgPower[12];count1T13=count1T13+avgPower[13];count1T14=count1T14+avgPower[14];count1T15=count1T15+avgPower[15];count1T16=count1T16+avgPower[16];count1T17=count1T17+avgPower[17];count1T18=count1T18+avgPower[18];count1T19=count1T19+avgPower[19];
-//			count1T20=count1T20+avgPower[20];count1T21=count1T21+avgPower[21];count1T22=count1T22+avgPower[22];count1T23=count1T23+avgPower[23];
-			total1[0]=total1[0]+avgPower[0];total1[1]=total1[1]+avgPower[1];total1[2]=total1[2]+avgPower[2];total1[3]=total1[3]+avgPower[3];total1[4]=total1[4]+avgPower[4];total1[5]=total1[5]+avgPower[5];total1[6]=total1[6]+avgPower[6];total1[7]=total1[7]+avgPower[7];total1[8]=total1[8]+avgPower[8];total1[9]=total1[9]+avgPower[9];total1[10]=total1[10]+avgPower[10];
-			total1[11]=total1[11]+avgPower[11];total1[12]=total1[12]+avgPower[12];total1[13]=total1[13]+avgPower[13];total1[14]=total1[14]+avgPower[14];total1[15]=total1[15]+avgPower[15];total1[16]=total1[16]+avgPower[16];total1[17]=total1[17]+avgPower[17];total1[18]=total1[18]+avgPower[18];total1[19]=total1[19]+avgPower[19];total1[20]=total1[20]+avgPower[20];total1[21]=total1[21]+avgPower[21];
-			total1[22]=total1[22]+avgPower[22];total1[23]=total1[23]+avgPower[23];
+		if(type1.size()!=0){
+			for (String string : type1) {
+				Double[] avgPower=(Double[]) currentPower.get(string);
+				System.out.println(avgPower.length+"==========");
+//				count1T0=count1T0+avgPower[0];count1T1=count1T1+avgPower[1];count1T2=count1T2+avgPower[2];count1T3=count1T3+avgPower[3];count1T4=count1T4+avgPower[4];count1T5=count1T5+avgPower[5];count1T6=count1T6+avgPower[6];count1T7=count1T7+avgPower[7];count1T8=count1T8+avgPower[8];count1T9=count1T9+avgPower[9];
+//				count1T10=count1T10+avgPower[10];count1T11=count1T11+avgPower[11];count1T12=count1T12+avgPower[12];count1T13=count1T13+avgPower[13];count1T14=count1T14+avgPower[14];count1T15=count1T15+avgPower[15];count1T16=count1T16+avgPower[16];count1T17=count1T17+avgPower[17];count1T18=count1T18+avgPower[18];count1T19=count1T19+avgPower[19];
+//				count1T20=count1T20+avgPower[20];count1T21=count1T21+avgPower[21];count1T22=count1T22+avgPower[22];count1T23=count1T23+avgPower[23];
+				total1[0]=total1[0]+avgPower[0];total1[1]=total1[1]+avgPower[1];total1[2]=total1[2]+avgPower[2];total1[3]=total1[3]+avgPower[3];total1[4]=total1[4]+avgPower[4];total1[5]=total1[5]+avgPower[5];total1[6]=total1[6]+avgPower[6];total1[7]=total1[7]+avgPower[7];total1[8]=total1[8]+avgPower[8];total1[9]=total1[9]+avgPower[9];total1[10]=total1[10]+avgPower[10];
+				total1[11]=total1[11]+avgPower[11];total1[12]=total1[12]+avgPower[12];total1[13]=total1[13]+avgPower[13];total1[14]=total1[14]+avgPower[14];total1[15]=total1[15]+avgPower[15];total1[16]=total1[16]+avgPower[16];total1[17]=total1[17]+avgPower[17];total1[18]=total1[18]+avgPower[18];total1[19]=total1[19]+avgPower[19];total1[20]=total1[20]+avgPower[20];total1[21]=total1[21]+avgPower[21];
+				total1[22]=total1[22]+avgPower[22];total1[23]=total1[23]+avgPower[23];
+			}
 		}
-		for (String string : type15) {
-			Double[] avgPower=(Double[]) currentPower.get(string);
-			total15[0]=total15[0]+avgPower[0];total15[1]=total15[1]+avgPower[1];total15[2]=total15[2]+avgPower[2];total15[3]=total15[3]+avgPower[3];total15[4]=total15[4]+avgPower[4];total15[5]=total15[5]+avgPower[5];total15[6]=total15[6]+avgPower[6];total15[7]=total15[7]+avgPower[7];total15[8]=total15[8]+avgPower[8];total15[9]=total15[9]+avgPower[9];total15[10]=total15[10]+avgPower[10];
-			total15[11]=total15[11]+avgPower[11];total15[12]=total15[12]+avgPower[12];total15[13]=total15[13]+avgPower[13];total15[14]=total15[14]+avgPower[14];total15[15]=total15[15]+avgPower[15];total15[16]=total15[16]+avgPower[16];total15[17]=total15[17]+avgPower[17];total15[18]=total15[18]+avgPower[18];total15[19]=total15[19]+avgPower[19];total15[20]=total15[20]+avgPower[20];total15[21]=total15[21]+avgPower[21];
-			total15[22]=total15[22]+avgPower[22];total15[23]=total15[23]+avgPower[23];
+		if(type15.size()!=0){
+			for (String string : type15) {
+				Double[] avgPower=(Double[]) currentPower.get(string);
+				total15[0]=total15[0]+avgPower[0];total15[1]=total15[1]+avgPower[1];total15[2]=total15[2]+avgPower[2];total15[3]=total15[3]+avgPower[3];total15[4]=total15[4]+avgPower[4];total15[5]=total15[5]+avgPower[5];total15[6]=total15[6]+avgPower[6];total15[7]=total15[7]+avgPower[7];total15[8]=total15[8]+avgPower[8];total15[9]=total15[9]+avgPower[9];total15[10]=total15[10]+avgPower[10];
+				total15[11]=total15[11]+avgPower[11];total15[12]=total15[12]+avgPower[12];total15[13]=total15[13]+avgPower[13];total15[14]=total15[14]+avgPower[14];total15[15]=total15[15]+avgPower[15];total15[16]=total15[16]+avgPower[16];total15[17]=total15[17]+avgPower[17];total15[18]=total15[18]+avgPower[18];total15[19]=total15[19]+avgPower[19];total15[20]=total15[20]+avgPower[20];total15[21]=total15[21]+avgPower[21];
+				total15[22]=total15[22]+avgPower[22];total15[23]=total15[23]+avgPower[23];
+			}
 		}
-		for (String string : type26) {
-			Double[] avgPower=(Double[]) currentPower.get(string);
-			total26[0]=total26[0]+avgPower[0];total26[1]=total26[1]+avgPower[1];total26[2]=total26[2]+avgPower[2];total26[3]=total26[3]+avgPower[3];total26[4]=total26[4]+avgPower[4];total26[5]=total26[5]+avgPower[5];total26[6]=total26[6]+avgPower[6];total26[7]=total26[7]+avgPower[7];total26[8]=total26[8]+avgPower[8];total26[9]=total26[9]+avgPower[9];total26[10]=total26[10]+avgPower[10];
-			total26[11]=total26[11]+avgPower[11];total26[12]=total26[12]+avgPower[12];total26[13]=total26[13]+avgPower[13];total26[14]=total26[14]+avgPower[14];total26[15]=total26[15]+avgPower[15];total26[16]=total26[16]+avgPower[16];total26[17]=total26[17]+avgPower[17];total26[18]=total26[18]+avgPower[18];total26[19]=total26[19]+avgPower[19];total26[20]=total26[20]+avgPower[20];total26[21]=total26[21]+avgPower[21];
-			total26[22]=total26[22]+avgPower[22];total26[23]=total26[23]+avgPower[23];
+		if(type26.size()!=0){
+			for (String string : type26) {
+				Double[] avgPower=(Double[]) currentPower.get(string);
+				total26[0]=total26[0]+avgPower[0];total26[1]=total26[1]+avgPower[1];total26[2]=total26[2]+avgPower[2];total26[3]=total26[3]+avgPower[3];total26[4]=total26[4]+avgPower[4];total26[5]=total26[5]+avgPower[5];total26[6]=total26[6]+avgPower[6];total26[7]=total26[7]+avgPower[7];total26[8]=total26[8]+avgPower[8];total26[9]=total26[9]+avgPower[9];total26[10]=total26[10]+avgPower[10];
+				total26[11]=total26[11]+avgPower[11];total26[12]=total26[12]+avgPower[12];total26[13]=total26[13]+avgPower[13];total26[14]=total26[14]+avgPower[14];total26[15]=total26[15]+avgPower[15];total26[16]=total26[16]+avgPower[16];total26[17]=total26[17]+avgPower[17];total26[18]=total26[18]+avgPower[18];total26[19]=total26[19]+avgPower[19];total26[20]=total26[20]+avgPower[20];total26[21]=total26[21]+avgPower[21];
+				total26[22]=total26[22]+avgPower[22];total26[23]=total26[23]+avgPower[23];
+			}
 		}
 		
 		powerMap.put("1", total1);
