@@ -48,18 +48,20 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 	public Map<String, Object> getTotalPower(Map<String, Object> currentPower){
 		Map<String, Object> currentPowerTotal=new HashMap<String, Object>();
 		Iterator<Map.Entry<String, Object>> it=currentPower.entrySet().iterator();
-		Double zero=(double) 0;Double one=(double) 0;Double two=(double) 0;Double three=(double) 0;Double four=(double) 0;Double five=(double) 0;Double six=(double) 0;Double seven=(double) 0;Double eight=(double) 0;Double nine=(double) 0;Double ten=(double) 0;Double oo=(double) 0;
-		Double ot=(double) 0;Double oth=(double) 0;Double of=(double) 0;Double ofi=(double) 0;Double os=(double) 0;Double ose=(double) 0;Double oe=(double) 0;Double on=(double) 0;Double tz=(double) 0;Double to=(double) 0;Double tt=(double) 0;Double tth=(double) 0;
+		double[] hour=new double[24];
+		
 		while(it.hasNext()){
 			Map.Entry<String, Object> entry=it.next();
 			Double[] value=(Double[]) entry.getValue();
-			zero=zero+value[0];one=one+value[1];two=two+value[2];three=three+value[3];four=four+value[4];five=five+value[5];six=six+value[6];seven=seven+value[7];eight=eight+value[8];nine=nine+value[9];ten=ten+value[10];oo=oo+value[11];
-			ot=ot+value[12];oth=oth+value[13];of=of+value[14];ofi=ofi+value[15];os=os+value[16];ose=ose+value[17];oe=oe+value[18];on=on+value[19];tz=tz+value[20];to=to+value[21];tt=tt+value[22];tth=tth+value[23];
+			for (int i = 0; i < 24; i++) {
+				hour[i]=value[i];
+			}
 		}
-		currentPowerTotal.put("0", zero);currentPowerTotal.put("1", one);currentPowerTotal.put("2", two);currentPowerTotal.put("3", three);currentPowerTotal.put("4", four);currentPowerTotal.put("5", five);currentPowerTotal.put("6", six);
-		currentPowerTotal.put("7", seven);currentPowerTotal.put("8", eight);currentPowerTotal.put("9", nine);currentPowerTotal.put("10", ten);currentPowerTotal.put("11", oo);currentPowerTotal.put("12", ot);currentPowerTotal.put("13", oth);
-		currentPowerTotal.put("14", of);currentPowerTotal.put("15", ofi);currentPowerTotal.put("16", os);currentPowerTotal.put("17", ose);currentPowerTotal.put("18", oe);currentPowerTotal.put("19", on);currentPowerTotal.put("20", tz);currentPowerTotal.put("21", to);
-		currentPowerTotal.put("22", tt);currentPowerTotal.put("23", tth);
+		
+		for (int i = 0; i < 24; i++) {
+			currentPowerTotal.put(i+"", hour[i]);
+		}
+		
 		return currentPowerTotal;
 	}
 	
