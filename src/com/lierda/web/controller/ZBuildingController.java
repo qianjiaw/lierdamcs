@@ -299,50 +299,49 @@ public class ZBuildingController extends BaseController {
 			macids.add(powerRecordingEntity.getMacid());
 		}
 		
-		for (String  macid : macids) {
-			String key=macid;
-			StringBuffer value=new StringBuffer("");
-			for (PowerRecordingEntity powerRecordingEntity : recordingEntities) {
-				if(powerRecordingEntity.getMacid().equals(macid)){
-					String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(powerRecordingEntity.getSavingtime());
-					value.append("{\"time\":\""+time+"\",\"power\":\""+powerRecordingEntity.getRealtimepower()+"\"};");
-					System.out.println(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
-				}
-			}
-			powerMap.put(key, value.toString());
-		}
-//		zBuildingService.getPowerMap(macids, recordingEntities);
-		
-		Set<Entry<String, String>> entrySet=powerMap.entrySet();
-		List<PowerRecordingEntity> entities=new ArrayList<PowerRecordingEntity>();
-		for (Entry<String, String> entry : entrySet) {
-			if(entities.size()!=0){
-				entities.clear();
-			}
-			
-			String[] values=entry.getValue().split(";");
-			for (String string : values) {
-				PowerRecordingEntity entity=new PowerRecordingEntity();
-				JSONObject object=JSONObject.parseObject(string);
-				 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				 Date date=null;
-				try {
-					date = sdf.parse((String) object.get("time"));
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				entity.setMacid(entry.getKey());
-				entity.setSavingtime(date);
-				entity.setRealtimepower(Double.valueOf((String) object.get("power")));
-				entities.add(entity);
-			}
-			
-			
-			Double[] avgPower=zBuildingService.getPower(entities,timeStart);
-			currentPower.put(entry.getKey(), avgPower);
-			
-		}
+//		for (String  macid : macids) {
+//			String key=macid;
+//			StringBuffer value=new StringBuffer("");
+//			for (PowerRecordingEntity powerRecordingEntity : recordingEntities) {
+//				if(powerRecordingEntity.getMacid().equals(macid)){
+//					String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(powerRecordingEntity.getSavingtime());
+//					value.append("{\"time\":\""+time+"\",\"power\":\""+powerRecordingEntity.getRealtimepower()+"\"};");
+//				}
+//			}
+//			powerMap.put(key, value.toString());
+//		}
+		powerMap=zBuildingService.getPowerMap(macids, recordingEntities);
+		currentPower=zBuildingService.getCurrentPower(timeStart, powerMap);
+//		Set<Entry<String, String>> entrySet=powerMap.entrySet();
+//		List<PowerRecordingEntity> entities=new ArrayList<PowerRecordingEntity>();
+//		for (Entry<String, String> entry : entrySet) {
+//			if(entities.size()!=0){
+//				entities.clear();
+//			}
+//			
+//			String[] values=entry.getValue().split(";");
+//			for (String string : values) {
+//				PowerRecordingEntity entity=new PowerRecordingEntity();
+//				JSONObject object=JSONObject.parseObject(string);
+//				 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//				 Date date=null;
+//				try {
+//					date = sdf.parse((String) object.get("time"));
+//				} catch (ParseException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				entity.setMacid(entry.getKey());
+//				entity.setSavingtime(date);
+//				entity.setRealtimepower(Double.valueOf((String) object.get("power")));
+//				entities.add(entity);
+//			}
+//			
+//			
+//			Double[] avgPower=zBuildingService.getPower(entities,timeStart);
+//			currentPower.put(entry.getKey(), avgPower);
+//			
+//		}
 
 		currentPowerTotal=zBuildingService.getTotalPower(currentPower);
 		typePowerMap=zBuildingService.getPowerByType(recordingEntities, currentPower);
