@@ -515,9 +515,12 @@ public class ZFloorController extends BaseController {
 	@ResponseBody
 	public AjaxJson getDeviceStatus(HttpServletRequest request){
 		AjaxJson j = new AjaxJson();
+		List<ZBuildingEntity> buildings=ZBuildingController.buildings;
+		String buildId=buildings.get(0).getId();
 		Map<String, Object> map=new HashMap<String, Object>();
 		String floorid=request.getParameter("floorid");
 		map=floorServiceImpl.getDeviceStatus(floorid);
+		map.put("floor", jeecgMinidaoService.selectFloorByBuild(buildId).get(0));
 		j.setAttributes(map);
 		return j;
 	}
