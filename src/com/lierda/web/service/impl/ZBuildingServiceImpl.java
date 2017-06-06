@@ -170,7 +170,7 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 	}
 	
 	/**
-	 * 
+	 * 按照计量类型计算各时段功率
 	 * @param recordingEntities
 	 * @param currentPower
 	 */
