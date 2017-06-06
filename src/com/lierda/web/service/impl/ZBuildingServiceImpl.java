@@ -54,7 +54,7 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 			Map.Entry<String, Object> entry=it.next();
 			Double[] value=(Double[]) entry.getValue();
 			for (int i = 0; i < 24; i++) {
-				hour[i]=value[i];
+				hour[i]=hour[i]+value[i];
 			}
 		}
 		
@@ -98,9 +98,6 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 		return avgPower;
 	}
 	
-	public static void main(String[] args) {
-		
-	}
 	/**
 	 * 根据macid将所有能耗信息分组
 	 * 并将macid作为map的key，对应信息作为value存入map中
