@@ -57,7 +57,18 @@ public class PowerRecordingEntity implements java.io.Serializable {
 	private java.lang.String state;
 	/**保存时间*/
 	private java.util.Date savingtime;
+	/**计量类型*/
+	private String type;
 	
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	/**
 	 *方法: 取得java.lang.Integer
 	 *@return: java.lang.Integer  主键id
