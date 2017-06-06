@@ -70,84 +70,29 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 	 * @return
 	 */
 	public Double[] getPower(List<PowerRecordingEntity> entities,long timeStart){
-		List<Double> powerArray0=new ArrayList<Double>();
-		List<Double> powerArray1=new ArrayList<Double>();
-		List<Double> powerArray2=new ArrayList<Double>();
-		List<Double> powerArray3=new ArrayList<Double>();
-		List<Double> powerArray4=new ArrayList<Double>();
-		List<Double> powerArray5=new ArrayList<Double>();
-		List<Double> powerArray6=new ArrayList<Double>();
-		List<Double> powerArray7=new ArrayList<Double>();
-		List<Double> powerArray8=new ArrayList<Double>();
-		List<Double> powerArray9=new ArrayList<Double>();
-		List<Double> powerArray10=new ArrayList<Double>();
-		List<Double> powerArray11=new ArrayList<Double>();
-		List<Double> powerArray12=new ArrayList<Double>();
-		List<Double> powerArray13=new ArrayList<Double>();
-		List<Double> powerArray14=new ArrayList<Double>();
-		List<Double> powerArray15=new ArrayList<Double>();
-		List<Double> powerArray16=new ArrayList<Double>();
-		List<Double> powerArray17=new ArrayList<Double>();
-		List<Double> powerArray18=new ArrayList<Double>();
-		List<Double> powerArray19=new ArrayList<Double>();
-		List<Double> powerArray20=new ArrayList<Double>();
-		List<Double> powerArray21=new ArrayList<Double>();
-		List<Double> powerArray22=new ArrayList<Double>();
-		List<Double> powerArray23=new ArrayList<Double>();
+		Double[] avgPower=new Double[24];
+		Map<String, List<Double>> hourPower=new HashMap<String, List<Double>>();
+		String hour="";
+		for (int i = 0; i <24; i++) {
+			List<Double> powerArray=new ArrayList<Double>();
+			hour=i+"";
+			hourPower.put(hour, powerArray);
+		}
+		
 		timeStart=timeStart*1000;
 		for (PowerRecordingEntity powerRecordingEntity : entities) {
 			long date=powerRecordingEntity.getSavingtime().getTime();
-			if(date<timeStart+3600*1*1000){
-				powerArray0.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*2*1000) {
-				powerArray1.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*3*1000) {
-				powerArray2.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*4*1000) {
-				powerArray3.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*5*1000) {
-				powerArray4.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*6*1000) {
-				powerArray5.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*7*1000) {
-				powerArray6.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*8*1000) {
-				powerArray7.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*9*1000) {
-				powerArray8.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*10*1000) {
-				powerArray9.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*11*1000) {
-				powerArray10.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*12*1000) {
-				powerArray11.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*13*1000) {
-				powerArray12.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*14*1000) {
-				powerArray13.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*15*1000) {
-				powerArray14.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*16*1000) {
-				powerArray15.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*17*1000) {
-				powerArray16.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*18*1000) {
-				powerArray17.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*19*1000) {
-				powerArray18.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*20*1000) {
-				powerArray19.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*21*1000) {
-				powerArray20.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*22*1000) {
-				powerArray21.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*23*1000) {
-				powerArray22.add(powerRecordingEntity.getRealtimepower());
-			}else if (date<timeStart+3600*24*1000) {
-				powerArray23.add(powerRecordingEntity.getRealtimepower());
+			for (int i = 0; i < 24; i++) {
+				if(date<timeStart+3600*(i+1)*1000){
+					hourPower.get(i+"").add(powerRecordingEntity.getRealtimepower());
+					break;
+				}
 			}
 		}
-		Double[] avgPower={AvgPower(powerArray0),AvgPower(powerArray1),AvgPower(powerArray2),AvgPower(powerArray3),AvgPower(powerArray4),AvgPower(powerArray5),AvgPower(powerArray6),AvgPower(powerArray7),AvgPower(powerArray8),AvgPower(powerArray9),AvgPower(powerArray10),AvgPower(powerArray11),AvgPower(powerArray12),AvgPower(powerArray13),AvgPower(powerArray14),AvgPower(powerArray15),AvgPower(powerArray16),AvgPower(powerArray17),AvgPower(powerArray18),AvgPower(powerArray19),AvgPower(powerArray20),AvgPower(powerArray21),AvgPower(powerArray22),AvgPower(powerArray23)};
+		
+		for (int i = 0; i < 24; i++) {
+			avgPower[i]=AvgPower(hourPower.get(i+""));
+		}
 		return avgPower;
 	}
 	
@@ -203,27 +148,27 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 		if(type1.size()!=0){
 			for (String string : type1) {
 				Double[] avgPower=(Double[]) currentPower.get(string);
-				total1[0]=total1[0]+avgPower[0];total1[1]=total1[1]+avgPower[1];total1[2]=total1[2]+avgPower[2];total1[3]=total1[3]+avgPower[3];total1[4]=total1[4]+avgPower[4];total1[5]=total1[5]+avgPower[5];total1[6]=total1[6]+avgPower[6];total1[7]=total1[7]+avgPower[7];total1[8]=total1[8]+avgPower[8];total1[9]=total1[9]+avgPower[9];total1[10]=total1[10]+avgPower[10];
-				total1[11]=total1[11]+avgPower[11];total1[12]=total1[12]+avgPower[12];total1[13]=total1[13]+avgPower[13];total1[14]=total1[14]+avgPower[14];total1[15]=total1[15]+avgPower[15];total1[16]=total1[16]+avgPower[16];total1[17]=total1[17]+avgPower[17];total1[18]=total1[18]+avgPower[18];total1[19]=total1[19]+avgPower[19];total1[20]=total1[20]+avgPower[20];total1[21]=total1[21]+avgPower[21];
-				total1[22]=total1[22]+avgPower[22];total1[23]=total1[23]+avgPower[23];
+				for(int i=0;i<24;i++){
+					total1[i]=total1[i]+avgPower[i];
+				}
 			}
 		}
 		
 		if(type15.size()!=0){
 			for (String string : type15) {
 				Double[] avgPower=(Double[]) currentPower.get(string);
-				total15[0]=total15[0]+avgPower[0];total15[1]=total15[1]+avgPower[1];total15[2]=total15[2]+avgPower[2];total15[3]=total15[3]+avgPower[3];total15[4]=total15[4]+avgPower[4];total15[5]=total15[5]+avgPower[5];total15[6]=total15[6]+avgPower[6];total15[7]=total15[7]+avgPower[7];total15[8]=total15[8]+avgPower[8];total15[9]=total15[9]+avgPower[9];total15[10]=total15[10]+avgPower[10];
-				total15[11]=total15[11]+avgPower[11];total15[12]=total15[12]+avgPower[12];total15[13]=total15[13]+avgPower[13];total15[14]=total15[14]+avgPower[14];total15[15]=total15[15]+avgPower[15];total15[16]=total15[16]+avgPower[16];total15[17]=total15[17]+avgPower[17];total15[18]=total15[18]+avgPower[18];total15[19]=total15[19]+avgPower[19];total15[20]=total15[20]+avgPower[20];total15[21]=total15[21]+avgPower[21];
-				total15[22]=total15[22]+avgPower[22];total15[23]=total15[23]+avgPower[23];
+				for(int i=0;i<24;i++){
+					total15[i]=total15[i]+avgPower[i];
+				}
 			}
 		}
 		
 		if(type26.size()!=0){
 			for (String string : type26) {
 				Double[] avgPower=(Double[]) currentPower.get(string);
-				total26[0]=total26[0]+avgPower[0];total26[1]=total26[1]+avgPower[1];total26[2]=total26[2]+avgPower[2];total26[3]=total26[3]+avgPower[3];total26[4]=total26[4]+avgPower[4];total26[5]=total26[5]+avgPower[5];total26[6]=total26[6]+avgPower[6];total26[7]=total26[7]+avgPower[7];total26[8]=total26[8]+avgPower[8];total26[9]=total26[9]+avgPower[9];total26[10]=total26[10]+avgPower[10];
-				total26[11]=total26[11]+avgPower[11];total26[12]=total26[12]+avgPower[12];total26[13]=total26[13]+avgPower[13];total26[14]=total26[14]+avgPower[14];total26[15]=total26[15]+avgPower[15];total26[16]=total26[16]+avgPower[16];total26[17]=total26[17]+avgPower[17];total26[18]=total26[18]+avgPower[18];total26[19]=total26[19]+avgPower[19];total26[20]=total26[20]+avgPower[20];total26[21]=total26[21]+avgPower[21];
-				total26[22]=total26[22]+avgPower[22];total26[23]=total26[23]+avgPower[23];
+				for(int i=0;i<24;i++){
+					total26[i]=total26[i]+avgPower[i];
+				}
 			}
 		}
 		
