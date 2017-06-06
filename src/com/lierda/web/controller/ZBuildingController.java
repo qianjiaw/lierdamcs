@@ -287,12 +287,12 @@ public class ZBuildingController extends BaseController {
 		Map<String, String> powerMap=new HashMap<String, String>();
 		Map<String, Object> currentPower=new HashMap<String, Object>();
 		Map<String, Object> currentPowerTotal=new HashMap<String, Object>();
-		Map<String, Double[]> typePowerMap=new HashMap<String, Double[]>();
+		Map<String, double[]> typePowerMap=new HashMap<String, double[]>();
 		Set<String> macids=new HashSet<String>();
 		String buildId=request.getParameter("buildId");
 		long timeStart=GeneralUtil.getTimesmorning();
 		long timeStop=GeneralUtil.getTimesnight();
-		String sql="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+timeStop+", '%Y-%m-%d %H:%i:%S')";
+		String sql="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME(1496613612, '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME(1496649612, '%Y-%m-%d %H:%i:%S')";
 		System.out.println(sql);
 		List<PowerRecordingEntity> recordingEntities=jeecgMinidaoService.getPowerBybid(sql);
 		for (PowerRecordingEntity powerRecordingEntity : recordingEntities) {
@@ -341,7 +341,7 @@ public class ZBuildingController extends BaseController {
 			currentPowerTotal=zBuildingService.getTotalPower(currentPower);
 		}
 		
-		typePowerMap=zBuildingService.getPowerByType(recordingEntities, currentPowerTotal);
+		typePowerMap=zBuildingService.getPowerByType(recordingEntities, currentPower);
 		
 		map.put("currentPower", currentPower);//含有macid和各时间段功率
 		map.put("recordingEntities", recordingEntities);//当前建筑物内所有设备功率信息
