@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -126,9 +127,9 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 	 * @param currentPower
 	 */
 	public Map<String, double[]> getPowerByType(List<PowerRecordingEntity> recordingEntities,Map<String, Object> currentPower){
-		List<String> type1=new ArrayList<String>();
-		List<String> type15=new ArrayList<String>();
-		List<String> type26=new ArrayList<String>();
+		Set<String> type1=new HashSet<String>();
+		Set<String> type15=new HashSet<String>();
+		Set<String> type26=new HashSet<String>();
 		Map<String, double[]> powerMap=new HashMap<String, double[]>();
 		double[] total1=new double[24];
 		double[] total15=new double[24];
