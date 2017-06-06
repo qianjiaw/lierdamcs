@@ -42,6 +42,7 @@ import com.lierda.web.entity.ZParkEntity;
 import com.lierda.web.entity.ZRoomEntity;
 import com.lierda.web.service.ZBuildingServiceI;
 import com.lierda.web.service.ZParkServiceI;
+import com.lierda.web.util.GeneralUtil;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -285,19 +286,15 @@ public class ZBuildingController extends BaseController {
 		Map<String, Object> map=new HashMap<String, Object>();
 		Map<String, String> powerMap=new HashMap<String, String>();
 		Map<String, Object> currentPower=new HashMap<String, Object>();
+		Map<String, Object> currentPowerTotal=new HashMap<String, Object>();
+		Map<String, Double[]> typePowerMap=new HashMap<String, Double[]>();
 		Set<String> macids=new HashSet<String>();
 		String buildId=request.getParameter("buildId");
-		System.out.println(buildId+"bbbbbbbbbbbbbbbbbbb");
-//		long timeStart=new Date().getTime()/1000;
-//		long timeStop=timeStart+3600*10;
-		long timeStop=new Date().getTime()/1000;
-		long timeStart=timeStop-3600*10;
-		System.out.println(timeStart+"timeStart");
-		System.out.println(timeStop+"timeStop");
-		String sql="select zpr.* from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+timeStop+", '%Y-%m-%d %H:%i:%S')  group by zpr.macid";
+		long timeStart=GeneralUtil.getTimesmorning();
+		long timeStop=GeneralUtil.getTimesnight();
+		String sql="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+timeStop+", '%Y-%m-%d %H:%i:%S')";
 		System.out.println(sql);
 		List<PowerRecordingEntity> recordingEntities=jeecgMinidaoService.getPowerBybid(sql);
-		System.out.println(recordingEntities.size()+"-----------------");
 		for (PowerRecordingEntity powerRecordingEntity : recordingEntities) {
 			macids.add(powerRecordingEntity.getMacid());
 		}
@@ -315,23 +312,16 @@ public class ZBuildingController extends BaseController {
 		}
 //		zBuildingService.getPowerMap(macids, recordingEntities);
 		
-		Iterator<Map.Entry<String, String>> it=powerMap.entrySet().iterator();
-		while(it.hasNext()){
-			Map.Entry<String, String> entry = it.next();
-			System.out.println(entry.getKey()+"key====");
-			System.out.println(entry.getValue()+"value====");
-		}
-		
-		
 		Set<Entry<String, String>> entrySet=powerMap.entrySet();
 		List<PowerRecordingEntity> entities=new ArrayList<PowerRecordingEntity>();
 		for (Entry<String, String> entry : entrySet) {
 			if(entities.size()!=0){
 				entities.clear();
 			}
-			PowerRecordingEntity entity=new PowerRecordingEntity();
+			
 			String[] values=entry.getValue().split(";");
 			for (String string : values) {
+				PowerRecordingEntity entity=new PowerRecordingEntity();
 				JSONObject object=JSONObject.parseObject(string);
 				 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				 Date date=null;
@@ -346,13 +336,17 @@ public class ZBuildingController extends BaseController {
 				entity.setRealtimepower(Double.valueOf((String) object.get("power")));
 				entities.add(entity);
 			}
-			System.out.println(entities.size()+"=========================");
 			Double[] avgPower=zBuildingService.getPower(entities,timeStart);
 			currentPower.put(entry.getKey(), avgPower);
+			currentPowerTotal=zBuildingService.getTotalPower(currentPower);
 		}
+		
+		typePowerMap=zBuildingService.getPowerByType(recordingEntities, currentPowerTotal);
 		
 		map.put("currentPower", currentPower);//含有macid和各时间段功率
 		map.put("recordingEntities", recordingEntities);//当前建筑物内所有设备功率信息
+		map.put("currentPowerTotal", currentPowerTotal);//各个时间段所有计量功率
+		map.put("typePowerMap", typePowerMap);//按计量类型计算的各时间段功率
 		j.setAttributes(map);
 		return j;
 	}	
@@ -379,5 +373,6 @@ public class ZBuildingController extends BaseController {
 	public static void main(String[] args) {
 		System.out.println(new Date().getTime()/1000);
 		System.out.println(1496647496-3600);
+		System.out.println(new Date().getTime()/1000<(new Date().getTime()/1000-1000));
 	}
 }
