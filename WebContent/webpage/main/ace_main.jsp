@@ -51,7 +51,7 @@
 		
 	</head>
 
-	<body style="width:100%;height:100%;position:absolute;overflow-y:auto;min-height:795px;">
+	<body style="width:100%;height:100%;position:absolute;overflow-y:auto;min-height:795px;min-width: 1024px;">
 		<div class="navbar navbar-default" id="navbar">
 			<script type="text/javascript">
 				try{ace.settings.check('navbar' , 'fixed')}catch(e){}

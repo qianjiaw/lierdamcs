@@ -119,20 +119,21 @@
   	
   	function addbuildings () {
 		$("#buildid").empty();
+		$("#buildid").append('<option selected="selected" disabled="disabled" style="display: none" value=""></option>');
 		for (i in buildings) {
 			$("#buildid").append('<option id="'+buildings[i].id+'" class="inputxt" value="'+buildings[i].id+'">'+buildings[i].buildingname+'</option>');
 		}
   	}
   	function addfloors () {
 		$("#floorid").empty();
-		$("#floorid").append('');
+		$("#floorid").append('<option selected="selected" disabled="disabled" style="display: none" value=""></option>');
 		for (i in floors) {
 			$("#floorid").append('<option id="'+floors[i].id+'" class="inputxt" value="'+floors[i].id+'">'+floors[i].floorname+'</option>');
 		}
   	}
   	function addrooms () {
 		$("#roomid").empty();
-		$("#roomid").append('');
+		$("#roomid").append('<option selected="selected" disabled="disabled" style="display: none" value=""></option>');
 		for (i in rooms) {
 			$("#roomid").append('<option id="'+rooms[i].id+'" class="inputxt" value="'+rooms[i].id+'">'+rooms[i].roomname+'</option>');
 		}

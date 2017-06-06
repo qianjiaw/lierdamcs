@@ -1,0 +1,1 @@
+select id,buildingname from z_building where id='${buildingid}'

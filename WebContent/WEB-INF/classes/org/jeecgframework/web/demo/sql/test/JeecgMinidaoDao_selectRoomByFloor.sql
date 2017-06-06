@@ -1,0 +1,1 @@
+select id,roomname from z_room where floorid=:floorid
