@@ -1,5 +1,6 @@
 package com.lierda.web.service.impl;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lierda.web.entity.PowerRecordingEntity;
 import com.lierda.web.service.ZBuildingServiceI;
 
@@ -146,21 +148,6 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 			}
 		}
 		Double[] avgPower={AvgPower(powerArray0),AvgPower(powerArray1),AvgPower(powerArray2),AvgPower(powerArray3),AvgPower(powerArray4),AvgPower(powerArray5),AvgPower(powerArray6),AvgPower(powerArray7),AvgPower(powerArray8),AvgPower(powerArray9),AvgPower(powerArray10),AvgPower(powerArray11),AvgPower(powerArray12),AvgPower(powerArray13),AvgPower(powerArray14),AvgPower(powerArray15),AvgPower(powerArray16),AvgPower(powerArray17),AvgPower(powerArray18),AvgPower(powerArray19),AvgPower(powerArray20),AvgPower(powerArray21),AvgPower(powerArray22),AvgPower(powerArray23)};
-		for (Double double1 : powerArray0) {
-			System.out.println(double1+"powerArray0");
-		}
-		System.out.println(powerArray0.size());
-		System.out.println(powerArray1.size());
-		System.out.println(powerArray2.size());
-		System.out.println(powerArray3.size());
-		System.out.println(powerArray4.size());
-		System.out.println(powerArray5.size());
-		System.out.println(powerArray6.size());
-		System.out.println(powerArray7.size());
-		System.out.println(powerArray8.size());
-		for (Double double1 : avgPower) {
-			System.out.println(double1+"-===============");
-		}
 		return avgPower;
 	}
 	
@@ -180,7 +167,7 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 			StringBuffer value=new StringBuffer("");
 			for (PowerRecordingEntity powerRecordingEntity : recordingEntities) {
 				if(powerRecordingEntity.getMacid().equals(macid)){
-					String time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(powerRecordingEntity.getSavingtime());
+					String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(powerRecordingEntity.getSavingtime());
 					value.append("{\"time\":\""+time+"\",\"power\":\""+powerRecordingEntity.getRealtimepower()+"\"};");
 				}
 			}
@@ -203,18 +190,6 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 		double[] total15=new double[24];
 		double[] total26=new double[24];
 		
-//		Double count1T0=(double) 0;Double count1T1=(double) 0;Double count1T2=(double) 0;Double count1T3=(double) 0;Double count1T4=(double) 0;Double count1T5=(double) 0;Double count1T6=(double) 0;Double count1T7=(double) 0;Double count1T8=(double) 0;Double count1T9=(double) 0;Double count1T10=(double) 0;
-//		Double count1T11=(double) 0;Double count1T12=(double) 0;Double count1T13=(double) 0;Double count1T14=(double) 0;Double count1T15=(double) 0;Double count1T16=(double) 0;Double count1T17=(double) 0;Double count1T18=(double) 0;Double count1T19=(double) 0;Double count1T20=(double) 0;
-//		Double count1T21=(double) 0;Double count1T22=(double) 0;Double count1T23=(double) 0;
-//		
-//		Double count15T0=(double) 0;Double count15T1=(double) 0;Double count15T2=(double) 0;Double count15T3=(double) 0;Double count15T4=(double) 0;Double count15T5=(double) 0;Double count15T6=(double) 0;Double count15T7=(double) 0;Double count15T8=(double) 0;Double count15T9=(double) 0;Double count15T10=(double) 0;
-//		Double count15T11=(double) 0;Double count15T12=(double) 0;Double count15T13=(double) 0;Double count15T14=(double) 0;Double count15T15=(double) 0;Double count15T16=(double) 0;Double count15T17=(double) 0;Double count15T18=(double) 0;Double count15T19=(double) 0;Double count15T20=(double) 0;
-//		Double count15T21=(double) 0;Double count15T22=(double) 0;Double count15T23=(double) 0;
-//	
-//		Double count26T0=(double) 0;Double count26T1=(double) 0;Double count26T2=(double) 0;Double count26T3=(double) 0;Double count26T4=(double) 0;Double count26T5=(double) 0;Double count26T6=(double) 0;Double count26T7=(double) 0;Double count26T8=(double) 0;Double count26T9=(double) 0;Double count26T10=(double) 0;
-//		Double count26T11=(double) 0;Double count26T12=(double) 0;Double count26T13=(double) 0;Double count26T14=(double) 0;Double count26T15=(double) 0;Double count26T16=(double) 0;Double count26T17=(double) 0;Double count26T18=(double) 0;Double count26T19=(double) 0;Double count26T20=(double) 0;
-//		Double count26T21=(double) 0;Double count26T22=(double) 0;Double count26T23=(double) 0;
-		
 		for (PowerRecordingEntity powerRecordingEntity : recordingEntities) {
 			if(powerRecordingEntity.getType().equals("1")){
 				type1.add(powerRecordingEntity.getMacid());
@@ -228,17 +203,12 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 		if(type1.size()!=0){
 			for (String string : type1) {
 				Double[] avgPower=(Double[]) currentPower.get(string);
-//				count1T0=count1T0+avgPower[0];count1T1=count1T1+avgPower[1];count1T2=count1T2+avgPower[2];count1T3=count1T3+avgPower[3];count1T4=count1T4+avgPower[4];count1T5=count1T5+avgPower[5];count1T6=count1T6+avgPower[6];count1T7=count1T7+avgPower[7];count1T8=count1T8+avgPower[8];count1T9=count1T9+avgPower[9];
-//				count1T10=count1T10+avgPower[10];count1T11=count1T11+avgPower[11];count1T12=count1T12+avgPower[12];count1T13=count1T13+avgPower[13];count1T14=count1T14+avgPower[14];count1T15=count1T15+avgPower[15];count1T16=count1T16+avgPower[16];count1T17=count1T17+avgPower[17];count1T18=count1T18+avgPower[18];count1T19=count1T19+avgPower[19];
-//				count1T20=count1T20+avgPower[20];count1T21=count1T21+avgPower[21];count1T22=count1T22+avgPower[22];count1T23=count1T23+avgPower[23];
 				total1[0]=total1[0]+avgPower[0];total1[1]=total1[1]+avgPower[1];total1[2]=total1[2]+avgPower[2];total1[3]=total1[3]+avgPower[3];total1[4]=total1[4]+avgPower[4];total1[5]=total1[5]+avgPower[5];total1[6]=total1[6]+avgPower[6];total1[7]=total1[7]+avgPower[7];total1[8]=total1[8]+avgPower[8];total1[9]=total1[9]+avgPower[9];total1[10]=total1[10]+avgPower[10];
 				total1[11]=total1[11]+avgPower[11];total1[12]=total1[12]+avgPower[12];total1[13]=total1[13]+avgPower[13];total1[14]=total1[14]+avgPower[14];total1[15]=total1[15]+avgPower[15];total1[16]=total1[16]+avgPower[16];total1[17]=total1[17]+avgPower[17];total1[18]=total1[18]+avgPower[18];total1[19]=total1[19]+avgPower[19];total1[20]=total1[20]+avgPower[20];total1[21]=total1[21]+avgPower[21];
 				total1[22]=total1[22]+avgPower[22];total1[23]=total1[23]+avgPower[23];
-//				for (Double d : avgPower) {
-//					System.out.println(d+"==");
-//				}
 			}
 		}
+		
 		if(type15.size()!=0){
 			for (String string : type15) {
 				Double[] avgPower=(Double[]) currentPower.get(string);
@@ -247,6 +217,7 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 				total15[22]=total15[22]+avgPower[22];total15[23]=total15[23]+avgPower[23];
 			}
 		}
+		
 		if(type26.size()!=0){
 			for (String string : type26) {
 				Double[] avgPower=(Double[]) currentPower.get(string);
@@ -261,5 +232,49 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 		powerMap.put("26", total26);
 		
 		return powerMap;
+	}
+	
+	/**
+	 * 获取各个计量各时间段功率
+	 * @param timeStart
+	 * @param powerMap
+	 * @return
+	 */
+	public Map<String, Object> getCurrentPower(long timeStart,
+			Map<String, String> powerMap) {
+		Map<String, Object> currentPower = new HashMap<String, Object>();
+		Set<Entry<String, String>> entrySet = powerMap.entrySet();
+		List<PowerRecordingEntity> entities = new ArrayList<PowerRecordingEntity>();
+		for (Entry<String, String> entry : entrySet) {
+			if (entities.size() != 0) {
+				entities.clear();
+			}
+
+			String[] values = entry.getValue().split(";");
+			for (String string : values) {
+				PowerRecordingEntity entity = new PowerRecordingEntity();
+				JSONObject object = JSONObject.parseObject(string);
+				SimpleDateFormat sdf = new SimpleDateFormat(
+						"yyyy-MM-dd HH:mm:ss");
+				Date date = null;
+				try {
+					date = sdf.parse((String) object.get("time"));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				entity.setMacid(entry.getKey());
+				entity.setSavingtime(date);
+				entity.setRealtimepower(Double.valueOf((String) object
+						.get("power")));
+				entities.add(entity);
+			}
+
+			Double[] avgPower = getPower(entities, timeStart);
+			currentPower.put(entry.getKey(), avgPower);
+
+		}
+
+		return currentPower;
 	}
 }
