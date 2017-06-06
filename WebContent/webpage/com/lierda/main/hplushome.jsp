@@ -144,6 +144,10 @@ function getBuildFloorMessage(){
 			buildId=showBuilding.id;
 			floors=attributes['floors'];
 			floornum = floors.length;
+			
+
+			////////////////////////after get buildid
+			getPowerBybid();
 		}
 	});
 }
@@ -161,12 +165,12 @@ function getPowerBybid () {
 			var recordingEntities=attributes['recordingEntities'];
 			var currentPowerTotal=attributes['currentPowerTotal'];
 			var typePowerMap=attributes['typePowerMap'];
-			console.log(attributes);
-			console.log(currentPower);
-			console.log(recordingEntities);
-			console.log(currentPowerTotal);
 			console.log(typePowerMap);
 			
+			
+			////////////////////////////after get data
+			////////////////////////////addPowerBar
+			addPowerBar('device-power-spline',typePowerMap);
 		}
 	});
 }
@@ -181,9 +185,6 @@ $(function(){
 
 function getdata () {
 	getAllBuilding();
-	getBuildFloorMessage();
-	getPowerBybid();
-	console.log(showBuilding);
 	setHAndWonload();
 }
 
@@ -204,6 +205,9 @@ function setHAndWonload () {
 	
 	$("#device-sort-power").height(($("#right_bot").get(0).offsetHeight-50)+"px");
 	
+	
+	//////////////////////////////////getdata and add bar/spline
+	getBuildFloorMessage();
 	addAllBar(barheight);
 	addBuilding();
 	
@@ -235,9 +239,6 @@ function addAllBar (height){
 	addDeviceBar('bar-2',height);
 	addDeviceBar('bar-3',height);
 	addDeviceBar('bar-4',height);
-
-	////////////////////////////addPowerBar
-	addPowerBar('device-power-spline');
 }
 
 //////////////////////////addbuilding
@@ -300,7 +301,6 @@ function doChooseBuilding (obj) {
 	buildId = obj.id.split("-")[1];
 	buildName = obj.id.split("-")[2];
 	getBuildFloorMessage();
-	getPowerBybid();
 	refreshBuilding(buildName);
 }
 

@@ -1,9 +1,17 @@
-function addPowerBar (divid) {
+function addPowerBar (divid,ajaxdata) {
 	var myChart = echarts.init(document.getElementById(divid));
+	var lightdata = ajaxdata["1"];
+	var airdata = ajaxdata["15"];
+	var socketdata = ajaxdata["26"];
+	console.log (lightdata);
+	console.log (airdata);
+	console.log (socketdata);
+	
+	
 option = {
     title : {
         text: '设备时功耗（KW·h）',
-        subtext: '假数据'
+        subtext: 'data from www.lierdalux.cn'
     },
 
     tooltip : {
@@ -36,7 +44,7 @@ option = {
         {
             name:'照明',
             type:'bar',
-            data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+            data:lightdata,
             markLine : {
                 data : [
                     {type : 'average', name: '平均值'}
@@ -46,7 +54,7 @@ option = {
         {
             name:'空调',
             type:'bar',
-            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+            data:airdata,
             markLine : {
                 data : [
                     {type : 'average', name : '平均值'}
@@ -56,7 +64,7 @@ option = {
         {
             name:'插座',
             type:'bar',
-            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 15.6, 12.2, 48.7, 1.8, 6.0, 2.3],
+            data:socketdata,
             markLine : {
                 data : [
                     {type : 'average', name : '平均值'}
