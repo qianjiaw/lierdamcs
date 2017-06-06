@@ -292,7 +292,7 @@ public class ZBuildingController extends BaseController {
 		String buildId=request.getParameter("buildId");
 		long timeStart=GeneralUtil.getTimesmorning();
 		long timeStop=GeneralUtil.getTimesnight();
-		String sql="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME(1496613612, '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME(1496649612, '%Y-%m-%d %H:%i:%S')";
+		String sql="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+timeStop+", '%Y-%m-%d %H:%i:%S')";
 		System.out.println(sql);
 		List<PowerRecordingEntity> recordingEntities=jeecgMinidaoService.getPowerBybid(sql);
 		for (PowerRecordingEntity powerRecordingEntity : recordingEntities) {
