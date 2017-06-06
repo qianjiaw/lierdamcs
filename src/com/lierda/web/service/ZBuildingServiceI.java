@@ -19,4 +19,6 @@ public interface ZBuildingServiceI extends CommonService{
 	public Map<String, Object> getTotalPower(Map<String, Object> currentPower);
 	
 	public Map<String, double[]> getPowerByType(List<PowerRecordingEntity> recordingEntities,Map<String, Object> currentPower);
+	
+	public Map<String, Object> getCurrentPower(long timeStart,Map<String, String> powerMap);
 }
