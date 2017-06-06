@@ -170,6 +170,7 @@
 </body>
 
 <script src="/mcs/webpage/com/lierda/main/js/addpage.js"></script>
+<script src="/mcs/webpage/com/lierda/main/js/tablesort.js"></script>
 
 <script>
 	var buildId="";
@@ -198,6 +199,7 @@
 			dataType: "json",
 			success: function(data){
 				attributes=	data.attributes;
+				console.log(attributes);
 				buildings=attributes['allBuildings'];
 				var building=attributes['building'];
 				showBuilding = building[0];
@@ -274,6 +276,8 @@
 		$("#this-floor-top").text(floor[0].floorname + "F楼层房态图");
 		$("#this-floor-cen").text(floor[0].floorname + "F楼层控制模式");
 		
+		//////////////////////////////////////////////addTableSort
+		tableSort("device-state-table");
 
 	});
 	

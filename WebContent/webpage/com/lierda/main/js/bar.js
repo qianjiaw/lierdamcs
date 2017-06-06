@@ -1,6 +1,6 @@
 
 
-function addMainBar (divid,height) {
+function addDeviceBar (divid,height) {
 	////////////////////need to getdata from db
 	var total = 1502;
 	/*var data = ***********************dbdata*********************;*/

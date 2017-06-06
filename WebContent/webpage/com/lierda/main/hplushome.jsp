@@ -5,6 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <script src="/mcs/plug-in/Highcharts-5.0.11/code/highcharts.js"></script>
+<script src="/mcs/plug-in/Echarts/echarts.min.js"></script>
 
 <link rel="stylesheet" href="/mcs/plug-in/lierda/main/hplushome.css" />
 
@@ -29,7 +30,7 @@
 						<div id="building-header" class="building-header">
 							<img alt="" id="buildingheader-pic" class="buildingheader-pic" src="/mcs/images/lierda/main-icon/building-header.png" usemap="#buildingheadermap" ></img>
 							<map name="buildingheadermap" id="buildingheadermap">
-  								<area id="buildingheader" shape="poly" coords="5,70,78,0,151,70" href="#" />
+  								<area id="buildingheader" shape="poly" coords="5,70,78,0,151,70" onclick="freshpage()" />
 							</map>
 						</div>
 						<div id="building-eachfloor" class="building-eachfloor">
@@ -104,7 +105,7 @@
 </body>
 <script type="text/javascript" src="/mcs/plug-in/jquery/jquery-1.8.3.min.js"></script>
 <script src="/mcs/webpage/com/lierda/main/js/bar.js"></script>
-<script src="/mcs/webpage/com/lierda/main/js/spline.js"></script>
+<script src="/mcs/webpage/com/lierda/main/js/powerbar.js"></script>
 <script>
 
 var buildings=[];
@@ -139,8 +140,33 @@ function getBuildFloorMessage(){
 			attributes=	data.attributes;
 			var currentBuild=attributes['currentBuild'];
 			showBuilding = currentBuild[0];
+			console.log(showBuilding);
+			buildId=showBuilding.id;
 			floors=attributes['floors'];
 			floornum = floors.length;
+		}
+	});
+}
+
+function getPowerBybid () {
+	$.ajax({
+		type:"post",
+		async: false,
+		url:"/mcs/zBuildingController.do?getPowerBybid",
+		data: {'buildId':buildId},
+		dataType: "json",
+		success: function(data){
+			attributes=	data.attributes;
+			var currentPower=attributes['currentPower'];
+			var recordingEntities=attributes['recordingEntities'];
+			var currentPowerTotal=attributes['currentPowerTotal'];
+			var typePowerMap=attributes['typePowerMap'];
+			console.log(attributes);
+			console.log(currentPower);
+			console.log(recordingEntities);
+			console.log(currentPowerTotal);
+			console.log(typePowerMap);
+			
 		}
 	});
 }
@@ -156,6 +182,7 @@ $(function(){
 function getdata () {
 	getAllBuilding();
 	getBuildFloorMessage();
+	getPowerBybid();
 	console.log(showBuilding);
 	setHAndWonload();
 }
@@ -178,7 +205,6 @@ function setHAndWonload () {
 	$("#device-sort-power").height(($("#right_bot").get(0).offsetHeight-50)+"px");
 	
 	addAllBar(barheight);
-	addAllSpline();
 	addBuilding();
 	
 }
@@ -197,6 +223,7 @@ function freshHAndW () {
 	$("#bar-4").height(barheight+"px");
 
 	$("#device-power-spline").height(($("#right_cen").get(0).offsetHeight-30)+"px");
+	resizePowerChart('device-power-spline');
 	
 	$("#device-sort-power").height(($("#right_bot").get(0).offsetHeight-50)+"px");
 	
@@ -204,15 +231,13 @@ function freshHAndW () {
 
 ////////////////////////////addbar
 function addAllBar (height){
-	addMainBar('bar-1',height);
-	addMainBar('bar-2',height);
-	addMainBar('bar-3',height);
-	addMainBar('bar-4',height);
-}
+	addDeviceBar('bar-1',height);
+	addDeviceBar('bar-2',height);
+	addDeviceBar('bar-3',height);
+	addDeviceBar('bar-4',height);
 
-////////////////////////////addapline
-function addAllSpline (){
-	addSpline('device-power-spline');
+	////////////////////////////addPowerBar
+	addPowerBar('device-power-spline');
 }
 
 //////////////////////////addbuilding
@@ -275,7 +300,12 @@ function doChooseBuilding (obj) {
 	buildId = obj.id.split("-")[1];
 	buildName = obj.id.split("-")[2];
 	getBuildFloorMessage();
+	getPowerBybid();
 	refreshBuilding(buildName);
+}
+
+function freshpage() {
+	window.location.reload();
 }
 
 </script>
