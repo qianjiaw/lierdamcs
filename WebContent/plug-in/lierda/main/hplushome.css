@@ -90,7 +90,7 @@ select::-ms-expand { display: none; }
 	width:156px;
 	height:70px;
 	margin:0px auto;
-	/*background:url(/mcs/images/lierda/main-icon/building-header.png) no-repeat center;*/
+	/*background:url(/images/lierda/main-icon/building-header.png) no-repeat center;*/
 }
 
 .buildingheader-pic {
@@ -177,7 +177,7 @@ select::-ms-expand { display: none; }
 }
 
 .main-message {
-	background:url(/mcs/images/lierda/main-icon/message.png) no-repeat;
+	background:url(/images/lierda/main-icon/message.png) no-repeat;
 	width:18px;
 	height:21px;
 	float: left;
@@ -186,7 +186,7 @@ select::-ms-expand { display: none; }
 }
 
 .main-device-state {
-	background: url(/mcs/images/lierda/main-icon/bor-power.png) no-repeat;
+	background: url(/images/lierda/main-icon/bor-power.png) no-repeat;
     width: 18px;
     height: 21px;
     float: left;
@@ -195,7 +195,7 @@ select::-ms-expand { display: none; }
 }
 
 .main-pic-power {
-	background: url(/mcs/images/lierda/main-icon/pic-power.png) no-repeat;
+	background: url(/images/lierda/main-icon/pic-power.png) no-repeat;
     width: 18px;
     height: 21px;
     float: left;
@@ -276,21 +276,21 @@ select::-ms-expand { display: none; }
 	height:100%;
 	width:40%;
 	float:left;
-	background:url(/mcs/images/lierda/main-icon/air-condition-pic.PNG) no-repeat center;
+	background:url(/images/lierda/main-icon/air-condition-pic.PNG) no-repeat center;
 }
 
 .light-pic {
 	height:100%;
 	width:40%;
 	float:left;
-	background:url(/mcs/images/lierda/main-icon/light-pic.PNG) no-repeat center;
+	background:url(/images/lierda/main-icon/light-pic.PNG) no-repeat center;
 }
 
 .energy-pic {
 	height:100%;
 	width:40%;
 	float:left;
-	background:url(/mcs/images/lierda/main-icon/energy-pic.PNG) no-repeat center;
+	background:url(/images/lierda/main-icon/energy-pic.PNG) no-repeat center;
 }
 
 .sort-power-text {

@@ -124,7 +124,7 @@ p:active {color: #0000FF}
 }
 
 .unclickth {
-	background: url(/mcs/images/lierda/main-icon/unsort.png) no-repeat;
+	background: url(/images/lierda/main-icon/unsort.png) no-repeat;
     background-size: 100%;
     width: 16px;
     height: 16px;
@@ -132,7 +132,7 @@ p:active {color: #0000FF}
     border: none;
 }
 .clickupth {
-	background: url(/mcs/images/lierda/main-icon/upsort.png) no-repeat;
+	background: url(/images/lierda/main-icon/upsort.png) no-repeat;
     background-size: 100%;
     width: 16px;
     height: 16px;
@@ -140,7 +140,7 @@ p:active {color: #0000FF}
     border: none;
 }
 .clickdownth {
-	background: url(/mcs/images/lierda/main-icon/downsort.png) no-repeat;
+	background: url(/images/lierda/main-icon/downsort.png) no-repeat;
     background-size: 100%;
     width: 16px;
     height: 16px;
