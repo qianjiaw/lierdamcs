@@ -1,6 +1,8 @@
 package com.lierda.web.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.jeecgframework.core.common.service.CommonService;
 
@@ -11,4 +13,10 @@ public interface ZBuildingServiceI extends CommonService{
 	public Double AvgPower(List<Double> powerArray);
 	
 	public Double[] getPower(List<PowerRecordingEntity> entities,long timeStart);
+	
+	public Map<String, String> getPowerMap(Set<String> macids,List<PowerRecordingEntity> recordingEntities);
+	
+	public Map<String, Object> getTotalPower(Map<String, Object> currentPower);
+	
+	public Map<String, Double[]> getPowerByType(List<PowerRecordingEntity> recordingEntities,Map<String, Object> currentPower);
 }
