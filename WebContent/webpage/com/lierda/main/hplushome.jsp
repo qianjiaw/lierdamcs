@@ -4,10 +4,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<script src="/mcs/plug-in/Highcharts-5.0.11/code/highcharts.js"></script>
-<script src="/mcs/plug-in/Echarts/echarts.min.js"></script>
+<script src="/plug-in/Highcharts-5.0.11/code/highcharts.js"></script>
+<script src="/plug-in/Echarts/echarts.min.js"></script>
 
-<link rel="stylesheet" href="/mcs/plug-in/lierda/main/hplushome.css" />
+<link rel="stylesheet" href="/plug-in/lierda/main/hplushome.css" />
 
 
 <title>首页</title>
@@ -28,7 +28,7 @@
 				<div id="building-container" class="building-container">
 					<div id="building-building" class="building-building">
 						<div id="building-header" class="building-header">
-							<img alt="" id="buildingheader-pic" class="buildingheader-pic" src="/mcs/images/lierda/main-icon/building-header.png" usemap="#buildingheadermap" ></img>
+							<img alt="" id="buildingheader-pic" class="buildingheader-pic" src="/images/lierda/main-icon/building-header.png" usemap="#buildingheadermap" ></img>
 							<map name="buildingheadermap" id="buildingheadermap">
   								<area id="buildingheader" shape="poly" coords="5,70,78,0,151,70" onclick="freshpage()" />
 							</map>
@@ -103,9 +103,9 @@
 		
 	</div>
 </body>
-<script type="text/javascript" src="/mcs/plug-in/jquery/jquery-1.8.3.min.js"></script>
-<script src="/mcs/webpage/com/lierda/main/js/bar.js"></script>
-<script src="/mcs/webpage/com/lierda/main/js/powerbar.js"></script>
+<script type="text/javascript" src="/plug-in/jquery/jquery-1.8.3.min.js"></script>
+<script src="/webpage/com/lierda/main/js/bar.js"></script>
+<script src="/webpage/com/lierda/main/js/powerbar.js"></script>
 <script>
 
 var buildings=[];
@@ -119,7 +119,7 @@ function getAllBuilding(){
 	$.ajax({
 		type:"post",
 		async: false,
-		url:"/mcs/zBuildingController.do?getAllBuildings",
+		url:"/zBuildingController.do?getAllBuildings",
 		data: {},
 		dataType: "json",
 		success: function(data){
@@ -133,7 +133,7 @@ function getBuildFloorMessage(){
 	$.ajax({
 		type:"post",
 		async: false,
-		url:"/mcs/zFloorController.do?getDetailByBuildingid",
+		url:"/zFloorController.do?getDetailByBuildingid",
 		data: {'buildId':buildId},
 		dataType: "json",
 		success: function(data){
@@ -156,7 +156,7 @@ function getPowerBybid () {
 	$.ajax({
 		type:"post",
 		async: false,
-		url:"/mcs/zBuildingController.do?getPowerBybid",
+		url:"/zBuildingController.do?getPowerBybid",
 		data: {'buildId':buildId},
 		dataType: "json",
 		success: function(data){
@@ -262,7 +262,7 @@ function refreshBuilding (buildName){
 }
 function selectFloor(obj){
 	var id = obj.id.split("-")[1];
-	window.location.href="/mcs/webpage/com/lierda/main/FloorHome.jsp?floorid="+id+"";
+	window.location.href="/webpage/com/lierda/main/FloorHome.jsp?floorid="+id+"";
 }
 
 function getHeight(divid) {
@@ -287,7 +287,7 @@ function choosebuilding () {
 	for(key in buildings){
 		$("#building-choose-main").append(
 			'<div id="building-'+buildings[key].id+'-'+buildings[key].buildingname+'" onclick="doChooseBuilding(this)" class="each-building">'+
-    			'<img style="width: 100%;height:156px;" alt="" src="/mcs/images/lierda/main-icon/building-choose.png"></img>'+
+    			'<img style="width: 100%;height:156px;" alt="" src="/images/lierda/main-icon/building-choose.png"></img>'+
     			'<p class="building-choose-font">'+buildings[key].buildingname+'</p>'+
     		'</div>'
     	);

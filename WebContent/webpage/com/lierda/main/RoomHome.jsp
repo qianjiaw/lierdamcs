@@ -7,10 +7,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript" src="/mcs/plug-in/jquery/jquery-1.8.3.min.js"></script>
-<script src="/mcs/plug-in/Highcharts-5.0.11/code/highcharts.js"></script>
-<link rel="stylesheet" href="/mcs/plug-in/lierda/main/roommain.css" />
-<link rel="stylesheet" href="/mcs/plug-in/lierda/main/hplushome.css" />
+<script type="text/javascript" src="/plug-in/jquery/jquery-1.8.3.min.js"></script>
+<script src="/plug-in/Highcharts-5.0.11/code/highcharts.js"></script>
+<link rel="stylesheet" href="/plug-in/lierda/main/roommain.css" />
+<link rel="stylesheet" href="/plug-in/lierda/main/hplushome.css" />
 
 <title>楼层首页</title>
 </head>
@@ -31,7 +31,7 @@
 				<div id="building-container" class="building-container">
 					<div id="building-building" class="building-building">
 						<div id="building-header" class="building-header">
-							<img alt="" id="buildingheader-pic" class="buildingheader-pic" src="/mcs/images/lierda/main-icon/building-header.png" usemap="#buildingheadermap" ></img>
+							<img alt="" id="buildingheader-pic" class="buildingheader-pic" src="/images/lierda/main-icon/building-header.png" usemap="#buildingheadermap" ></img>
 							<map name="buildingheadermap" id="buildingheadermap">
   								<area id="buildingheader" shape="poly" coords="5,70,78,0,151,70" href="hplushome.jsp" />
 							</map>
@@ -55,7 +55,7 @@
 							<span id="sence-font" class="sence-font">情景模式选择</span>
 						</div>
 						<div id="choose-sence" class="choose-sence">
-							<img alt="" id="sence-pic" class="sence-pic" src="/mcs/images/lierda/main-icon/sence-main.png" usemap="#sencemap" />
+							<img alt="" id="sence-pic" class="sence-pic" src="/images/lierda/main-icon/sence-main.png" usemap="#sencemap" />
 							<map name="sencemap" id="sencemap">
   								<area id="sence-one" shape="polygon" coords="15,0,44,0,57,25,44,50,15,50,0,25" href="href="hplushome.jsp"" />
 							</map>
@@ -116,9 +116,9 @@
 
 </body>
 
-<script src="/mcs/plug-in/Echarts/echarts.min.js"></script>
-<script src="/mcs/webpage/com/lierda/main/js/addpage.js"></script>
-<script src="/mcs/webpage/com/lierda/main/js/roompowerchart.js"></script>
+<script src="/plug-in/Echarts/echarts.min.js"></script>
+<script src="/webpage/com/lierda/main/js/addpage.js"></script>
+<script src="/webpage/com/lierda/main/js/roompowerchart.js"></script>
 
 <script>
 	var roomid = getRequest().roomid;
@@ -138,7 +138,7 @@
 		$.ajax({
 			type:"post",
 			async: false,
-			url:"/mcs/zRoomController.do?getDetailByRoomid",
+			url:"/zRoomController.do?getDetailByRoomid",
 			data: {'roomid':roomid},
 			dataType: "json",
 			success: function(data){
@@ -169,7 +169,7 @@
 		$.ajax({
 			type:"post",
 			async: false,
-			url:"/mcs/zFloorController.do?getDetailByBuildingid",
+			url:"/zFloorController.do?getDetailByBuildingid",
 			data: {'buildId':buildId},
 			dataType: "json",
 			success: function(data){
@@ -305,14 +305,14 @@
 
 	function selectFloor(obj){
 		var id = obj.id.split("-")[1];
-		window.location.href="/mcs/webpage/com/lierda/main/FloorHome.jsp?floorid="+id+"";
+		window.location.href="/webpage/com/lierda/main/FloorHome.jsp?floorid="+id+"";
 	}
 	
 	function senceone () {
-		$("#sence-pic").attr('src',"/mcs/images/lierda/main-icon/sence-one.png"); 
+		$("#sence-pic").attr('src',"/images/lierda/main-icon/sence-one.png"); 
 	}
 	function sencemain () {
-		$("#sence-pic").attr('src',"/mcs/images/lierda/main-icon/sence-main.png"); 
+		$("#sence-pic").attr('src',"/images/lierda/main-icon/sence-main.png"); 
 	}
 	
 	function changethstate(e) {
@@ -344,7 +344,7 @@
 		for(key in buildings){
 			$("#building-choose-main").append(
 				'<div id="building-'+buildings[key].id+'-'+buildings[key].buildingname+'" onclick="doChooseBuilding(this)" class="each-building">'+
-	    			'<img style="width: 100%;height:156px;" alt="" src="/mcs/images/lierda/main-icon/building-choose.png"></img>'+
+	    			'<img style="width: 100%;height:156px;" alt="" src="/images/lierda/main-icon/building-choose.png"></img>'+
 	    			'<p class="building-choose-font">'+buildings[key].buildingname+'</p>'+
 	    		'</div>'
 	    	);

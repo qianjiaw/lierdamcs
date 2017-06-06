@@ -7,10 +7,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript" src="/mcs/plug-in/jquery/jquery-1.8.3.min.js"></script>
-<script src="/mcs/plug-in/Highcharts-5.0.11/code/highcharts.js"></script>
-<link rel="stylesheet" href="/mcs/plug-in/lierda/main/floormain.css" />
-<link rel="stylesheet" href="/mcs/plug-in/lierda/main/hplushome.css" />
+<script type="text/javascript" src="/plug-in/jquery/jquery-1.8.3.min.js"></script>
+<script src="/plug-in/Highcharts-5.0.11/code/highcharts.js"></script>
+<link rel="stylesheet" href="/plug-in/lierda/main/floormain.css" />
+<link rel="stylesheet" href="/plug-in/lierda/main/hplushome.css" />
 
 <title>楼层首页</title>
 </head>
@@ -31,7 +31,7 @@
 				<div id="building-container" class="building-container">
 					<div id="building-building" class="building-building">
 						<div id="building-header" class="building-header">
-							<img alt="" id="buildingheader-pic" class="buildingheader-pic" src="/mcs/images/lierda/main-icon/building-header.png" usemap="#buildingheadermap" ></img>
+							<img alt="" id="buildingheader-pic" class="buildingheader-pic" src="/images/lierda/main-icon/building-header.png" usemap="#buildingheadermap" ></img>
 							<map name="buildingheadermap" id="buildingheadermap">
   								<area id="buildingheader" shape="poly" coords="5,70,78,0,151,70" href="hplushome.jsp" />
 							</map>
@@ -169,8 +169,8 @@
 
 </body>
 
-<script src="/mcs/webpage/com/lierda/main/js/addpage.js"></script>
-<script src="/mcs/webpage/com/lierda/main/js/tablesort.js"></script>
+<script src="/webpage/com/lierda/main/js/addpage.js"></script>
+<script src="/webpage/com/lierda/main/js/tablesort.js"></script>
 
 <script>
 	var buildId="";
@@ -194,7 +194,7 @@
 		$.ajax({
 			type:"post",
 			async: false,
-			url:"/mcs/zFloorController.do?getDetailByFloorid",
+			url:"/zFloorController.do?getDetailByFloorid",
 			data: {'floorid':floorid},
 			dataType: "json",
 			success: function(data){
@@ -223,7 +223,7 @@
 		$.ajax({
 			type:"post",
 			async: false,
-			url:"/mcs/zFloorController.do?getDeviceStatus",
+			url:"/zFloorController.do?getDeviceStatus",
 			data: {'floorid':floorid},
 			dataType: "json",
 			success: function(data){
@@ -242,7 +242,7 @@
 		$.ajax({
 			type:"post",
 			async: false,
-			url:"/mcs/zFloorController.do?getDetailByBuildingid",
+			url:"/zFloorController.do?getDetailByBuildingid",
 			data: {'buildId':buildId},
 			dataType: "json",
 			success: function(data){
@@ -354,7 +354,7 @@
 			$("#roomcheckform").append('<div id="room-check-'+i+'" style="height:'+height+'px;width:'+width+'px;min-width:50px;float:left;margin-left:2px;margin-top:2px;"></div>');
 			$("#room-check-"+i+"").append('<input type="checkbox" style="top: 50%;margin-top: -6px;position: relative;float:left;"  value="'+rooms[i].id+'"></input>');
 			$("#room-check-"+i+"").append('<a style="float:left;position:relative;font-size: 12px;font-weight:bold;line-height:'+height+'px;">'+rooms[i].roomname+'</a>');
-			//href="/mcs/webpage/com/lierda/main/RoomHome.jsp?roomid='+rooms[i].id+'"
+			//href="/webpage/com/lierda/main/RoomHome.jsp?roomid='+rooms[i].id+'"
 		}
 	}
 	
@@ -400,7 +400,7 @@
 		$.ajax({
 			type:"post",
 			async: false,
-			url:"/mcs/zFloorController.do?getAllDeviceByRAT",
+			url:"/zFloorController.do?getAllDeviceByRAT",
 			data: {'roomtypedata':data},
 			dataType: "json",
 			success: function(data){
@@ -497,13 +497,13 @@
 				'</tr>'
 			);
 			if (roomState.airConditioner.status == "ON") {
-				$("#air-mode").append('<img src="/mcs/images/lierda/roomstate/'+roomState.airConditioner.status+'.png" style="height:100%;width:100%;"></img>');
+				$("#air-mode").append('<img src="/images/lierda/roomstate/'+roomState.airConditioner.status+'.png" style="height:100%;width:100%;"></img>');
 				$("#air-mode").append('<span>'+roomState.airConditioner.temperature+'℃</span>');
 				switch(roomState.airConditioner.windSpeed)
 				{
-				case 1 :$("#air-mode").append('<img src="/mcs/images/lierda/roomstate/airwind-1.png" style="height:100%;width:100%;"></img>');
-				case 2 :$("#air-mode").append('<img src="/mcs/images/lierda/roomstate/airwind-2.png" style="height:100%;width:100%;"></img>');
-				case 3 :$("#air-mode").append('<img src="/mcs/images/lierda/roomstate/airwind-3.png" style="height:100%;width:100%;"></img>');
+				case 1 :$("#air-mode").append('<img src="/images/lierda/roomstate/airwind-1.png" style="height:100%;width:100%;"></img>');
+				case 2 :$("#air-mode").append('<img src="/images/lierda/roomstate/airwind-2.png" style="height:100%;width:100%;"></img>');
+				case 3 :$("#air-mode").append('<img src="/images/lierda/roomstate/airwind-3.png" style="height:100%;width:100%;"></img>');
 				default:$("#air-mode").append('');
 				};
 				
@@ -577,12 +577,12 @@
 	
 	function selectFloor(obj){
 		var id = obj.id.split("-")[1];
-		window.location.href="/mcs/webpage/com/lierda/main/FloorHome.jsp?floorid="+id+"";
+		window.location.href="/webpage/com/lierda/main/FloorHome.jsp?floorid="+id+"";
 	}
 	
 	function selectRoom (thisroom) {
 		var id = thisroom.id.split("-")[2];
-		window.location.href="/mcs/webpage/com/lierda/main/RoomHome.jsp?roomid="+id+"";
+		window.location.href="/webpage/com/lierda/main/RoomHome.jsp?roomid="+id+"";
 	}
 	function choosebuilding () {
 		$("#building-choose-main").css("display","block");
@@ -590,7 +590,7 @@
 		for(key in buildings){
 			$("#building-choose-main").append(
 				'<div id="building-'+buildings[key].id+'-'+buildings[key].buildingname+'" onclick="doChooseBuilding(this)" class="each-building">'+
-	    			'<img style="width: 100%;height:156px;" alt="" src="/mcs/images/lierda/main-icon/building-choose.png"></img>'+
+	    			'<img style="width: 100%;height:156px;" alt="" src="/images/lierda/main-icon/building-choose.png"></img>'+
 	    			'<p class="building-choose-font">'+buildings[key].buildingname+'</p>'+
 	    		'</div>'
 	    	);
