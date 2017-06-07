@@ -41,6 +41,7 @@ import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZParkEntity;
 import com.lierda.web.entity.ZRoomEntity;
 import com.lierda.web.service.ZBuildingServiceI;
+import com.lierda.web.service.ZFloorServiceI;
 import com.lierda.web.service.ZParkServiceI;
 import com.lierda.web.util.GeneralUtil;
 
@@ -85,6 +86,8 @@ public class ZBuildingController extends BaseController {
 
 	@Autowired
 	private ZBuildingServiceI zBuildingService;
+	@Autowired
+	private ZFloorServiceI zFloorService;
 	@Autowired
 	private ZParkServiceI zParkService;
 	@Autowired
@@ -299,50 +302,8 @@ public class ZBuildingController extends BaseController {
 			macids.add(powerRecordingEntity.getMacid());
 		}
 		
-//		for (String  macid : macids) {
-//			String key=macid;
-//			StringBuffer value=new StringBuffer("");
-//			for (PowerRecordingEntity powerRecordingEntity : recordingEntities) {
-//				if(powerRecordingEntity.getMacid().equals(macid)){
-//					String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(powerRecordingEntity.getSavingtime());
-//					value.append("{\"time\":\""+time+"\",\"power\":\""+powerRecordingEntity.getRealtimepower()+"\"};");
-//				}
-//			}
-//			powerMap.put(key, value.toString());
-//		}
 		powerMap=zBuildingService.getPowerMap(macids, recordingEntities);
 		currentPower=zBuildingService.getCurrentPower(timeStart, powerMap);
-//		Set<Entry<String, String>> entrySet=powerMap.entrySet();
-//		List<PowerRecordingEntity> entities=new ArrayList<PowerRecordingEntity>();
-//		for (Entry<String, String> entry : entrySet) {
-//			if(entities.size()!=0){
-//				entities.clear();
-//			}
-//			
-//			String[] values=entry.getValue().split(";");
-//			for (String string : values) {
-//				PowerRecordingEntity entity=new PowerRecordingEntity();
-//				JSONObject object=JSONObject.parseObject(string);
-//				 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//				 Date date=null;
-//				try {
-//					date = sdf.parse((String) object.get("time"));
-//				} catch (ParseException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				entity.setMacid(entry.getKey());
-//				entity.setSavingtime(date);
-//				entity.setRealtimepower(Double.valueOf((String) object.get("power")));
-//				entities.add(entity);
-//			}
-//			
-//			
-//			Double[] avgPower=zBuildingService.getPower(entities,timeStart);
-//			currentPower.put(entry.getKey(), avgPower);
-//			
-//		}
-
 		currentPowerTotal=zBuildingService.getTotalPower(currentPower);
 		typePowerMap=zBuildingService.getPowerByType(recordingEntities, currentPower);
 		
@@ -372,13 +333,53 @@ public class ZBuildingController extends BaseController {
 		return j;
 	}	
 
+	/**
+	 * 获取指定建筑物所有房间的设备状态
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "getDeviceStatus")
+	@ResponseBody
+	public AjaxJson getDeviceStatus(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		long[] counts=new long[4];//各类型设备总数数组
+		long[] usingCount=new long[4];//各类型设备正在使用的总数数组
+		List<ZBuildingEntity> buildings=ZBuildingController.buildings;
+		Map<String, Object> map=new HashMap<String, Object>();
+		Map<String, Object> countMap=new HashMap<String, Object>();
+		String buildId=request.getParameter("buildId");
+		String floorId="";
+		if(buildId==null||buildId.equals("")){
+			buildId=buildings.get(0).getId();
+		}
+//		map=zBuildingService.getDeviceStatus(buildId);
+		List<ZFloorEntity> floors=jeecgMinidaoService.selectFloorByBuild(buildId);
+//		map=zFloorService.getDeviceStatus(floorid);
+		for (ZFloorEntity zFloorEntity : floors) {
+			floorId=zFloorEntity.getId();
+			map=zFloorService.getDeviceStatus(floorId,"building");
+			for(int i=0;i<4;i++){
+				counts[i]=((long[])map.get("counts"))[i]+counts[i];
+				usingCount[i]=((long[])map.get("usingCount"))[i]+usingCount[i];
+			}
+		}
+		
+		countMap.put("counts", counts);
+		countMap.put("usingCount", usingCount);
+		
+		j.setAttributes(countMap);
+		return j;
+	}
 	
 	public static void main(String[] args) {
-		System.out.println(new Date().getTime()/1000);
-		System.out.println(1496647496-3600);
-		System.out.println(new Date().getTime()/1000<(new Date().getTime()/1000-1000));
-		System.out.println(1496678400);
-		System.out.println(new Date().getTime()/1000);
-		System.out.println((new Date().getTime()/1000-1496678400)/3600);
+//		System.out.println(new Date().getTime()/1000);
+//		System.out.println(1496647496-3600);
+//		System.out.println(new Date().getTime()/1000<(new Date().getTime()/1000-1000));
+//		System.out.println(1496678400);
+//		System.out.println(new Date().getTime()/1000);
+//		System.out.println((new Date().getTime()/1000-1496678400)/3600);
+		ArrayList<String> l=new ArrayList<String>();
+//		l.add(0, "klkkk");
+		System.out.println(l.get(0));
 	}
 }
