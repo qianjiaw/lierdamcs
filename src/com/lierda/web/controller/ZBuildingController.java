@@ -349,20 +349,8 @@ public class ZBuildingController extends BaseController {
 		if(buildId==null||buildId.equals("")){
 			buildId=buildings.get(0).getId();
 		}
-//		map=zBuildingService.getDeviceStatus(buildId);
 		List<ZFloorEntity> floors=jeecgMinidaoService.selectFloorByBuild(buildId);
-//		map=zFloorService.getDeviceStatus(floorid);
-//		for (ZFloorEntity zFloorEntity : floors) {
-//			floorId=zFloorEntity.getId();
-//			map=zFloorService.getDeviceStatus(floorId,"building");
-//			for(int i=0;i<4;i++){
-//				counts[i]=((long[])map.get("counts"))[i]+counts[i];
-//				usingCount[i]=((long[])map.get("usingCount"))[i]+usingCount[i];
-//			}
-//		}
 		
-//		countMap.put("counts", counts);
-//		countMap.put("usingCount", usingCount);
 		countMap=zBuildingService.getDeviceCount(floors);
 		
 		j.setAttributes(countMap);
