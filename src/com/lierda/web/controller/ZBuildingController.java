@@ -357,6 +357,46 @@ public class ZBuildingController extends BaseController {
 		return j;
 	}
 	
+	/**
+	 * 获取建筑物内今日距离当前最近能耗记录和昨日最后一次能耗记录
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "getDayPower")
+	@ResponseBody
+	public AjaxJson getDayPower(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		Map<String, Object> map=new HashMap<String, Object>();
+		String buildId=request.getParameter("buildId");
+		long timeStart=GeneralUtil.getTimesmorning();
+		long yesterdaytStart=timeStart-3600*24;
+		long yesterdaytStop=timeStart-1;
+		long currentTime=new Date().getTime()/1000;
+		if(buildId==null||buildId.equals("")){
+			buildId=buildings.get(0).getId();
+		}
+		//插座
+		String stripToday="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid join z_device device on device.macid=zpt.devicemac where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+currentTime+", '%Y-%m-%d %H:%i:%S') and device.type='26' order  by  zpr.savingtime desc limit 1";
+		String stripYesterday="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid join z_device device on device.macid=zpt.devicemac where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+yesterdaytStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+yesterdaytStop+", '%Y-%m-%d %H:%i:%S') and device.type='26' order  by  zpr.savingtime desc limit 1";
+		//空调
+		String conditionerToday="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid join z_device device on device.macid=zpt.devicemac where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+currentTime+", '%Y-%m-%d %H:%i:%S') and device.type='15' order  by  zpr.savingtime desc limit 1";
+		String conditionerYesterday="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid join z_device device on device.macid=zpt.devicemac where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+yesterdaytStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+yesterdaytStop+", '%Y-%m-%d %H:%i:%S') and device.type='15' order  by  zpr.savingtime desc limit 1";
+//		System.out.println(sqlToday);
+//		System.out.println(sqlYesterday);
+		List<PowerRecordingEntity> stripRecordToday=jeecgMinidaoService.getPowerBybid(stripToday);
+		List<PowerRecordingEntity> stripRecordYesterday=jeecgMinidaoService.getPowerBybid(stripYesterday);
+		List<PowerRecordingEntity> conditionerRecordToday=jeecgMinidaoService.getPowerBybid(conditionerToday);
+		List<PowerRecordingEntity> conditionerRecordYesterday=jeecgMinidaoService.getPowerBybid(conditionerYesterday);
+		
+		map.put("stripRecordToday", stripRecordToday.size()==0?0:stripRecordToday.get(0).getAllpower());
+		map.put("stripRecordYesterday", stripRecordYesterday.size()==0?0:stripRecordYesterday.get(0).getAllpower());
+		map.put("conditionerRecordToday", conditionerRecordToday.size()==0?0:conditionerRecordToday.get(0).getAllpower());
+		map.put("conditionerRecordYesterday", conditionerRecordYesterday.size()==0?0:conditionerRecordYesterday.get(0).getAllpower());
+		
+		j.setAttributes(map);
+		return j;
+	}
+	
 	public static void main(String[] args) {
 //		System.out.println(new Date().getTime()/1000);
 //		System.out.println(1496647496-3600);
