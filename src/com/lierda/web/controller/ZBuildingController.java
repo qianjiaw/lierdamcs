@@ -87,8 +87,6 @@ public class ZBuildingController extends BaseController {
 	@Autowired
 	private ZBuildingServiceI zBuildingService;
 	@Autowired
-	private ZFloorServiceI zFloorService;
-	@Autowired
 	private ZParkServiceI zParkService;
 	@Autowired
 	private SystemService systemService;
@@ -334,18 +332,17 @@ public class ZBuildingController extends BaseController {
 	}	
 
 	/**
-	 * 获取指定建筑物所有房间的设备状态
+	 * 获取指定建筑物内所有设备总数量和正在使用总数量
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(params = "getDeviceStatus")
+	@RequestMapping(params = "getDeviceCount")
 	@ResponseBody
-	public AjaxJson getDeviceStatus(HttpServletRequest request){
+	public AjaxJson getDeviceCount(HttpServletRequest request){
 		AjaxJson j = new AjaxJson();
 		long[] counts=new long[4];//各类型设备总数数组
 		long[] usingCount=new long[4];//各类型设备正在使用的总数数组
 		List<ZBuildingEntity> buildings=ZBuildingController.buildings;
-		Map<String, Object> map=new HashMap<String, Object>();
 		Map<String, Object> countMap=new HashMap<String, Object>();
 		String buildId=request.getParameter("buildId");
 		String floorId="";
@@ -355,17 +352,18 @@ public class ZBuildingController extends BaseController {
 //		map=zBuildingService.getDeviceStatus(buildId);
 		List<ZFloorEntity> floors=jeecgMinidaoService.selectFloorByBuild(buildId);
 //		map=zFloorService.getDeviceStatus(floorid);
-		for (ZFloorEntity zFloorEntity : floors) {
-			floorId=zFloorEntity.getId();
-			map=zFloorService.getDeviceStatus(floorId,"building");
-			for(int i=0;i<4;i++){
-				counts[i]=((long[])map.get("counts"))[i]+counts[i];
-				usingCount[i]=((long[])map.get("usingCount"))[i]+usingCount[i];
-			}
-		}
+//		for (ZFloorEntity zFloorEntity : floors) {
+//			floorId=zFloorEntity.getId();
+//			map=zFloorService.getDeviceStatus(floorId,"building");
+//			for(int i=0;i<4;i++){
+//				counts[i]=((long[])map.get("counts"))[i]+counts[i];
+//				usingCount[i]=((long[])map.get("usingCount"))[i]+usingCount[i];
+//			}
+//		}
 		
-		countMap.put("counts", counts);
-		countMap.put("usingCount", usingCount);
+//		countMap.put("counts", counts);
+//		countMap.put("usingCount", usingCount);
+		countMap=zBuildingService.getDeviceCount(floors);
 		
 		j.setAttributes(countMap);
 		return j;
