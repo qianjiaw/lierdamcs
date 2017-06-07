@@ -521,7 +521,7 @@ public class ZFloorController extends BaseController {
 		if(floorid==null||floorid.equals("")){
 			floorid=jeecgMinidaoService.selectFloorByBuild(buildId).get(0).getId();
 		}
-		map=floorServiceImpl.getDeviceStatus(floorid);
+		map=floorServiceImpl.getDeviceStatus(floorid,"");
 		j.setAttributes(map);
 		return j;
 	}
