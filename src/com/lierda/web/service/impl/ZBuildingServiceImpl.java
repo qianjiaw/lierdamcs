@@ -12,18 +12,25 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lierda.web.entity.PowerRecordingEntity;
+import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.service.ZBuildingServiceI;
+import com.lierda.web.service.ZFloorServiceI;
 
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 
 @Service("zBuildingService")
 @Transactional
 public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuildingServiceI {
+	
+	@Autowired
+	private ZFloorServiceI zFloorService;
+	
 	/**
 	 * 获取单个时间段内功率
 	 * @param powerArray
@@ -88,6 +95,10 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 			for (int i = 0; i < 24; i++) {
 				if(date<timeStart+3600*(i+1)*1000){
 					hourPower.get(i+"").add(powerRecordingEntity.getRealtimepower());
+					if(powerRecordingEntity.getMacid().equals("00124B000A993D58")){
+						System.out.println(powerRecordingEntity.getRealtimepower()+"power");
+						System.out.println(i);
+					}
 					break;
 				}
 			}
@@ -222,4 +233,33 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 
 		return currentPower;
 	}
+
+	
+	/**
+	 * 获取指定建筑物内所有设备总数量和正在使用总数量
+	 * @param floors
+	 * @return
+	 */
+	public Map<String, Object> getDeviceCount(List<ZFloorEntity> floors) {
+		String floorId = "";
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> countMap = new HashMap<String, Object>();
+		long[] counts = new long[4];// 各类型设备总数数组
+		long[] usingCount = new long[4];// 各类型设备正在使用的总数数组
+		for (ZFloorEntity zFloorEntity : floors) {
+			floorId = zFloorEntity.getId();
+			map = zFloorService.getDeviceStatus(floorId, "building");
+			for (int i = 0; i < 4; i++) {
+				counts[i] = ((long[]) map.get("counts"))[i] + counts[i];
+				usingCount[i] = ((long[]) map.get("usingCount"))[i]
+						+ usingCount[i];
+			}
+		}
+		
+		countMap.put("counts", counts);
+		countMap.put("usingCount", usingCount);
+
+		return countMap;
+	}
+	
 }
