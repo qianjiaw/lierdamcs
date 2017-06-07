@@ -7,6 +7,7 @@ import java.util.Set;
 import org.jeecgframework.core.common.service.CommonService;
 
 import com.lierda.web.entity.PowerRecordingEntity;
+import com.lierda.web.entity.ZFloorEntity;
 
 public interface ZBuildingServiceI extends CommonService{
 
@@ -21,4 +22,6 @@ public interface ZBuildingServiceI extends CommonService{
 	public Map<String, double[]> getPowerByType(List<PowerRecordingEntity> recordingEntities,Map<String, Object> currentPower);
 	
 	public Map<String, Object> getCurrentPower(long timeStart,Map<String, String> powerMap);
+	
+	public Map<String, Object>  getDeviceCount(List<ZFloorEntity> floors);
 }
