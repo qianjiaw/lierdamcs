@@ -1,5 +1,6 @@
 package com.lierda.web.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +37,10 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 	 * 获取指定楼层所有房间的各个设备状态
 	 * @return
 	 */
-	public Map<String, Object> getDeviceStatus(String floorid) {
+	public Map<String, Object> getDeviceStatus(String floorid,String flag) {
 		Map<String, Object> map=new HashMap<String, Object>();
+		long[] counts=new long[4];//各类型设备总数数组
+		long[] usingCount=new long[4];//各类型设备正在使用的总数数组
 		String roomid = "";
 		List<ZRoomEntity> rooms = jeecgMinidaoService
 				.selectRoomByFloor(floorid);//所有房间id，名称
@@ -46,6 +49,19 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 			roomid = zRoomEntity.getId();
 			DeviceStatus deviceStatus = new DeviceStatus();
 			//获取当前房间各设备状态
+			
+			if(flag.equals("building")){
+				//房间内所有设备总数
+				long total=getCountForJdbcParam("select count(*)  from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id=?", new String[]{roomid});
+				//照明
+				counts[0]=counts[0]+getCountForJdbcParam("select count(*) from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id=? and device.type='1'", new String[]{roomid});
+				//插座
+				counts[1]=counts[1]+getCountForJdbcParam("select count(*) from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id=? and device.type='26'", new String[]{roomid});
+				//空调
+				counts[2]=counts[2]+getCountForJdbcParam("select count(*) from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id=? and device.type='15'", new String[]{roomid});
+				//其他
+				counts[3]=total-(counts[0]+counts[1]+counts[2]);
+			}
 			
 			// 人感
 			List<String> senseAttr = findListbySql("select device.attributes as attributes from z_room r join z_ddc_rfbp rfbp on r.id=rfbp.roomid join z_ddc ddc on ddc.ddcmac=rfbp.ddcmac join z_device device on device.ddcId=ddc.id join z_devicetype devicetype on devicetype.id=device.type where r.id='"+ roomid + "' and (device.type='21' or device.type='20')");
@@ -93,6 +109,7 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 					}
 					if (status!=null&&status.equals("YES")) {
 						senseHuman.setStatus("ON");
+						usingCount[3]++;
 					}
 				}
 			} else {
@@ -116,6 +133,7 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 					}
 				}
 				lock.setCount(lockCount);
+				usingCount[3]=usingCount[3]+lockCount;
 			} else {
 				lock.setStatus("none");
 			}
@@ -137,6 +155,7 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 					}
 				}
 				light.setCount(lightCount);
+				usingCount[0]=usingCount[0]+lightCount;
 			} else {
 				light.setStatus("none");
 			}
@@ -153,6 +172,7 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 					}
 					if (status!=null&&status.equals("OPEN")) {
 						blind.setStatus("ON");
+						usingCount[3]++;
 						String action = status;
 						if (action.equals("CLOSE")) {
 							action = "关";
@@ -185,6 +205,7 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 					}
 				}
 				powerStrip.setCount(stripCount);
+				usingCount[1]=usingCount[1]+stripCount;
 			} else {
 				powerStrip.setStatus("none");
 			}
@@ -206,6 +227,7 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 					}
 				}
 				floorHeating.setCount(heatingCount);
+				usingCount[3]=usingCount[3]+heatingCount;
 			} else {
 				floorHeating.setStatus("none");
 			}
@@ -227,6 +249,7 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 					}
 				}
 				bgm.setCount(bgmCount);
+				usingCount[3]=usingCount[3]+bgmCount;
 			} else {
 				bgm.setStatus("none");
 			}
@@ -243,6 +266,7 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 					}
 					if (status!=null&&status.equals("OPEN")) {
 						airConditioner.setStatus("ON");
+						usingCount[2]++;
 						String mode = (String) jsonObject.get("SMD");// 模式
 						String temperature = (String) jsonObject.get("STP");// 温度
 						String windSpeed = (String) jsonObject.get("SSP");// 风速
@@ -276,6 +300,12 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 			deviceStatus.setAirConditioner(airConditioner);
 
 			map.put(roomid, deviceStatus);
+		}
+		
+		if(flag.equals("building")){
+			map.put("counts", counts);
+			map.put("usingCount", usingCount);
+			return map;
 		}
 		
 		return map;
