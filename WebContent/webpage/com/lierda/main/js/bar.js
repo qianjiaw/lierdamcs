@@ -1,16 +1,27 @@
 
 
-function addDeviceBar (divid,height) {
+function addDeviceBar (divid,height,total,using) {
+	
+	var title = '已使用比例';
+	
 	////////////////////need to getdata from db
-	var total = 1502;
-	/*var data = ***********************dbdata*********************;*/
-	////////////////////need to get data from jsp
+	var Number_total = parseInt(total);
+	var Number_using = parseInt(using);
+	var Number_unusing = Number_total-Number_using;
+	console.log(Number_total);
+	console.log(Number_using);
+	console.log(Number_unusing);
+	
+	if (Number_total == 0) {
+		title = '无该设备';
+	}
 	
 	var chart = new Highcharts.Chart(
 			divid,
 			{
 				chart : {
-					plotBackgroundColor : null,
+					backgroundColor:'#fafbff',
+					plotBackgroundColor : '#fafbff',
 					plotBorderWidth : null,
 					plotShadow : false,
 				},
@@ -19,7 +30,7 @@ function addDeviceBar (divid,height) {
 				},
 				title : {
 					floating : true,
-					text : '已使用比例',
+					text : title,
 					style : {
 						color : '#FF00FF',
 						fontWeight : 'bold',
@@ -29,7 +40,7 @@ function addDeviceBar (divid,height) {
 				},
 				subtitle : {
 					floating : true,
-					text : total,
+					text : Number_total,
 					style : {
 						color : '#FF00FF',
 						textAlign : 'center',
@@ -51,7 +62,7 @@ function addDeviceBar (divid,height) {
 								mouseOver : function(e) {
 									chart.setTitle({
 										text : '\t'
-												+ (e.target.y * 100 / total)
+												+ (Number_using * 100 / Number_total)
 														.toFixed(0) + '%'
 									});
 								}
@@ -63,7 +74,7 @@ function addDeviceBar (divid,height) {
 					type : 'pie',
 					innerSize : '90%',
 					name : '设备状态',
-					data : [ [ '已使用', 1306 ], [ '未使用', 196 ] ]
+					data : [ [ '已使用', Number_using ], [ '未使用', Number_unusing ] ]
 				} ]
 			},
 			function(c) {

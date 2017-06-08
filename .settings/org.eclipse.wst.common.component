@@ -15,7 +15,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/web/cgdynamgraph"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/temp"/>
-        <property name="context-root" value="mcs"/>
         <property name="java-output-path" value="/jeecg366/build/classes"/>
+        <property name="context-root" value="/"/>
     </wb-module>
 </project-modules>

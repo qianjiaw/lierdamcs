@@ -3,15 +3,14 @@ function addPowerBar (divid,ajaxdata) {
 	var lightdata = ajaxdata["1"];
 	var airdata = ajaxdata["15"];
 	var socketdata = ajaxdata["26"];
-	console.log (lightdata);
-	console.log (airdata);
-	console.log (socketdata);
 	
 	
 option = {
     title : {
         text: '设备时功耗（KW·h）',
-        subtext: 'data from www.lierdalux.cn'
+        subtext: 'data from www.lierdalux.cn',
+        left:'15',
+        top:'5'
     },
 
     tooltip : {
@@ -21,7 +20,9 @@ option = {
         }
     },
     legend: {
-        data:['照明','空调','插座']
+        data:['照明','空调','插座'],
+        top:'20',
+        left:'right'
     },
     calculable : true,
     dataZoom:[{

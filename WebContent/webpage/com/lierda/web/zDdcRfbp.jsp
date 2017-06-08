@@ -72,7 +72,7 @@
 		$.ajax({
 			type:"post",
 			async: false,
-			url:"/mcs/zDdcRfbpController.do?getAllBuildingsByParkId",
+			url:"/zDdcRfbpController.do?getAllBuildingsByParkId",
 			data: {'parkid':parkid},
 			dataType: "json",
 			success: function(data){
@@ -89,7 +89,7 @@
 		$.ajax({
 			type:"post",
 			async: false,
-			url:"/mcs/zDdcRfbpController.do?getAllFloorsByBuildId",
+			url:"/zDdcRfbpController.do?getAllFloorsByBuildId",
 			data: {'buildid':buildid},
 			dataType: "json",
 			success: function(data){
@@ -105,7 +105,7 @@
 		$.ajax({
 			type:"post",
 			async: false,
-			url:"/mcs/zDdcRfbpController.do?getAllRoomsByFloorId",
+			url:"/zDdcRfbpController.do?getAllRoomsByFloorId",
 			data: {'floorid':floorid},
 			dataType: "json",
 			success: function(data){

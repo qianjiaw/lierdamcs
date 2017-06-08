@@ -32,7 +32,7 @@
 		      <label class="Validform_label">所属园区:</label>
 		      <select id="parkid" name="parkid">
 				<c:forEach items="${zparkList}" var="item">
-					<option id="${item.id}" class="inputxt">${item.parkname}</option>
+					<option id="${item.id}"  value="${item.id}" class="inputxt">${item.parkname}</option>
 				</c:forEach>
 			  </select>
 		      <span class="Validform_checktip"></span>

@@ -72,6 +72,6 @@ public interface JeecgMinidaoServiceI {
 	
 	public List<SqlResult> getAllDeviceByRAT(String sql);
 	
-	public List<PowerRecordingEntity>getPowerBybid(String sql);
+	public List<PowerRecordingEntity> getPowerBybid(String sql);
 
 }

@@ -16,15 +16,16 @@ a:active {text-decoration:none ; color:black;}
 }
 
 .this-floor-room {
-	width:98%;
-	min-width:500px;
-	margin-left:1%;
-	height:30%;
-	overflow:hidden;
-	overflow-y:auto;
-	margin-top:1%;
-	position:relative;
-	box-shadow: 0px 0px 5px 1px rgba(136, 136, 136, 1);
+	width: 98%;
+    min-width: 500px;
+    margin-left: 1%;
+    height: 30%;
+    overflow: hidden;
+    overflow-y: auto;
+    margin-top: 1%;
+    background-color: #fafbff;    
+    border: 1px solid #dbe1f0;
+    border-radius: 4px;
 }
 
 .room-device-state {
@@ -37,32 +38,30 @@ a:active {text-decoration:none ; color:black;}
 	overflow:hidden;
 	overflow-y:auto;
 	position:relative;
-	box-shadow: 0px 0px 5px 1px rgba(136, 136, 136, 1)
+    background-color: #fafbff;
+    border: 1px solid #dbe1f0;
+    border-radius: 4px;
 }
 
 .floor-main-text {
-	width: 100%;
+	width: 94%;
     height: 40px;
-    float: left;
-    background-color: #d9d9d9;
-    box-shadow: 0px 0px 12px 2px rgba(136, 136, 136, 1);
-    z-index: 99;
-    position: relative;
+    margin: 0px auto;
+    border-bottom: 1px solid #e8ecf8;
 }
 
 .floor-text-font {
 	height:40px;
 	width:140px;
 	border:none;
-	background-color: #d9d9d9;
 	font-size: large;
     line-height: 40px;
 }
 
 .floor-main {
-	width:98%;
-	margin-left:1%;
-	margin-top:45px;
+	width: 94%;
+    margin-left: 3%;
+	margin-top:5px;
 	position:absolute;
 	overflow-y: auto;
 }
@@ -152,9 +151,9 @@ a:active {text-decoration:none ; color:black;}
 }
 
 .floor-controller {
-	width:98%;
-	margin-left:1%;
-	margin-top:45px;
+	width: 94%;
+    margin-left: 3%;
+	margin-top:5px;
 	position:absolute;
 	overflow-y: auto;
 }

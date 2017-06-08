@@ -9,7 +9,6 @@
 
 <link rel="stylesheet" href="/plug-in/lierda/main/hplushome.css" />
 
-
 <title>首页</title>
 </head>
 <body style="position:absolute;width:100%;height: 100%;">
@@ -43,7 +42,7 @@
 		
 		<div id="right" class="right">
 			<div id="right_top" class="right_top">
-				<div id="building-title" class="main-right-title">
+				<div id="devicesate-title" class="main-right-title">
 					<span class="main-device-state"></span>
 					<p class="main-message-text">设备运行状态</p>
 				</div>
@@ -67,7 +66,7 @@
 				</div>
 			</div>
 			<div id="right_cen" class="right_cen">
-				<div id="building-title" class="main-right-title">
+				<div id="realtime-consumption-title" class="main-right-title">
 					<span class="main-pic-power"></span>
 					<p class="main-message-text">设备实时消耗</p>
 				</div>
@@ -76,7 +75,7 @@
 				</div>
 			</div>
 			<div id="right_bot" class="right_bot">
-				<div id="building-title" class="main-right-title">
+				<div id="classification-title" class="main-right-title">
 					<span class="main-sort-power"></span>
 					<p class="main-message-text">分类分项能耗</p>
 				</div>
@@ -148,6 +147,26 @@ function getBuildFloorMessage(){
 
 			////////////////////////after get buildid
 			getPowerBybid();
+			getDeviceStatus();
+		}
+	});
+}
+
+function getDeviceStatus () {
+	$.ajax({
+		type:"post",
+		async: false,
+		url:"/zBuildingController.do?getDeviceStatus",
+		data: {'buildId':buildId},
+		dataType: "json",
+		success: function(data){
+			attributes=	data.attributes;
+			console.log(attributes);
+
+			////////////////////////////after get data
+			////////////////////////////add ALLBar
+			var barheight = $("#right_top").get(0).offsetHeight-30;
+			addAllBar(barheight,attributes);
 		}
 	});
 }
@@ -165,7 +184,6 @@ function getPowerBybid () {
 			var recordingEntities=attributes['recordingEntities'];
 			var currentPowerTotal=attributes['currentPowerTotal'];
 			var typePowerMap=attributes['typePowerMap'];
-			console.log(typePowerMap);
 			
 			
 			////////////////////////////after get data
@@ -201,14 +219,13 @@ function setHAndWonload () {
 	$("#bar-3").height(barheight+"px");
 	$("#bar-4").height(barheight+"px");
 
-	$("#device-power-spline").height(($("#right_cen").get(0).offsetHeight-30)+"px");
+	$("#device-power-spline").height(($("#right_cen").get(0).offsetHeight-getHeight("realtime-consumption-title"))+"px");
 	
 	$("#device-sort-power").height(($("#right_bot").get(0).offsetHeight-50)+"px");
 	
 	
 	//////////////////////////////////getdata and add bar/spline
 	getBuildFloorMessage();
-	addAllBar(barheight);
 	addBuilding();
 	
 }
@@ -226,7 +243,7 @@ function freshHAndW () {
 	$("#bar-3").height(barheight+"px");
 	$("#bar-4").height(barheight+"px");
 
-	$("#device-power-spline").height(($("#right_cen").get(0).offsetHeight-30)+"px");
+	$("#device-power-spline").height(($("#right_cen").get(0).offsetHeight-getHeight("realtime-consumption-title"))+"px");
 	resizePowerChart('device-power-spline');
 	
 	$("#device-sort-power").height(($("#right_bot").get(0).offsetHeight-50)+"px");
@@ -234,11 +251,14 @@ function freshHAndW () {
 }
 
 ////////////////////////////addbar
-function addAllBar (height){
-	addDeviceBar('bar-1',height);
-	addDeviceBar('bar-2',height);
-	addDeviceBar('bar-3',height);
-	addDeviceBar('bar-4',height);
+function addAllBar (height,attr){
+	/////////////////////////////////    attr["counts"]   [0/1/2/3]:数组  0、1、2、3  照明  插座   空调   其他设备
+	/////////////////////////////////    attr["usingCount"]   [0/1/2/3]:数组  0、1、2、3  照明  插座   空调   其他设备
+	
+	addDeviceBar('bar-1',height,attr["counts"][0],attr["usingCount"][0]);
+	addDeviceBar('bar-2',height,attr["counts"][2],attr["usingCount"][2]);
+	addDeviceBar('bar-3',height,attr["counts"][1],attr["usingCount"][1]);
+	addDeviceBar('bar-4',height,attr["counts"][3],attr["usingCount"][3]);
 }
 
 //////////////////////////addbuilding
