@@ -15,7 +15,7 @@
 	<div id="home_main" class="home_main">
 		<div id="left" class="left">
 			<div id="building-title" class="main-left-title">
-				<span class="main-message"></span>
+				<span id="main-message" class="main-message"></span>
 				<p class="main-main-text">基本信息</p>
 			</div>
 			<div id="building-main" class="building-main">
@@ -42,9 +42,9 @@
 		
 		<div id="right" class="right">
 			<div id="right_top" class="right_top">
-				<div id="devicesate-title" class="main-right-title">
-					<span class="main-device-state"></span>
-					<p class="main-message-text">设备运行状态</p>
+				<div id="devicesate-title" class="main-righttop-title">
+					<span id="main-device-state" class="main-device-state"></span>
+					<p  id="main-righttop-text" class="main-message-text">设备运行状态</p>
 				</div>
 				<div id="device-state-bar" class="device-state-bar">
 					<div id="bar-1" class="each-bar">
@@ -66,30 +66,30 @@
 				</div>
 			</div>
 			<div id="right_cen" class="right_cen">
-				<div id="realtime-consumption-title" class="main-right-title">
-					<span class="main-pic-power"></span>
-					<p class="main-message-text">设备实时消耗</p>
+				<div id="realtime-consumption-title" class="main-rightcenter-title">
+					<span id="main-pic-power" class="main-pic-power"></span>
+					<p id="main-rightcenter-text" class="main-message-text">设备实时消耗</p>
 				</div>
 				<div id="device-power-spline" class="device-power-spline">
 					
 				</div>
 			</div>
 			<div id="right_bot" class="right_bot">
-				<div id="classification-title" class="main-right-title">
+				<div id="classification-title" class="main-rightbottom-title">
 					<span class="main-sort-power"></span>
-					<p class="main-message-text">分类分项能耗</p>
+					<p id="main-rightbottom-text" class="main-message-text">分类分项能耗</p>
 				</div>
 				<div id="device-sort-power" class="device-sort-power">
 					<div id="air-condition-power" class="each-sort-power">
-						<div id="sort-power-pic" class="air-condition-pic"></div>
+						<div id="sort-air-pic" class="air-condition-pic"></div>
 						<div id="sort-power-text" class="sort-power-text"></div>
 					</div>
 					<div id="light-power" class="each-sort-power">
-						<div id="sort-power-pic" class="light-pic"></div>
+						<div id="sort-light-pic" class="light-pic"></div>
 						<div id="sort-power-text" class="sort-power-text"></div>
 					</div>
 					<div id="energy-power" class="each-sort-power">
-						<div id="sort-power-pic" class="energy-pic"></div>
+						<div id="sort-energy-pic" class="energy-pic"></div>
 						<div id="sort-power-text" class="sort-power-text"></div>
 					</div>
 				</div>
@@ -165,7 +165,8 @@ function getDeviceStatus () {
 
 			////////////////////////////after get data
 			////////////////////////////add ALLBar
-			var barheight = $("#right_top").get(0).offsetHeight-30;
+			var barheight = $("#device-state-bar").get(0).offsetHeight;
+			console.log(barheight);
 			addAllBar(barheight,attributes);
 		}
 	});
@@ -219,10 +220,27 @@ function setHAndWonload () {
 	$("#bar-3").height(barheight+"px");
 	$("#bar-4").height(barheight+"px");
 
+	$("#device-state-bar").height(($("#right_top").get(0).offsetHeight-getHeight("devicesate-title"))+"px");
 	$("#device-power-spline").height(($("#right_cen").get(0).offsetHeight-getHeight("realtime-consumption-title"))+"px");
+	$("#device-sort-power").height(($("#right_bot").get(0).offsetHeight-getHeight("classification-title"))+"px");
 	
-	$("#device-sort-power").height(($("#right_bot").get(0).offsetHeight-50)+"px");
+	$("#sort-air-pic").width(($("#sort-air-pic").get(0).offsetHeight)+"px");
+	$("#sort-light-pic").width(($("#sort-light-pic").get(0).offsetHeight)+"px");
+	$("#sort-energy-pic").width(($("#sort-energy-pic").get(0).offsetHeight)+"px");
+	var pictop = ($("#device-sort-power").get(0).offsetHeight - $("#sort-air-pic").get(0).offsetHeight)/2;
+	$("#sort-air-pic").css("top",""+pictop+"px");
+	$("#sort-light-pic").css("top",""+pictop+"px");
+	$("#sort-energy-pic").css("top",""+pictop+"px");
 	
+	////////////////////////////////////set Width
+	$("#main-message").width(getHeight("main-message")*6/7+"px");
+	$("#main-device-state").width(getHeight("main-device-state")*6/7+"px");
+	$("#main-pic-power").width(getHeight("main-pic-power")*6/7+"px");
+	
+	///////////////////////////////////set FontSize
+	$("#main-righttop-text").css("font-size",""+getHeight("devicesate-title")/2+"px");
+	$("#main-rightcenter-text").css("font-size",""+getHeight("realtime-consumption-title")/2+"px");
+	$("#main-rightbottom-text").css("font-size",""+getHeight("classification-title")/2+"px");
 	
 	//////////////////////////////////getdata and add bar/spline
 	getBuildFloorMessage();
@@ -243,10 +261,31 @@ function freshHAndW () {
 	$("#bar-3").height(barheight+"px");
 	$("#bar-4").height(barheight+"px");
 
+	$("#device-state-bar").height(($("#right_top").get(0).offsetHeight-getHeight("devicesate-title"))+"px");
+	
 	$("#device-power-spline").height(($("#right_cen").get(0).offsetHeight-getHeight("realtime-consumption-title"))+"px");
 	resizePowerChart('device-power-spline');
 	
-	$("#device-sort-power").height(($("#right_bot").get(0).offsetHeight-50)+"px");
+	$("#device-sort-power").height(($("#right_bot").get(0).offsetHeight-getHeight("classification-title"))+"px");
+	
+	$("#sort-air-pic").width(($("#sort-air-pic").get(0).offsetHeight)+"px");
+	$("#sort-light-pic").width(($("#sort-light-pic").get(0).offsetHeight)+"px");
+	$("#sort-energy-pic").width(($("#sort-energy-pic").get(0).offsetHeight)+"px");
+	var pictop = ($("#device-sort-power").get(0).offsetHeight - $("#sort-air-pic").get(0).offsetHeight)/2;
+	$("#sort-air-pic").css("top",""+pictop+"px");
+	$("#sort-light-pic").css("top",""+pictop+"px");
+	$("#sort-energy-pic").css("top",""+pictop+"px");
+	
+	////////////////////////////////////set Width
+	$("#main-message").width(getHeight("main-message")*6/7+"px");
+	$("#main-device-state").width(getHeight("main-device-state")*6/7+"px");
+	$("#main-pic-power").width(getHeight("main-pic-power")*6/7+"px");
+	
+
+	///////////////////////////////////set FontSize
+	$("#main-righttop-text").css("font-size",""+getHeight("devicesate-title")/2+"px");
+	$("#main-rightcenter-text").css("font-size",""+getHeight("realtime-consumption-title")/2+"px");
+	$("#main-rightbottom-text").css("font-size",""+getHeight("classification-title")/2+"px");
 	
 }
 

@@ -24,6 +24,7 @@ function addDeviceBar (divid,height,total,using) {
 					plotBackgroundColor : '#fafbff',
 					plotBorderWidth : null,
 					plotShadow : false,
+					height:height
 				},
 				credits : {
 					enabled : false
@@ -44,9 +45,9 @@ function addDeviceBar (divid,height,total,using) {
 					style : {
 						color : '#FF00FF',
 						textAlign : 'center',
-						fontSize : '12px',
+						fontSize : height/10+'px'
 					},
-	                verticalAlign:'top',
+	                verticalAlign:'center',
 					x : 0,
 					y : 5
 				},
