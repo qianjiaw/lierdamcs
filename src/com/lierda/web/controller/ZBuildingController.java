@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,6 +45,7 @@ import com.lierda.web.entity.ZRoomEntity;
 import com.lierda.web.service.ZBuildingServiceI;
 import com.lierda.web.service.ZFloorServiceI;
 import com.lierda.web.service.ZParkServiceI;
+import com.lierda.web.service.impl.ZBuildingServiceImplmy;
 import com.lierda.web.util.GeneralUtil;
 
 import org.springframework.http.ResponseEntity;
@@ -94,6 +97,7 @@ public class ZBuildingController extends BaseController {
 	private  JeecgMinidaoServiceI jeecgMinidaoService;
 	@Autowired
 	private Validator validator;
+	
 	
 	public static List<ZBuildingEntity> buildings;
 
@@ -276,7 +280,7 @@ public class ZBuildingController extends BaseController {
 	}	
 	
 	/**
-	 * 根据建筑物id和计量统计类型获取该类型对应的计量信息
+	 * 根据建筑物id获取建筑物内所有的计量在各个时段的功率
 	 * @param request
 	 * @return
 	 */
@@ -369,20 +373,23 @@ public class ZBuildingController extends BaseController {
 		Map<String, Object> map=new HashMap<String, Object>();
 		String buildId=request.getParameter("buildId");
 		long timeStart=GeneralUtil.getTimesmorning();
-		long yesterdaytStart=timeStart-3600*24;
+		long yesterdaytStart=timeStart;
 		long yesterdaytStop=timeStart-1;
 		long currentTime=new Date().getTime()/1000;
 		if(buildId==null||buildId.equals("")){
 			buildId=buildings.get(0).getId();
 		}
 		//插座
-		String stripToday="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid join z_device device on device.macid=zpt.devicemac where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+currentTime+", '%Y-%m-%d %H:%i:%S') and device.type='26' order  by  zpr.savingtime desc limit 1";
-		String stripYesterday="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid join z_device device on device.macid=zpt.devicemac where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+yesterdaytStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+yesterdaytStop+", '%Y-%m-%d %H:%i:%S') and device.type='26' order  by  zpr.savingtime desc limit 1";
+		String stripToday="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid  where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+currentTime+", '%Y-%m-%d %H:%i:%S') and zpt.type='26' order  by  zpr.savingtime desc limit 1";
+		String stripYesterday="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid  where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+yesterdaytStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+yesterdaytStop+", '%Y-%m-%d %H:%i:%S') and zpt.type='26' order  by  zpr.savingtime desc limit 1";
 		//空调
-		String conditionerToday="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid join z_device device on device.macid=zpt.devicemac where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+currentTime+", '%Y-%m-%d %H:%i:%S') and device.type='15' order  by  zpr.savingtime desc limit 1";
-		String conditionerYesterday="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid join z_device device on device.macid=zpt.devicemac where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+yesterdaytStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+yesterdaytStop+", '%Y-%m-%d %H:%i:%S') and device.type='15' order  by  zpr.savingtime desc limit 1";
-//		System.out.println(sqlToday);
-//		System.out.println(sqlYesterday);
+		String conditionerToday="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid  where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+currentTime+", '%Y-%m-%d %H:%i:%S') and zpt.type='15' order  by  zpr.savingtime desc limit 1";
+		String conditionerYesterday="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid  where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+yesterdaytStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+yesterdaytStop+", '%Y-%m-%d %H:%i:%S') and zpt.type='15' order  by  zpr.savingtime desc limit 1";
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>");
+		System.out.println(stripToday);
+		System.out.println(stripYesterday);
+		System.out.println(conditionerToday);
+		System.out.println(conditionerYesterday);
 		List<PowerRecordingEntity> stripRecordToday=jeecgMinidaoService.getPowerBybid(stripToday);
 		List<PowerRecordingEntity> stripRecordYesterday=jeecgMinidaoService.getPowerBybid(stripYesterday);
 		List<PowerRecordingEntity> conditionerRecordToday=jeecgMinidaoService.getPowerBybid(conditionerToday);
@@ -402,7 +409,7 @@ public class ZBuildingController extends BaseController {
 //		System.out.println(1496647496-3600);
 //		System.out.println(new Date().getTime()/1000<(new Date().getTime()/1000-1000));
 //		System.out.println(1496678400);
-//		System.out.println(new Date().getTime()/1000);
+		System.out.println(new Date().getTime()/1000);
 //		System.out.println((new Date().getTime()/1000-1496678400)/3600);
 		ArrayList<String> l=new ArrayList<String>();
 //		l.add(0, "klkkk");
