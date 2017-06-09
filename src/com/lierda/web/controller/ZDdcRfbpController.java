@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -84,6 +85,7 @@ public class ZDdcRfbpController extends BaseController {
 	@Autowired
 	private ZParkServiceI ZParkService;
 	@Autowired
+	@Qualifier("zBuildingService")
 	private ZBuildingServiceI ZBuildingService;
 	@Autowired
 	private ZFloorServiceI ZFloorService;
@@ -272,7 +274,6 @@ public class ZDdcRfbpController extends BaseController {
 		Map<String, Object> map=new HashMap<String, Object>();
 		String parkid=request.getParameter("parkid");
 		List<ZBuildingEntity> ids=jeecgMinidaoService.getAllBuildingsByParkId(parkid);//查询所有建筑物
-		System.out.println(ids);
 		map.put("buildings", ids);
 		j.setAttributes(map);
 		return j;
