@@ -26,7 +26,7 @@ import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 
 @Service("zBuildingService")
 @Transactional
-public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuildingServiceI {
+public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuildingServiceI{
 	
 	@Autowired
 	private ZFloorServiceI zFloorService;
@@ -227,7 +227,9 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 			}
 
 			Double[] avgPower = getPower(entities, timeStart);
+			System.out.println(entry.getKey()+"==============");
 			currentPower.put(entry.getKey(), avgPower);
+		
 
 		}
 
@@ -261,5 +263,72 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 
 		return countMap;
 	}
+	
+	
+	//计算功率
+	
+	public  double[] calculatePower(List<PowerRecordingEntity> entities,long timeStart){
+//		long hour=0;
+//		long before=0;//时间戳与前一个整点的绝对值
+//		long after=0;//时间戳与后一个整点的绝对值
+//		long[] min=new long[25];//距离整点最近的时间戳，最后一个比较的是当天的24点与下一天的1点的多余数据
+//		double[] power=new double[24];//整点时今天的总功耗
+//		double[] powerHour=new double[23];//各个整点间的功耗
+//		for (int i = 0; i < min.length; i++) {
+//			min[i]=3600*1000;
+//		}
+		
+			long hour=0;
+			long before=0;//时间戳与前一个整点的绝对值
+			long after=0;//时间戳与后一个整点的绝对值
+			long[] min=new long[25];//距离整点最近的时间戳，最后一个比较的是当天的24点与下一天的1点的多余数据
+//			double[] power=new double[24];//整点时今天的总功耗
+			double[] powerHour=new double[23];//各个整点间的功耗
+			double[] currentPower=new double[25];//计量在当前时刻的总功耗
+			for (int i = 0; i < min.length; i++) {
+				min[i]=3600*1000;
+			}
+			for (PowerRecordingEntity powerRecordingEntity : entities) {
+//					currentPower=powerRecordingEntity.getAllpower();
+					long time=powerRecordingEntity.getSavingtime().getTime();
+					for(int i=0;i<24;i++){
+						hour=timeStart*1000+3600*1000*(i+1);
+						if(time<hour){
+							before=Math.abs(time-hour-3600*1000);
+							after=Math.abs(time-hour);
+							min[i]=min[i]>before?before:min[i];
+							if(min[i]>before){
+								min[i]=before;
+								currentPower[i]=powerRecordingEntity.getAllpower();
+							}
+							if(min[i+1]>after){
+								min[i+1]=after;
+								currentPower[i+1]=powerRecordingEntity.getAllpower();
+							}
+//							min[i+1]=min[i+1]>after?after:min[i+1];
+							break;
+						}
+					}
+			}
+			
+//			for (int i = 0; i < min.length-1; i++) {
+//				for (PowerRecordingEntity powerRecordingEntity : entities) {
+//					if(powerRecordingEntity.getSavingtime().getTime()==min[i]){
+//						System.out.println(powerRecordingEntity.getSavingtime().getTime());
+//						power[i]=powerRecordingEntity.getAllpower();
+//					}
+//				}
+//			}
+			
+//			for (int i = 0; i < power.length-1; i++) {
+//				System.out.println(power[i]);
+//			}
+			
+			for (int i = 0; i < currentPower.length-1; i++) {
+				powerHour[i]=currentPower[i+1]-currentPower[i];
+			}
+		return powerHour;
+	}
+	
 	
 }
