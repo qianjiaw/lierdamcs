@@ -308,10 +308,15 @@ public class ZBuildingController extends BaseController {
 			macids.add(powerRecordingEntity.getMacid());
 		}
 		
-		powerMap=zBuildingService.getPowerMap(macids, recordingEntities);
-		currentPower=zBuildingService.getCurrentPower(timeStart, powerMap);
-		currentPowerTotal=zBuildingService.getTotalPower(currentPower);
-		typePowerMap=zBuildingService.getPowerByType(recordingEntities, currentPower);
+//		powerMap=zBuildingService.getPowerMap(macids, recordingEntities);
+//		currentPower=zBuildingService.getCurrentPower(timeStart, powerMap);
+//		currentPowerTotal=zBuildingService.getTotalPower(currentPower);
+//		typePowerMap=zBuildingService.getPowerByType(recordingEntities, currentPower);
+		
+		powerMap=zBuildingServiceMy.getPowerMap(macids, recordingEntities);
+		currentPower=zBuildingServiceMy.getCurrentPower(timeStart, powerMap);
+		currentPowerTotal=zBuildingServiceMy.getTotalPower(currentPower);
+		typePowerMap=zBuildingServiceMy.getPowerByType(recordingEntities, currentPower);
 		
 		map.put("currentPower", currentPower);//含有macid和各时间段功率
 		map.put("recordingEntities", recordingEntities);//当前建筑物内所有设备功率信息
