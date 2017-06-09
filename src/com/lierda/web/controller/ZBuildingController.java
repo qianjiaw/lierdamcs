@@ -390,7 +390,7 @@ public class ZBuildingController extends BaseController {
 		}
 		
 		String macidsConditionerSql="select zpr.macid from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid  where b.id='"+buildId+"' and zpt.type='15' group by zpr.macid";
-		String macidsStripSql="select zpr.macid from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid  where b.id='"+buildId+"' and zpt.type='26' group by zpr.macid";
+		String macidsLightSql="select zpr.macid from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid  where b.id='"+buildId+"' and zpt.type='1' group by zpr.macid";
 //		//插座
 //		String stripToday="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid  where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+currentTime+", '%Y-%m-%d %H:%i:%S') and zpt.type='26' order  by  zpr.savingtime desc limit 1";
 //		String stripYesterday="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid  where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+yesterdaytStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+yesterdaytStop+", '%Y-%m-%d %H:%i:%S') and zpt.type='26' order  by  zpr.savingtime desc limit 1";
@@ -401,9 +401,9 @@ public class ZBuildingController extends BaseController {
 
 		StringBuffer TodayPre=new StringBuffer("select max(zpr.dayPower) as dayPower from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid  where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+timeStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+currentTime+", '%Y-%m-%d %H:%i:%S') and (");
 		StringBuffer YesterdayPre=new StringBuffer("select max(zpr.dayPower)  as dayPower from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid  where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+yesterdaytStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+yesterdaytStop+", '%Y-%m-%d %H:%i:%S') and (");
-		//插座
-		String stripToday="";
-		String stripYesterday="";
+		//照明
+		String lightToday="";
+		String lightYesterday="";
 		//空调
 		String conditionerToday="";
 		String conditionerYesterday="";
@@ -413,15 +413,15 @@ public class ZBuildingController extends BaseController {
 //		String conditionerYesterday="select zpr.*,zpt.type from z_building b join z_ddc_rfbp rfbp on b.id=rfbp.buildid join z_power_recording zpr on rfbp.ddcmac=zpr.ddcmac join z_power_type zpt on zpt.devicemac=zpr.macid  where b.id='"+buildId+"' and zpr.savingtime BETWEEN FROM_UNIXTIME("+yesterdaytStart+", '%Y-%m-%d %H:%i:%S') and FROM_UNIXTIME("+yesterdaytStop+", '%Y-%m-%d %H:%i:%S') and zpt.type='15' order  by  zpr.savingtime desc limit 1";
 //		
 		List<String> macidsConditioner=zBuildingService.findListbySql(macidsConditionerSql);
-		List<String> macidsStrip=zBuildingService.findListbySql(macidsStripSql);
+		List<String> macidsLight=zBuildingService.findListbySql(macidsLightSql);
 		System.out.println(macidsConditionerSql);
-		System.out.println(macidsStripSql);
-		//插座
-		for (String string : macidsStrip) {
+		System.out.println(macidsLightSql);
+		//照明
+		for (String string : macidsLight) {
 			TodayPre.append(" zpr.macid='"+string+"' or");
-			stripToday="select sum(a.dayPower) from ("+TodayPre.toString().substring(0, TodayPre.length()-2)+") group by zpr.macid) a";
+			lightToday="select sum(a.dayPower) from ("+TodayPre.toString().substring(0, TodayPre.length()-2)+") group by zpr.macid) a";
 			YesterdayPre.append(" zpr.macid='"+string+"' or");
-			stripYesterday="select sum(a.dayPower) from ("+YesterdayPre.toString().substring(0, YesterdayPre.length()-2)+") group by zpr.macid) a";
+			lightYesterday="select sum(a.dayPower) from ("+YesterdayPre.toString().substring(0, YesterdayPre.length()-2)+") group by zpr.macid) a";
 		}
 //		for (String string : macidsStrip) {
 //			YesterdayPre.append(" zpr.macid='"+string+"' or");
@@ -439,9 +439,9 @@ public class ZBuildingController extends BaseController {
 //			conditionerYesterday="select sum(a.dayPower) from ("+YesterdayPre.toString().substring(0, YesterdayPre.length()-2)+"group by zpr.macid) a";
 //		}
 		System.out.println("111111111");
-		System.out.println(stripToday);
+		System.out.println(lightToday);
 		System.out.println("222222222");
-		System.out.println(stripYesterday);
+		System.out.println(lightYesterday);
 		System.out.println("33333333333");
 		System.out.println(conditionerToday);
 		System.out.println("44444444444444");
@@ -450,8 +450,8 @@ public class ZBuildingController extends BaseController {
 //		List<PowerRecordingEntity> stripRecordYesterday=jeecgMinidaoService.getPowerBybid(stripYesterday);
 //		List<PowerRecordingEntity> conditionerRecordToday=jeecgMinidaoService.getPowerBybid(conditionerToday);
 //		List<PowerRecordingEntity> conditionerRecordYesterday=jeecgMinidaoService.getPowerBybid(conditionerYesterday);
-		map.put("stripRecordToday", macidsStrip.size()==0?0:zBuildingService.findListbySql(stripToday).get(0));
-		map.put("stripRecordYesterday", macidsStrip.size()==0?0:zBuildingService.findListbySql(stripYesterday).get(0));
+		map.put("lightRecordToday", macidsLight.size()==0?0:zBuildingService.findListbySql(lightToday).get(0));
+		map.put("lightRecordYesterday", macidsLight.size()==0?0:zBuildingService.findListbySql(lightYesterday).get(0));
 		map.put("conditionerRecordToday", macidsConditioner.size()==0?0:zBuildingService.findListbySql(conditionerToday).get(0));
 		map.put("conditionerRecordYesterday", macidsConditioner.size()==0?0:zBuildingService.findListbySql(conditionerYesterday).get(0));
 		
