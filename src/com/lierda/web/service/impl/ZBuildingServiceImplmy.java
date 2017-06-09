@@ -277,7 +277,7 @@ public class ZBuildingServiceImplmy extends CommonServiceImpl implements ZBuildi
 			}
 			
 			for (int i = 0; i < currentPower.length-1; i++) {
-				powerHour[i]=currentPower[i+1]-currentPower[i];
+				powerHour[i]=(currentPower[i+1]-currentPower[i]<0?0:currentPower[i+1]-currentPower[i]);
 			}
 		return powerHour;
 	}
