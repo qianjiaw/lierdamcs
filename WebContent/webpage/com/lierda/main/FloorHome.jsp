@@ -50,14 +50,16 @@
 
 				<div id="this-floor-room" class="this-floor-room">
 					<div id="floor-room-text" class="floor-main-text">
-						<span id="this-floor-top" class="floor-text-font"></span>
+						<span id="room-state-icon" class="room-state-icon"></span>
+						<p id="this-floor-top" class="floor-text-font"></p>
 					</div>
 					<div id="floor-main" class="floor-main"></div>
 				</div>
 				
 				<div id="this-floor-controller" class="this-floor-room">
 					<div id="floor-controller-text" class="floor-main-text">
-						<span id="this-floor-cen" class="floor-text-font"></span>
+						<span id="floor-roomcheck-icon" class="floor-roomcheck-icon"></span>
+						<p id="this-floor-cen" class="floor-text-font"></p>
 					</div>
 					<div id="floor-controller" class="floor-controller">
 						<div id="floor-controller-step" class="floor-controller-step">
@@ -298,6 +300,8 @@
 		setWidthByPercent("floor-controller-main", "controller-main-first",50, 1);
 		setWidthByPercent("floor-controller-main", "controller-main-second",22, 1);
 		setWidthByPercent("floor-controller-main", "controller-main-third",27, 2);
+		////////////icon setWidth
+		$("#room-state-icon").width(getHeight("room-state-icon")*6/7+"px");
 		
 		///////////////////////////////setTop
 		var controllerlightheight = getHeight("controller-light")/2-6;
@@ -314,6 +318,10 @@
 		var controllerthirdmain = getHeight("controller-third-main");
 		$("#open-controller").css("line-height",""+controllerthirdmain+"px");
 		$("#close-controller").css("line-height",""+controllerthirdmain+"px");
+		
+		///////////////////////////////////set FontSize
+		$("#this-floor-top").css("font-size",""+getHeight("floor-room-text")/2+"px");
+		$("#this-floor-cen").css("font-size",""+getHeight("floor-controller-text")/2+"px");
 	}
 	
 	//////////////////////////addbuilding
@@ -329,6 +337,7 @@
 	}
 	
 	function drawroomstate () {
+		$("#floor-main").empty();
 		var width = getWidth("floor-main") / 6 - 5;
 		var height = getHeight("floor-main")/4;
 		var stateheight = height*3/5;
@@ -347,6 +356,7 @@
 	}
 
 	function drawroomcheck () {
+		$("#controller-main-first").empty();
 		var count = 0;
 		var width = getWidth("controller-main-first") / 5 - 3;
 		var height = width/2;
@@ -498,8 +508,8 @@
 				'</tr>'
 			);
 			if (roomState.airConditioner.status == "ON") {
-				$("#air-mode").append('<img src="/images/lierda/roomstate/'+roomState.airConditioner.status+'.png" style="height:100%;width:100%;"></img>');
-				$("#air-mode").append('<span>'+roomState.airConditioner.temperature+'℃</span>');
+				$("#air-mode").append('<img src="/images/lierda/roomstate/'+roomState.airConditioner.mode+'.png" style="height:100%;width:100%;"></img>');
+				$("#air-temperature").append('<span>'+roomState.airConditioner.temperature+'℃</span>');
 				switch(roomState.airConditioner.windSpeed)
 				{
 				case 1 :$("#air-mode").append('<img src="/images/lierda/roomstate/airwind-1.png" style="height:100%;width:100%;"></img>');
@@ -507,6 +517,17 @@
 				case 3 :$("#air-mode").append('<img src="/images/lierda/roomstate/airwind-3.png" style="height:100%;width:100%;"></img>');
 				default:$("#air-mode").append('');
 				};
+				/*
+				if (roomState.airConditioner.windSpeed==1) {
+					$("#air-mode").append('<img src="/images/lierda/roomstate/airwind-1.png" style="height:100%;width:100%;"></img>');
+				}
+				if (roomState.airConditioner.windSpeed==2) {
+					$("#air-mode").append('<img src="/images/lierda/roomstate/airwind-2.png" style="height:100%;width:100%;"></img>');
+				}
+				if (roomState.airConditioner.windSpeed==3) {
+					$("#air-mode").append('<img src="/images/lierda/roomstate/airwind-3.png" style="height:100%;width:100%;"></img>');
+				}
+				*/
 				
 			}
 		}

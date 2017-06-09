@@ -68,7 +68,7 @@
 			<div id="right_cen" class="right_cen">
 				<div id="realtime-consumption-title" class="main-rightcenter-title">
 					<span id="main-pic-power" class="main-pic-power"></span>
-					<p id="main-rightcenter-text" class="main-message-text">设备实时消耗</p>
+					<p id="main-rightcenter-text" class="main-message-text">设备实时能耗</p>
 				</div>
 				<div id="device-power-spline" class="device-power-spline">
 					
@@ -76,21 +76,29 @@
 			</div>
 			<div id="right_bot" class="right_bot">
 				<div id="classification-title" class="main-rightbottom-title">
-					<span class="main-sort-power"></span>
+					<span id="main-sort-power" class="main-pic-sortpower"></span>
 					<p id="main-rightbottom-text" class="main-message-text">分类分项能耗</p>
 				</div>
 				<div id="device-sort-power" class="device-sort-power">
 					<div id="air-condition-power" class="each-sort-power">
 						<div id="sort-air-pic" class="air-condition-pic"></div>
-						<div id="sort-power-text" class="sort-power-text"></div>
+						<div id="sort-air-text" class="sort-power-text">
+							<p class="sort-text-title">空调用电</p>
+							<p class="sort-text-used"><span id="air-today-used" style="font-size:20px;"></span> KW·h</p>
+							<p class="sort-text-compare">昨日同期比<span id="air-used-compare"></span><img id="air-used-comparepic" class="sort-pic-compare" alt="" src=""></p>
+						</div>
 					</div>
 					<div id="light-power" class="each-sort-power">
 						<div id="sort-light-pic" class="light-pic"></div>
-						<div id="sort-power-text" class="sort-power-text"></div>
+						<div id="sort-light-text" class="sort-power-text">
+							<p class="sort-text-title">照明用电</p>
+							<p class="sort-text-used"><span id="light-today-used" style="font-size:20px;"></span> KW·h</p>
+							<p class="sort-text-compare">昨日同期比<span id="light-used-compare"></span><img id="light-used-comparepic" class="sort-pic-compare" alt="" src=""></p>
+						</div>
 					</div>
 					<div id="energy-power" class="each-sort-power">
 						<div id="sort-energy-pic" class="energy-pic"></div>
-						<div id="sort-power-text" class="sort-power-text"></div>
+						<div id="sort-energy-text" class="sort-power-text"></div>
 					</div>
 				</div>
 			</div>
@@ -148,6 +156,7 @@ function getBuildFloorMessage(){
 			////////////////////////after get buildid
 			getPowerBybid();
 			getDeviceStatus();
+			getDayPower();
 		}
 	});
 }
@@ -156,17 +165,15 @@ function getDeviceStatus () {
 	$.ajax({
 		type:"post",
 		async: false,
-		url:"/zBuildingController.do?getDeviceStatus",
+		url:"/zBuildingController.do?getDeviceCount",
 		data: {'buildId':buildId},
 		dataType: "json",
 		success: function(data){
 			attributes=	data.attributes;
-			console.log(attributes);
 
 			////////////////////////////after get data
 			////////////////////////////add ALLBar
 			var barheight = $("#device-state-bar").get(0).offsetHeight;
-			console.log(barheight);
 			addAllBar(barheight,attributes);
 		}
 	});
@@ -185,11 +192,29 @@ function getPowerBybid () {
 			var recordingEntities=attributes['recordingEntities'];
 			var currentPowerTotal=attributes['currentPowerTotal'];
 			var typePowerMap=attributes['typePowerMap'];
-			
+			console.log(typePowerMap);
 			
 			////////////////////////////after get data
 			////////////////////////////addPowerBar
 			addPowerBar('device-power-spline',typePowerMap);
+		}
+	});
+}
+
+function getDayPower () {
+	$.ajax({
+		type:"post",
+		async: false,
+		url:"/zBuildingController.do?getDayPower",
+		data: {'buildId':buildId},
+		dataType: "json",
+		success: function(data){
+			attributes=	data.attributes;
+			console.log(attributes);
+			
+			//////////////////////////////////after get data
+			addRightBot(attributes);
+		
 		}
 	});
 }
@@ -223,6 +248,8 @@ function setHAndWonload () {
 	$("#device-state-bar").height(($("#right_top").get(0).offsetHeight-getHeight("devicesate-title"))+"px");
 	$("#device-power-spline").height(($("#right_cen").get(0).offsetHeight-getHeight("realtime-consumption-title"))+"px");
 	$("#device-sort-power").height(($("#right_bot").get(0).offsetHeight-getHeight("classification-title"))+"px");
+	/*after set device-sort-power height*/
+	$("#air-used-comparepic").width($("#air-used-comparepic").get(0).offsetHeight);
 	
 	$("#sort-air-pic").width(($("#sort-air-pic").get(0).offsetHeight)+"px");
 	$("#sort-light-pic").width(($("#sort-light-pic").get(0).offsetHeight)+"px");
@@ -236,6 +263,7 @@ function setHAndWonload () {
 	$("#main-message").width(getHeight("main-message")*6/7+"px");
 	$("#main-device-state").width(getHeight("main-device-state")*6/7+"px");
 	$("#main-pic-power").width(getHeight("main-pic-power")*6/7+"px");
+	$("#main-sort-power").width(getHeight("main-sort-power")*6/7+"px");
 	
 	///////////////////////////////////set FontSize
 	$("#main-righttop-text").css("font-size",""+getHeight("devicesate-title")/2+"px");
@@ -294,10 +322,10 @@ function addAllBar (height,attr){
 	/////////////////////////////////    attr["counts"]   [0/1/2/3]:数组  0、1、2、3  照明  插座   空调   其他设备
 	/////////////////////////////////    attr["usingCount"]   [0/1/2/3]:数组  0、1、2、3  照明  插座   空调   其他设备
 	
-	addDeviceBar('bar-1',height,attr["counts"][0],attr["usingCount"][0]);
-	addDeviceBar('bar-2',height,attr["counts"][2],attr["usingCount"][2]);
-	addDeviceBar('bar-3',height,attr["counts"][1],attr["usingCount"][1]);
-	addDeviceBar('bar-4',height,attr["counts"][3],attr["usingCount"][3]);
+	addDeviceBar('bar-1',"#F088AB","#DC5072",height,attr["counts"][0],attr["usingCount"][0]);
+	addDeviceBar('bar-2',"#FDE47C","#F9C446",height,attr["counts"][2],attr["usingCount"][2]);
+	addDeviceBar('bar-3',"#88D6B2","#50AC7B",height,attr["counts"][1],attr["usingCount"][1]);
+	addDeviceBar('bar-4',"#77E8F3","#42CDE4",height,attr["counts"][3],attr["usingCount"][3]);
 }
 
 //////////////////////////addbuilding
@@ -322,6 +350,58 @@ function refreshBuilding (buildName){
 function selectFloor(obj){
 	var id = obj.id.split("-")[1];
 	window.location.href="/webpage/com/lierda/main/FloorHome.jsp?floorid="+id+"";
+}
+
+function addRightBot (attributes) {
+	var lightRecordToday=parseFloat(attributes['stripRecordToday']).toFixed(2);
+	var lightRecordYesterday=parseFloat(attributes['stripRecordYesterday']).toFixed(2);
+	var conditionerRecordToday=parseFloat(attributes['conditionerRecordToday']).toFixed(2);
+	var conditionerRecordYesterday=parseFloat(attributes['conditionerRecordYesterday']).toFixed(2);
+
+	///////////////////////////////////////////////////////////////////空调用电
+	$("#air-today-used").text(""+conditionerRecordToday+"");
+	if (isNaN(conditionerRecordToday) || isNaN(conditionerRecordYesterday)) {
+		console.log("===============================NaN");
+		$("#air-today-used").text("-");
+		$("#air-used-compare").text("-%");
+		$("#air-used-comparepic").attr('src',"/images/lierda/main-icon/used.png");
+	}
+	else if (conditionerRecordYesterday < conditionerRecordToday) {
+		console.log("====================================================up");
+		$("#air-used-compare").text(""+(conditionerRecordToday/conditionerRecordYesterday*100-100).toFixed(2)+"%");
+		$("#air-used-comparepic").attr('src',"/images/lierda/main-icon/usedup.png");
+	}
+	else if (conditionerRecordYesterday > conditionerRecordToday) {
+		console.log("====================================================down"+((conditionerRecordYesterday-conditionerRecordToday)/conditionerRecordYesterday*100).toFixed(2));
+		$("#air-used-compare").text(""+((conditionerRecordYesterday-conditionerRecordToday)/conditionerRecordYesterday*100).toFixed(2)+"%");
+		$("#air-used-comparepic").attr('src',"/images/lierda/main-icon/useddown.png");
+	}
+	else {
+		console.log("====================================================");
+		$("#air-used-compare").text("0%");
+		$("#air-used-comparepic").attr('src',"/images/lierda/main-icon/used.png");
+	}
+	
+	///////////////////////////////////////////////////////////////////照明用电
+	$("#light-today-used").text(""+lightRecordToday+"");
+	if (isNaN(lightRecordToday) || isNaN(lightRecordYesterday)) {
+		$("#light-today-used").text("-");
+		$("#light-used-compare").text("-%");
+		$("#light-used-comparepic").attr('src',"/images/lierda/main-icon/used.png");
+	}
+	else if (lightRecordYesterday < lightRecordToday) {
+		$("#light-used-compare").text(""+(lightRecordToday/lightRecordYesterday*100-100).toFixed(2)+"%");
+		$("#light-used-comparepic").attr('src',"/images/lierda/main-icon/usedup.png");
+	}
+	else if (lightRecordYesterday > lightRecordToday) {
+		$("#light-used-compare").text(""+((lightRecordYesterday-lightRecordToday)/lightRecordYesterday*100).toFixed(2)+"%");
+		$("#light-used-comparepic").attr('src',"/images/lierda/main-icon/useddown.png");
+	}
+	else {
+		$("#light-used-compare").text("0%");
+		$("#light-used-comparepic").attr('src',"/images/lierda/main-icon/used.png");
+	}
+	
 }
 
 function getHeight(divid) {

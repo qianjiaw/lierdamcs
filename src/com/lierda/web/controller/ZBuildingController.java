@@ -45,7 +45,7 @@ import com.lierda.web.entity.ZRoomEntity;
 import com.lierda.web.service.ZBuildingServiceI;
 import com.lierda.web.service.ZFloorServiceI;
 import com.lierda.web.service.ZParkServiceI;
-import com.lierda.web.service.impl.ZBuildingServiceImplmy;
+import com.lierda.web.service.impl.ZBuildingServiceImpl;
 import com.lierda.web.util.GeneralUtil;
 
 import org.springframework.http.ResponseEntity;

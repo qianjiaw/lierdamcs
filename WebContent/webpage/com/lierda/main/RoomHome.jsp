@@ -47,7 +47,7 @@
 		<div id="right" class="right">
 			<div id="roommain" class="roommain">
 				<div id="room-sence-power" class="room-sence-power">
-					<div id="room-sence-power-title" class="main-right-title">
+					<div id="room-sence-power-title" class="room-sence-title">
 						<p id="roomname" class="main-message-text"></p>
 					</div>
 					<div id="room-sence" class="room-sence">

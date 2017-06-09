@@ -8,6 +8,7 @@ function addPowerBar (divid,ajaxdata) {
 option = {
     title : {
         text: '设备时功耗（KW·h）',
+        color:'#444444',
         subtext: 'data from www.lierdalux.cn',
         left:'15',
         top:'5'
@@ -77,7 +78,6 @@ option = {
 
 
 myChart.setOption(option);
-
 }
 
 function resizePowerChart (divid) {

@@ -50,12 +50,24 @@ a:active {text-decoration:none ; color:black;}
     border-bottom: 1px solid #e8ecf8;
 }
 
+.room-state-icon {
+	background: url(/images/lierda/main-icon/room.png) no-repeat;
+	background-size: 100% 100%;
+	height:70%;
+    float: left;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
 .floor-text-font {
-	height:40px;
-	width:140px;
-	border:none;
-	font-size: large;
-    line-height: 40px;
+	margin-top: 8px;
+    font-family: PingFangSC-Regular;
+    /*font-size: 14px;*/
+    color: #444444;
+    letter-spacing: 1.16px;
+    text-align: left;
+    margin-left: 10px;
+    float: left;
 }
 
 .floor-main {

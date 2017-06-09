@@ -20,7 +20,7 @@
 		      <label class="Validform_label">所属楼层:</label>
 			  <select id="floorid" name="floorid">
 				<c:forEach items="${zfloorList}" var="item">
-					<option id="${item.id}" class="inputxt">${item.parkname}-${item.buildingname}-${item.floorname}</option>
+					<option id="${item.id}" value="${item.id}" class="inputxt">${item.parkname}-${item.buildingname}-${item.floorname}</option>
 				</c:forEach>
 			  </select>
 		      <span class="Validform_checktip"></span>

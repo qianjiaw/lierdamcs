@@ -1,6 +1,6 @@
 
 
-function addDeviceBar (divid,height,total,using) {
+function addDeviceBar (divid,colorstart,colorend,height,total,using) {
 	
 	var title = '已使用比例';
 	
@@ -8,13 +8,20 @@ function addDeviceBar (divid,height,total,using) {
 	var Number_total = parseInt(total);
 	var Number_using = parseInt(using);
 	var Number_unusing = Number_total-Number_using;
-	console.log(Number_total);
-	console.log(Number_using);
-	console.log(Number_unusing);
 	
 	if (Number_total == 0) {
 		title = '无该设备';
 	}
+	
+	 Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
+	        return {
+	            radialGradient: { cx: 0.5, cy: 0.3, r: 0.5 },
+	            stops: [
+	                [0.5, colorstart],
+	                [0.75, colorend] // darken
+	            ]
+	        };
+	    });
 	
 	var chart = new Highcharts.Chart(
 			divid,
@@ -33,7 +40,7 @@ function addDeviceBar (divid,height,total,using) {
 					floating : true,
 					text : title,
 					style : {
-						color : '#FF00FF',
+						color : colorend,
 						fontWeight : 'bold',
 						textAlign : 'center',
 						fontSize : height/10+'px'
@@ -43,7 +50,7 @@ function addDeviceBar (divid,height,total,using) {
 					floating : true,
 					text : Number_total,
 					style : {
-						color : '#FF00FF',
+						color : colorend,
 						textAlign : 'center',
 						fontSize : height/10+'px'
 					},
@@ -75,7 +82,17 @@ function addDeviceBar (divid,height,total,using) {
 					type : 'pie',
 					innerSize : '90%',
 					name : '设备状态',
-					data : [ [ '已使用', Number_using ], [ '未使用', Number_unusing ] ]
+					data : [ 
+						{
+							name:'已使用',
+							y:Number_using
+						},
+						{
+							name:'未使用',
+							y:Number_unusing,
+							color:'#F3F3F3'
+						}
+					]
 				} ]
 			},
 			function(c) {

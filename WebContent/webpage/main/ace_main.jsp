@@ -209,7 +209,7 @@
 								<img class="nav-user-photo" src="plug-in/ace/avatars/avatar2.png" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>${userName }</small>
-				                    <span style="color: #666633">${roleName }</span>
+				                    <span style="color: white">${roleName }</span>
 								</span>
 
 								<i class="icon-caret-down"></i>
