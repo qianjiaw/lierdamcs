@@ -137,58 +137,58 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 	 * @param recordingEntities
 	 * @param currentPower
 	 */
-	public Map<String, double[]> getPowerByType(List<PowerRecordingEntity> recordingEntities,Map<String, Object> currentPower){
-		Set<String> type1=new HashSet<String>();
-		Set<String> type15=new HashSet<String>();
-		Set<String> type26=new HashSet<String>();
-		Map<String, double[]> powerMap=new HashMap<String, double[]>();
-		double[] total1=new double[24];
-		double[] total15=new double[24];
-		double[] total26=new double[24];
-		
-		for (PowerRecordingEntity powerRecordingEntity : recordingEntities) {
-			if(powerRecordingEntity.getType().equals("1")){
-				type1.add(powerRecordingEntity.getMacid());
-			}else if (powerRecordingEntity.getType().equals("15")) {
-				type15.add(powerRecordingEntity.getMacid());
-			}else if (powerRecordingEntity.getType().equals("26")) {
-				type26.add(powerRecordingEntity.getMacid());
-			}
-		}
-		
-		if(type1.size()!=0){
-			for (String string : type1) {
-				Double[] avgPower=(Double[]) currentPower.get(string);
-				for(int i=0;i<24;i++){
-					total1[i]=total1[i]+avgPower[i];
-				}
-			}
-		}
-		
-		if(type15.size()!=0){
-			for (String string : type15) {
-				Double[] avgPower=(Double[]) currentPower.get(string);
-				for(int i=0;i<24;i++){
-					total15[i]=total15[i]+avgPower[i];
-				}
-			}
-		}
-		
-		if(type26.size()!=0){
-			for (String string : type26) {
-				Double[] avgPower=(Double[]) currentPower.get(string);
-				for(int i=0;i<24;i++){
-					total26[i]=total26[i]+avgPower[i];
-				}
-			}
-		}
-		
-		powerMap.put("1", total1);
-		powerMap.put("15", total15);
-		powerMap.put("26", total26);
-		
-		return powerMap;
-	}
+//	public Map<String, double[]> getPowerByType(List<PowerRecordingEntity> recordingEntities,Map<String, Object> currentPower){
+//		Set<String> type1=new HashSet<String>();
+//		Set<String> type15=new HashSet<String>();
+//		Set<String> type26=new HashSet<String>();
+//		Map<String, double[]> powerMap=new HashMap<String, double[]>();
+//		double[] total1=new double[24];
+//		double[] total15=new double[24];
+//		double[] total26=new double[24];
+//		
+//		for (PowerRecordingEntity powerRecordingEntity : recordingEntities) {
+//			if(powerRecordingEntity.getType().equals("1")){
+//				type1.add(powerRecordingEntity.getMacid());
+//			}else if (powerRecordingEntity.getType().equals("15")) {
+//				type15.add(powerRecordingEntity.getMacid());
+//			}else if (powerRecordingEntity.getType().equals("26")) {
+//				type26.add(powerRecordingEntity.getMacid());
+//			}
+//		}
+//		
+//		if(type1.size()!=0){
+//			for (String string : type1) {
+//				Double[] avgPower=(Double[]) currentPower.get(string);
+//				for(int i=0;i<24;i++){
+//					total1[i]=total1[i]+avgPower[i];
+//				}
+//			}
+//		}
+//		
+//		if(type15.size()!=0){
+//			for (String string : type15) {
+//				Double[] avgPower=(Double[]) currentPower.get(string);
+//				for(int i=0;i<24;i++){
+//					total15[i]=total15[i]+avgPower[i];
+//				}
+//			}
+//		}
+//		
+//		if(type26.size()!=0){
+//			for (String string : type26) {
+//				Double[] avgPower=(Double[]) currentPower.get(string);
+//				for(int i=0;i<24;i++){
+//					total26[i]=total26[i]+avgPower[i];
+//				}
+//			}
+//		}
+//		
+//		powerMap.put("1", total1);
+//		powerMap.put("15", total15);
+//		powerMap.put("26", total26);
+//		
+//		return powerMap;
+//	}
 	
 	/**
 	 * 获取各个计量各时间段功率
@@ -328,6 +328,14 @@ public class ZBuildingServiceImpl extends CommonServiceImpl implements ZBuilding
 				powerHour[i]=currentPower[i+1]-currentPower[i];
 			}
 		return powerHour;
+	}
+
+	@Override
+	public Map<String, float[]> getPowerByType(
+			List<PowerRecordingEntity> recordingEntities,
+			Map<String, Object> currentPower) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
