@@ -54,7 +54,7 @@ public class ZBuildingServiceImplmy extends CommonServiceImpl implements ZBuildi
 		
 		while(it.hasNext()){
 			Map.Entry<String, Object> entry=it.next();
-			double[] value=(double[]) entry.getValue();
+			float[] value=(float[]) entry.getValue();
 			for (int i = 0; i < 24; i++) {
 				hour[i]=hour[i]+value[i];
 			}
@@ -92,7 +92,7 @@ public class ZBuildingServiceImplmy extends CommonServiceImpl implements ZBuildi
 //			List<Double> powerArray=new ArrayList<Double>();
 //			hour=i+"";
 //			hourPower.put(hour, powerArray);
-//		}
+//		}2
 //		
 //		timeStart=timeStart*1000;
 //		for (PowerRecordingEntity powerRecordingEntity : entities) {
@@ -142,14 +142,14 @@ public class ZBuildingServiceImplmy extends CommonServiceImpl implements ZBuildi
 	 * @param recordingEntities
 	 * @param currentPower
 	 */
-	public Map<String, double[]> getPowerByType(List<PowerRecordingEntity> recordingEntities,Map<String, Object> currentPower){
+	public Map<String, float[]> getPowerByType(List<PowerRecordingEntity> recordingEntities,Map<String, Object> currentPower){
 		Set<String> type1=new HashSet<String>();
 		Set<String> type15=new HashSet<String>();
 		Set<String> type26=new HashSet<String>();
-		Map<String, double[]> powerMap=new HashMap<String, double[]>();
-		double[] total1=new double[24];
-		double[] total15=new double[24];
-		double[] total26=new double[24];
+		Map<String, float[]> powerMap=new HashMap<String, float[]>();
+		float[] total1=new float[24];
+		float[] total15=new float[24];
+		float[] total26=new float[24];
 		
 		for (PowerRecordingEntity powerRecordingEntity : recordingEntities) {
 			if(powerRecordingEntity.getType().equals("1")){
@@ -163,7 +163,7 @@ public class ZBuildingServiceImplmy extends CommonServiceImpl implements ZBuildi
 		
 		if(type1.size()!=0){
 			for (String string : type1) {
-				double[] allPower=(double[]) currentPower.get(string);
+				float[] allPower=(float[]) currentPower.get(string);
 				for(int i=0;i<24;i++){
 					total1[i]=total1[i]+allPower[i];
 				}
@@ -172,7 +172,7 @@ public class ZBuildingServiceImplmy extends CommonServiceImpl implements ZBuildi
 		
 		if(type15.size()!=0){
 			for (String string : type15) {
-				double[] allPower=(double[]) currentPower.get(string);
+				float[] allPower=(float[]) currentPower.get(string);
 				for(int i=0;i<24;i++){
 					total15[i]=total15[i]+allPower[i];
 				}
@@ -181,7 +181,7 @@ public class ZBuildingServiceImplmy extends CommonServiceImpl implements ZBuildi
 		
 		if(type26.size()!=0){
 			for (String string : type26) {
-				double[] allPower=(double[]) currentPower.get(string);
+				float[] allPower=(float[]) currentPower.get(string);
 				for(int i=0;i<24;i++){
 					total26[i]=total26[i]+allPower[i];
 				}
@@ -244,13 +244,13 @@ public class ZBuildingServiceImplmy extends CommonServiceImpl implements ZBuildi
 	
 	//计算功率
 	
-	public  double[] calculatePower(List<PowerRecordingEntity> entities,long timeStart){
+	public  float[] calculatePower(List<PowerRecordingEntity> entities,long timeStart){
 			ArrayList<String> notWork=new ArrayList<String>();
 			long hour=0;
 			long before=0;//时间戳与前一个整点的绝对值
 			long after=0;//时间戳与后一个整点的绝对值
 			long[] min=new long[25];//距离整点最近的时间戳，最后一个比较的是当天的24点与下一天的1点的多余数据
-			double[] powerHour=new double[24];//各个整点间的功耗
+			float[] powerHour=new float[24];//各个整点间的功耗
 			double[] currentPower=new double[25];//计量在当前时刻的总功耗
 			for (int i = 0; i < min.length; i++) {
 				min[i]=3600*1000;
@@ -277,7 +277,8 @@ public class ZBuildingServiceImplmy extends CommonServiceImpl implements ZBuildi
 			}
 			
 			for (int i = 0; i < currentPower.length-1; i++) {
-				powerHour[i]=(currentPower[i+1]-currentPower[i]<0?0:currentPower[i+1]-currentPower[i]);
+				powerHour[i]=((float)(currentPower[i+1]-currentPower[i])<0?0:(float)(currentPower[i+1]-currentPower[i]));
+				System.out.println(powerHour[i]);
 			}
 		return powerHour;
 	}
@@ -291,11 +292,6 @@ public class ZBuildingServiceImplmy extends CommonServiceImpl implements ZBuildi
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
-	
-	
-	
 	
 	
 	
