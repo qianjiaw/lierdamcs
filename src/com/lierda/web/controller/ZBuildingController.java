@@ -296,7 +296,7 @@ public class ZBuildingController extends BaseController {
 		Map<String, String> powerMap=new HashMap<String, String>();
 		Map<String, Object> currentPower=new HashMap<String, Object>();
 		Map<String, Object> currentPowerTotal=new HashMap<String, Object>();
-		Map<String, double[]> typePowerMap=new HashMap<String, double[]>();
+		Map<String, float[]> typePowerMap=new HashMap<String, float[]>();
 		Set<String> macids=new HashSet<String>();
 		String buildId=request.getParameter("buildId");
 		long timeStart=GeneralUtil.getTimesmorning();
@@ -371,7 +371,7 @@ public class ZBuildingController extends BaseController {
 	}
 	
 	/**
-	 * 获取建筑物内今日距离当前最近能耗记录和昨日最后一次能耗记录
+	 * 获取建筑物内各个设备今日距离当前最近能耗记录和昨日最后一次能耗记录
 	 * @param request
 	 * @return
 	 */
@@ -450,10 +450,10 @@ public class ZBuildingController extends BaseController {
 //		List<PowerRecordingEntity> stripRecordYesterday=jeecgMinidaoService.getPowerBybid(stripYesterday);
 //		List<PowerRecordingEntity> conditionerRecordToday=jeecgMinidaoService.getPowerBybid(conditionerToday);
 //		List<PowerRecordingEntity> conditionerRecordYesterday=jeecgMinidaoService.getPowerBybid(conditionerYesterday);
-		map.put("lightRecordToday", macidsLight.size()==0?0:zBuildingService.findListbySql(lightToday).get(0));
-		map.put("lightRecordYesterday", macidsLight.size()==0?0:zBuildingService.findListbySql(lightYesterday).get(0));
-		map.put("conditionerRecordToday", macidsConditioner.size()==0?0:zBuildingService.findListbySql(conditionerToday).get(0));
-		map.put("conditionerRecordYesterday", macidsConditioner.size()==0?0:zBuildingService.findListbySql(conditionerYesterday).get(0));
+		map.put("lightRecordToday", lightToday.equals("")?0:zBuildingService.findListbySql(lightToday).get(0));
+		map.put("lightRecordYesterday", lightYesterday.equals("")?0:zBuildingService.findListbySql(lightYesterday).get(0));
+		map.put("conditionerRecordToday", conditionerToday.equals("")?0:zBuildingService.findListbySql(conditionerToday).get(0));
+		map.put("conditionerRecordYesterday", conditionerYesterday.equals("")?0:zBuildingService.findListbySql(conditionerYesterday).get(0));
 		
 		j.setAttributes(map);
 		return j;
