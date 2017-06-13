@@ -63,7 +63,7 @@
     line-height: 26px;
     margin: 2px auto;
     text-align: center;
-    font-family: 楷体;
+    font-family: PingFangSC-Regular;
     font-weight: 600;
     color: white;
     background-color: #728ce3;
@@ -126,7 +126,7 @@ select::-ms-expand { display: none; }
 
 .right {
 	width:70%;
-	min-width:360px;
+	min-width:400px;
 	margin-left: 10px;
 	overflow-y:auto;
 	top:2px;
@@ -170,7 +170,7 @@ select::-ms-expand { display: none; }
 
 .main-righttop-title {
     width: 94%;
-    height: 20%;
+    height: 30px;
     min-height: 30px;
     border-bottom: 1px solid #e8ecf8;
     margin: 0px auto;
@@ -180,7 +180,7 @@ select::-ms-expand { display: none; }
 
 .main-rightcenter-title {
     width: 94%;
-    height: 7%;
+    height: 30px;
     min-height: 30px;
     border-bottom: 1px solid #e8ecf8;
     margin: 0px auto;
@@ -190,7 +190,7 @@ select::-ms-expand { display: none; }
 
 .main-rightbottom-title {
     width: 94%;
-    height: 30%;
+    height: 30px;
     min-height: 30px;
     border-bottom: 1px solid #e8ecf8;
     margin: 0px auto;
@@ -235,14 +235,16 @@ select::-ms-expand { display: none; }
 }
 
 .main-message-text {
-	margin-top: 8px;
     font-family: PingFangSC-Regular;
-    /*font-size: 14px;*/
+    font-size: 14px;
     color: #444444;
     letter-spacing: 1.16px;
+    line-height:30px;
     text-align: left;
     margin-left: 10px;
     float: left;
+    height: 100%;
+    width: 50%;
 }
 
 .main-main-text {
@@ -275,11 +277,14 @@ select::-ms-expand { display: none; }
 }
 
 .bar-text {
-    bottom: 2px;
+    bottom: 5px;
     position: absolute;
     width: 23.75%;
     text-align: center;
-    font-family:黑体;
+    color: #444444;
+    font-family: PingFangSC-Regular;
+    letter-spacing: 1.5px;
+    font-size: 12px;
 }
 
 .device-power-spline {
@@ -303,11 +308,21 @@ select::-ms-expand { display: none; }
 	position: relative;
 }
 
+.device-sort-power-img {
+	width: 100%;
+    height: 100%;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+    position: absolute;
+}
+
 .air-condition-pic {
     height: 70%;
 	float:left;
-	background:url(/images/lierda/main-icon/air-condition-pic.PNG) no-repeat center;
-	background-size:100% 100%;
+	background:#68ddeb;
 	position:relative;
 	border-radius: 10px;
 }
@@ -315,8 +330,7 @@ select::-ms-expand { display: none; }
 .light-pic {
     height: 70%;
 	float:left;
-	background:url(/images/lierda/main-icon/light-pic.PNG) no-repeat center;
-	background-size:100% 100%;
+	background-color:#ffde66;
 	position:relative;
 	border-radius: 10px;
 }
@@ -324,8 +338,7 @@ select::-ms-expand { display: none; }
 .energy-pic {
     height: 70%;
 	float:left;
-	background:url(/images/lierda/main-icon/energy-pic.PNG) no-repeat center;
-	background-size:100% 100%;
+	background:#eb6c8b;
 	position:relative;
 	border-radius: 10px;
 }
@@ -347,6 +360,9 @@ select::-ms-expand { display: none; }
     position: absolute;
     top: 0px;
     color:#444444;
+    font-family:PingFangSC-Regular;
+    letter-spacing:1.5px;
+    text-align:left;
 }
 
 .sort-text-used {
@@ -359,6 +375,9 @@ select::-ms-expand { display: none; }
     bottom: 0px;
     margin: auto;
     color:#444444;
+    font-family:PingFangSC-Regular;
+    letter-spacing:1px;
+    text-align:left;
 }
 
 .sort-text-compare {
@@ -368,6 +387,9 @@ select::-ms-expand { display: none; }
     position: absolute;
     bottom: 0px;
     color:#444444;
+    font-family:PingFangSC-Regular;
+    letter-spacing:0px;
+    text-align:left;
 }
 
 .sort-pic-compare {
@@ -400,7 +422,7 @@ select::-ms-expand { display: none; }
 	height: 30px;
     width: 100%;
     text-align: center;
-    font-family: 楷体;
+    font-family: PingFangSC-Regular;
     font-size: larger;
     line-height: 30px;
 }

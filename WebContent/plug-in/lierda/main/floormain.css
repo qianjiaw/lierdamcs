@@ -24,13 +24,13 @@ a:active {text-decoration:none ; color:black;}
     overflow-y: auto;
     margin-top: 1%;
     background-color: #fafbff;    
-    border: 1px solid #dbe1f0;
+    border: 1px solid #dfdfeb;
     border-radius: 4px;
 }
 
 .room-device-state {
 	width:98%;
-	min-width:640px;
+	min-width:650px;
 	margin-left:1%;
 	height:35%;
 	margin-top:1%;
@@ -39,19 +39,37 @@ a:active {text-decoration:none ; color:black;}
 	overflow-y:auto;
 	position:relative;
     background-color: #fafbff;
-    border: 1px solid #dbe1f0;
+    border: 1px solid #dfdfeb;
     border-radius: 4px;
 }
 
 .floor-main-text {
 	width: 94%;
-    height: 40px;
+    height: 30px;
     margin: 0px auto;
-    border-bottom: 1px solid #e8ecf8;
+    border-bottom: 1px solid #efefef;
 }
 
 .room-state-icon {
-	background: url(/images/lierda/main-icon/room.png) no-repeat;
+	background: url(/images/lierda/floor-icon/room.png) no-repeat;
+	background-size: 100% 100%;
+	height:70%;
+    float: left;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.floor-roomcheck-icon {
+	background: url(/images/lierda/floor-icon/controller.png) no-repeat;
+	background-size: 100% 100%;
+	height:70%;
+    float: left;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.floor-bot-icon {
+	background: url(/images/lierda/floor-icon/monitor.png) no-repeat;
 	background-size: 100% 100%;
 	height:70%;
     float: left;
@@ -79,6 +97,7 @@ a:active {text-decoration:none ; color:black;}
 }
 
 .room-state-pic {
+	padding-top:5px;
 	width:100%;
 }
 .room-light-ON {
@@ -158,8 +177,11 @@ a:active {text-decoration:none ; color:black;}
 
 .room-state-font {
 	color: whitesmoke;
-    font-family: -webkit-pictograph;
-    font-weight: bold;
+    font-family:PingFangSC-Regular;
+	font-size:18px;
+	color:#ffffff;
+	letter-spacing:1.5px;
+	text-align:center;
 }
 
 .floor-controller {
@@ -188,23 +210,13 @@ a:active {text-decoration:none ; color:black;}
 	position: relative;
     width: 50%;
     height: 100%;
-    background-color: dimgrey;
+    background:#728ce3;
     float: left;
-}
-.triangle-first-right {
-	width: 0px;
-    position: absolute;
-    background: white;
-    height: 0px;
-    right: 0px;
-    border-width: 20px 0px 20px 20px;
-    border-color: transparent dimgray;
-    border-style: solid;
 }
 .controller-step-second {
 	width: 22%;
     height: 100%;
-    background-color: purple;
+    background:#8ca3f1;
     float: left;
     position: relative;
 }
@@ -222,76 +234,40 @@ a:active {text-decoration:none ; color:black;}
     position: relative;
     font-size: 14px;
 }
-.triangle-second-left {
-	width: 0px;
-    position: absolute;
-    background: purple;
-    height: 0px;
-    left: 0px;
-    border-width: 20px 0px 20px 20px;
-    border-color: transparent white;
-    border-style: solid;
-}
-.triangle-second-right {
-	width: 0px;
-    position: absolute;
-    background: white;
-    height: 0px;
-    right: 0px;
-    border-width: 20px 0px 20px 20px;
-    border-color: transparent purple;
-    border-style: solid;
-}
 .controller-step-third {
 	width: 28%;
     height: 100%;
-    background-color: red;
+    background:#bac9fc;
     float: left;
     position: relative;
 }
 .controller-third-main {
-	width:80%;
-	height:40%;
-	margin-left:10%;
-	position:relative;
+    width: 40%;
+    height: 80%;
+    margin-left: 30%;
+    position: relative;
 }
 .controller-open-all {
-	width:49%;
-	height:100%;
-	text-align:center;
-	position:relative;
-	color:white;
-	background-color:skyblue;
-	float:left;
+    width: 100%;
+    height: 40%;
+    top:0px;
+    text-align: center;
+    position: absolute;
+    color: white;
+    background:#728ce3;
+    box-shadow: 0px 0px 4px 0px #728ce3;
+    border-radius: 10px;
 }
 .controller-close-all {
-	width:49%;
-	height:100%;
-	text-align:center;
-	position:relative;
-	color:white;
-	background-color:red;
-	float:right;
-}
-.triangle-third-left {
-	width: 0px;
+    width: 100%;
+    height: 40%;
+    bottom:0px;
+    text-align: center;
     position: absolute;
-    background: red;
-    height: 0px;
-    left: 0px;
-    border-width: 20px 0px 20px 20px;
-    border-color: transparent white;
-    border-style: solid;
-}
-.triangle-third-right {
-	width: 0px;
-    position: absolute;
-    background: white;
-    height: 0px;
-    right: 0px;
-    border-width: 20px 0px 20px 20px;
-    border-color: transparent red;
-    border-style: solid;
+    color: white;
+	background:#eb6c8b;
+	box-shadow:0px 0px 4px 0px rgba(220,80,114,0.62);
+	border-radius:10px;
 }
 .floor-controller-main {
 	position: absolute;
@@ -303,25 +279,25 @@ a:active {text-decoration:none ; color:black;}
 	position:relative;
 	/*width:49%;*/
 	height:100%;
-	border-top:1px solid skyblue;
-	border-left:1px solid skyblue;
-	border-bottom:1px solid skyblue;
+	border-top:1px solid #dfdfeb;
+	border-left:1px solid #dfdfeb;
+	border-bottom:1px solid #dfdfeb;
 	float:left;
 }
 .controller-main-second {
 	position:relative;
 	/*width:22%;*/
 	height:100%;
-	border-top:1px solid skyblue;
-	border-left:1px solid skyblue;
-	border-bottom:1px solid skyblue;
+	border-top:1px solid #dfdfeb;
+	border-left:1px solid #dfdfeb;
+	border-bottom:1px solid #dfdfeb;
 	float:left;
 }
 .controller-main-third {
 	position:relative;
 	/*width:28%;*/
 	height:100%;
-	border:1px solid skyblue;
+	border:1px solid #dfdfeb;
 	float:left;
 }
 
@@ -329,8 +305,8 @@ a:active {text-decoration:none ; color:black;}
 	width: 100%;
     border-spacing: 0;
     text-align: center;
-	border-bottom: 1px solid rgb(205, 205, 205);
-    border-right: 1px solid rgb(205, 205, 205);
+	border-bottom: 1px solid #dfdfeb;
+    border-right: 1px solid #dfdfeb;
 }
 
 .device-state-body {
@@ -380,20 +356,20 @@ a:active {text-decoration:none ; color:black;}
 	height:20px;
 	width:20px;
 	margin: 1px auto;
-	background:url(/images/lierda/roomstate/user-none.png) no-repeat;
+	background:url(/images/lierda/roomstate/device-none.png) no-repeat;
 	background-size:100% 100%;
 }
 
 .device-state-head th {
-	border-top: 1px solid rgba(0, 0, 255, 0.6);
-    border-bottom: 1px solid rgba(0, 0, 255, 0.6);
-    border-left: 1px solid rgba(0, 0, 255, 0.6);
+	border-top: 1px solid #dfdfeb;
+    border-bottom: 1px solid #dfdfeb;
+    border-left: 1px solid #dfdfeb;
     background: powderblue;
     font-size: 8px;
     line-height: 20px;
 }
 .last-th {
-	border-right: 1px solid rgba(0, 0, 255, 0.6);
+	border-right: 1px solid #dfdfeb;
 }
 
 .unclickth {
@@ -425,8 +401,8 @@ a:active {text-decoration:none ; color:black;}
 }
 
 .device-state-table td {
-	border-top: 1px solid rgb(205, 205, 205);
-    border-left: 1px solid rgb(205, 205, 205);
+	border-top: 1px solid #dfdfeb;
+    border-left: 1px solid #dfdfeb;
 }
 
 
