@@ -65,17 +65,12 @@
 						<div id="floor-controller-step" class="floor-controller-step">
 							<div id="controller-step-first" class="controller-step-first">
 								<span class="controller-step-font">1、勾选房号</span>
-								<div id="triangle-right" class="triangle-first-right"></div>
 							</div>
 							<div id="controller-step-second" class="controller-step-second">
 								<span class="controller-step-font">2、勾选设备</span>
-								<div id="triangle-left" class="triangle-second-left"></div>
-								<div id="triangle-right" class="triangle-second-right"></div>
 							</div>
 							<div id="controller-step-third" class="controller-step-third">
 								<span class="controller-step-font">3、控制操作</span>
-								<div id="triangle-left" class="triangle-third-left"></div>
-								<div id="triangle-right" class="triangle-third-right"></div>
 							</div>
 						</div>
 						<div id="floor-controller-main" class="floor-controller-main">
@@ -106,7 +101,8 @@
 
 				<div id="room-device-state" class="room-device-state">
 					<div id="device-state-text" class="floor-main-text">
-						<span id="this-floor-bot" class="floor-text-font">设备状态监控</span>
+						<span id="floor-bot-icon" class="floor-bot-icon"></span>
+						<p id="floor-text-font" class="floor-text-font">设备状态监控</p>
 					</div>
 					<div id="device-state" class="floor-main">
 						<table id="device-state-table" class="device-state-table">
@@ -302,6 +298,8 @@
 		setWidthByPercent("floor-controller-main", "controller-main-third",27, 2);
 		////////////icon setWidth
 		$("#room-state-icon").width(getHeight("room-state-icon")*6/7+"px");
+		$("#floor-roomcheck-icon").width(getHeight("floor-roomcheck-icon")+"px");
+		$("#floor-bot-icon").width(getHeight("floor-bot-icon")*1.2+"px");
 		
 		///////////////////////////////setTop
 		var controllerlightheight = getHeight("controller-light")/2-6;
@@ -311,17 +309,16 @@
 		$("#controller-air-check").css("top",""+controllerairconditionheight+"px");
 		$("#controller-air-text").css("top",""+(controllerairconditionheight-2)+"px");
 		
-		var controllermainthird = getHeight("controller-main-third")*0.3;
+		var controllermainthird = getHeight("controller-main-third")*0.1;
 		$("#controller-third-main").css("margin-top",""+(controllermainthird)+"px");
 		
 		///////////////////////////////setLineHeight
-		var controllerthirdmain = getHeight("controller-third-main");
-		$("#open-controller").css("line-height",""+controllerthirdmain+"px");
-		$("#close-controller").css("line-height",""+controllerthirdmain+"px");
+		var controlleropenline = getHeight("controller-open-all");
+		var controllercloseline = getHeight("controller-close-all");
+		$("#open-controller").css("line-height",""+controlleropenline+"px");
+		$("#close-controller").css("line-height",""+controllercloseline+"px");
 		
 		///////////////////////////////////set FontSize
-		$("#this-floor-top").css("font-size",""+getHeight("floor-room-text")/2+"px");
-		$("#this-floor-cen").css("font-size",""+getHeight("floor-controller-text")/2+"px");
 	}
 	
 	//////////////////////////addbuilding
@@ -340,7 +337,7 @@
 		$("#floor-main").empty();
 		var width = getWidth("floor-main") / 6 - 5;
 		var height = getHeight("floor-main")/4;
-		var stateheight = height*3/5;
+		var stateheight = height*3/5-5;
 		var lineheight = height*2/5;
 		for (var i = 0; i < rooms.length; i++) {
 			var roomState = roomsState[""+rooms[i].id+""];
@@ -350,7 +347,7 @@
 			'<div id="room-air-state" class="room-air-'+roomState.airConditioner.status+'"></div>'+
 			'<div id="room-person-state" class="room-person-'+roomState.senseHuman.status+'"></div>'+
 			'</div>'+
-			'<span class="room-state-font">'+rooms[i].roomname+'</span>'+
+			'<p class="room-state-font">'+rooms[i].roomname+'</p>'+
 			'</div>');
 		}
 	}
@@ -364,7 +361,7 @@
 		for (var i = 0; i < rooms.length; i++) {
 			$("#roomcheckform").append('<div id="room-check-'+i+'" style="height:'+height+'px;width:'+width+'px;min-width:50px;float:left;margin-left:2px;margin-top:2px;"></div>');
 			$("#room-check-"+i+"").append('<input type="checkbox" style="top: 50%;margin-top: -6px;position: relative;float:left;"  value="'+rooms[i].id+'"></input>');
-			$("#room-check-"+i+"").append('<a style="float:left;position:relative;font-size: 12px;font-weight:bold;line-height:'+height+'px;">'+rooms[i].roomname+'</a>');
+			$("#room-check-"+i+"").append('<a style="float:left;position:relative;font-size:12px;font-family:PingFangSC-Regular;line-height:'+height+'px;">'+rooms[i].roomname+'</a>');
 			//href="/webpage/com/lierda/main/RoomHome.jsp?roomid='+rooms[i].id+'"
 		}
 	}
@@ -509,7 +506,7 @@
 			);
 			if (roomState.airConditioner.status == "ON") {
 				$("#air-mode").append('<img src="/images/lierda/roomstate/'+roomState.airConditioner.mode+'.png" style="height:100%;width:100%;"></img>');
-				$("#air-temperature").append('<span>'+roomState.airConditioner.temperature+'℃</span>');
+				$("#air-temperature").append('<span style="font-family:PingFangSC-Regular;font-size:12px;color:#728ce3;">'+roomState.airConditioner.temperature+'℃</span>');
 				switch(roomState.airConditioner.windSpeed)
 				{
 				case 1 :$("#air-mode").append('<img src="/images/lierda/roomstate/airwind-1.png" style="height:100%;width:100%;"></img>');
@@ -592,9 +589,9 @@
 	}
 
 	function changetopshow (thisfloor) {
-		var id = thisfloor.id.split("-")[1];
-		$("#this-floor-top").text(id + "F楼层房态图");
-		$("#this-floor-cen").text(id + "F楼层控制模式");
+		var name = thisfloor.id.split("-")[1];
+		$("#this-floor-top").text(name + "F楼层房态图");
+		$("#this-floor-cen").text(name + "F楼层控制模式");
 	}
 	
 	function selectFloor(obj){

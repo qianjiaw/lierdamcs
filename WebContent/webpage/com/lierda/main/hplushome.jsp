@@ -81,23 +81,29 @@
 				</div>
 				<div id="device-sort-power" class="device-sort-power">
 					<div id="air-condition-power" class="each-sort-power">
-						<div id="sort-air-pic" class="air-condition-pic"></div>
+						<div id="sort-air-pic" class="air-condition-pic">
+							<img alt="" src="/images/lierda/main-icon/air-condition-pic.png" class="device-sort-power-img"></img>
+						</div>
 						<div id="sort-air-text" class="sort-power-text">
 							<p class="sort-text-title">空调用电</p>
 							<p class="sort-text-used"><span id="air-today-used" style="font-size:20px;"></span> KW·h</p>
-							<p class="sort-text-compare">昨日同期比<span id="air-used-compare"></span><img id="air-used-comparepic" class="sort-pic-compare" alt="" src=""></p>
+							<p class="sort-text-compare">昨日同期比 <span id="air-used-compare"></span><img id="air-used-comparepic" class="sort-pic-compare" alt="" src=""></p>
 						</div>
 					</div>
 					<div id="light-power" class="each-sort-power">
-						<div id="sort-light-pic" class="light-pic"></div>
+						<div id="sort-light-pic" class="light-pic">
+							<img alt="" src="/images/lierda/main-icon/light-pic.png" class="device-sort-power-img"></img>
+						</div>
 						<div id="sort-light-text" class="sort-power-text">
 							<p class="sort-text-title">照明用电</p>
 							<p class="sort-text-used"><span id="light-today-used" style="font-size:20px;"></span> KW·h</p>
-							<p class="sort-text-compare">昨日同期比<span id="light-used-compare"></span><img id="light-used-comparepic" class="sort-pic-compare" alt="" src=""></p>
+							<p class="sort-text-compare">昨日同期比 <span id="light-used-compare"></span><img id="light-used-comparepic" class="sort-pic-compare" alt="" src=""></p>
 						</div>
 					</div>
 					<div id="energy-power" class="each-sort-power">
-						<div id="sort-energy-pic" class="energy-pic"></div>
+						<div id="sort-energy-pic" class="energy-pic">
+							<img alt="" src="/images/lierda/main-icon/energy-pic.png" class="device-sort-power-img"></img>
+						</div>
 						<div id="sort-energy-text" class="sort-power-text"></div>
 					</div>
 				</div>
@@ -265,10 +271,8 @@ function setHAndWonload () {
 	$("#main-pic-power").width(getHeight("main-pic-power")*6/7+"px");
 	$("#main-sort-power").width(getHeight("main-sort-power")*6/7+"px");
 	
-	///////////////////////////////////set FontSize
-	$("#main-righttop-text").css("font-size",""+getHeight("devicesate-title")/2+"px");
-	$("#main-rightcenter-text").css("font-size",""+getHeight("realtime-consumption-title")/2+"px");
-	$("#main-rightbottom-text").css("font-size",""+getHeight("classification-title")/2+"px");
+	
+	///////////////////////////////////set LineHeight
 	
 	//////////////////////////////////getdata and add bar/spline
 	getBuildFloorMessage();
@@ -310,10 +314,7 @@ function freshHAndW () {
 	$("#main-pic-power").width(getHeight("main-pic-power")*6/7+"px");
 	
 
-	///////////////////////////////////set FontSize
-	$("#main-righttop-text").css("font-size",""+getHeight("devicesate-title")/2+"px");
-	$("#main-rightcenter-text").css("font-size",""+getHeight("realtime-consumption-title")/2+"px");
-	$("#main-rightbottom-text").css("font-size",""+getHeight("classification-title")/2+"px");
+	///////////////////////////////////set LineHeight
 	
 }
 
@@ -322,10 +323,10 @@ function addAllBar (height,attr){
 	/////////////////////////////////    attr["counts"]   [0/1/2/3]:数组  0、1、2、3  照明  插座   空调   其他设备
 	/////////////////////////////////    attr["usingCount"]   [0/1/2/3]:数组  0、1、2、3  照明  插座   空调   其他设备
 	
-	addDeviceBar('bar-1',"#F088AB","#DC5072",height,attr["counts"][0],attr["usingCount"][0]);
-	addDeviceBar('bar-2',"#FDE47C","#F9C446",height,attr["counts"][2],attr["usingCount"][2]);
+	addDeviceBar('bar-1',"#FDE47C","#F9C446",height,attr["counts"][0],attr["usingCount"][0]);
+	addDeviceBar('bar-2',"#77E8F3","#42CDE4",height,attr["counts"][2],attr["usingCount"][2]);
 	addDeviceBar('bar-3',"#88D6B2","#50AC7B",height,attr["counts"][1],attr["usingCount"][1]);
-	addDeviceBar('bar-4',"#77E8F3","#42CDE4",height,attr["counts"][3],attr["usingCount"][3]);
+	addDeviceBar('bar-4',"#F088AB","#DC5072",height,attr["counts"][3],attr["usingCount"][3]);
 }
 
 //////////////////////////addbuilding
@@ -368,12 +369,12 @@ function addRightBot (attributes) {
 	}
 	else if (conditionerRecordYesterday < conditionerRecordToday) {
 		console.log("====================================================up");
-		$("#air-used-compare").text(""+(conditionerRecordToday/conditionerRecordYesterday*100-100).toFixed(2)+"%");
+		$("#air-used-compare").text(""+(conditionerRecordToday/conditionerRecordYesterday*100-100).toFixed(0)+"%");
 		$("#air-used-comparepic").attr('src',"/images/lierda/main-icon/usedup.png");
 	}
 	else if (conditionerRecordYesterday > conditionerRecordToday) {
 		console.log("====================================================down"+((conditionerRecordYesterday-conditionerRecordToday)/conditionerRecordYesterday*100).toFixed(2));
-		$("#air-used-compare").text(""+((conditionerRecordYesterday-conditionerRecordToday)/conditionerRecordYesterday*100).toFixed(2)+"%");
+		$("#air-used-compare").text(""+((conditionerRecordYesterday-conditionerRecordToday)/conditionerRecordYesterday*100).toFixed(0)+"%");
 		$("#air-used-comparepic").attr('src',"/images/lierda/main-icon/useddown.png");
 	}
 	else {
@@ -390,11 +391,11 @@ function addRightBot (attributes) {
 		$("#light-used-comparepic").attr('src',"/images/lierda/main-icon/used.png");
 	}
 	else if (lightRecordYesterday < lightRecordToday) {
-		$("#light-used-compare").text(""+(lightRecordToday/lightRecordYesterday*100-100).toFixed(2)+"%");
+		$("#light-used-compare").text(""+(lightRecordToday/lightRecordYesterday*100-100).toFixed(0)+"%");
 		$("#light-used-comparepic").attr('src',"/images/lierda/main-icon/usedup.png");
 	}
 	else if (lightRecordYesterday > lightRecordToday) {
-		$("#light-used-compare").text(""+((lightRecordYesterday-lightRecordToday)/lightRecordYesterday*100).toFixed(2)+"%");
+		$("#light-used-compare").text(""+((lightRecordYesterday-lightRecordToday)/lightRecordYesterday*100).toFixed(0)+"%");
 		$("#light-used-comparepic").attr('src',"/images/lierda/main-icon/useddown.png");
 	}
 	else {

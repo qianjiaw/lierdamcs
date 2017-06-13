@@ -6,13 +6,20 @@ function addPowerBar (divid,ajaxdata) {
 	
 	
 option = {
-    title : {
-        text: '设备时功耗（KW·h）',
-        color:'#444444',
-        subtext: 'data from www.lierdalux.cn',
-        left:'15',
-        top:'5'
-    },
+//    title : {
+//        text: '设备时功耗（KW·h）',
+//        subtext: 'data from www.lierdalux.cn',
+//        textStyle:{
+//        	color:'#444444',
+//        	fontFamily:'PingFangSC-Regular'
+//        },
+//        subtextStyle:{
+//        	color:'#444444',
+//        	fontFamily:'PingFangSC-Regular'
+//        },
+//        left:'15',
+//        top:'5'
+//    },
 
     tooltip : {
         trigger: 'axis',
@@ -26,11 +33,19 @@ option = {
         left:'right'
     },
     calculable : true,
-    dataZoom:[{
-        type:'slider',
-        start:0,
-        end:100
-    }],
+    dataZoom:[
+    	{
+    		type:'slider',
+    		height:'20',
+    		start:0,
+    		end:100
+    	},
+    	{
+    		type:'inside',
+    		start:0,
+    		end:100  		
+    	}
+    ],
     xAxis : [
         {
             type : 'category',
@@ -39,6 +54,12 @@ option = {
     ],
     yAxis : [
         {
+        	axisLine:{
+                show:false
+            },
+            axisTick:{
+              show:false
+            },
             type : 'value'
         }
     ],
@@ -47,6 +68,16 @@ option = {
             name:'照明',
             type:'bar',
             data:lightdata,
+            itemStyle:{
+                normal:{
+                    color:'#FDE47C',
+                    barBorderRadius:500
+                },
+                emphasis:{
+                    color:'#FDE47C',
+                    barBorderRadius:500
+                }
+            },
             markLine : {
                 data : [
                     {type : 'average', name: '平均值'}
@@ -57,6 +88,16 @@ option = {
             name:'空调',
             type:'bar',
             data:airdata,
+            itemStyle:{
+                normal:{
+                    color:'#68ddeb',
+                    barBorderRadius:500
+                },
+                emphasis:{
+                    color:'#68ddeb',
+                    barBorderRadius:500
+                }
+            },
             markLine : {
                 data : [
                     {type : 'average', name : '平均值'}
@@ -67,6 +108,16 @@ option = {
             name:'插座',
             type:'bar',
             data:socketdata,
+            itemStyle:{
+                normal:{
+                    color:'#728ce3',
+                    barBorderRadius:500
+                },
+                emphasis:{
+                    color:'#728ce3',
+                    barBorderRadius:500
+                }
+            },
             markLine : {
                 data : [
                     {type : 'average', name : '平均值'}
