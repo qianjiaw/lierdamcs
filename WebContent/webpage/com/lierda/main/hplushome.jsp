@@ -115,6 +115,10 @@
 	<div id="building-choose-main" class="building-choose-main" onclick="hidechoose()">
 		
 	</div>
+	
+	<div id="wait-for-data" class="wait-for-data">
+		
+	</div>
 </body>
 <script type="text/javascript" src="/plug-in/jquery/jquery-1.8.3.min.js"></script>
 <script src="/webpage/com/lierda/main/js/bar.js"></script>
@@ -160,8 +164,8 @@ function getBuildFloorMessage(){
 			
 
 			////////////////////////after get buildid
-			getPowerBybid();
 			getDeviceStatus();
+			getPowerBybid();
 			getDayPower();
 		}
 	});
@@ -194,9 +198,6 @@ function getPowerBybid () {
 		dataType: "json",
 		success: function(data){
 			attributes=	data.attributes;
-			var currentPower=attributes['currentPower'];
-			var recordingEntities=attributes['recordingEntities'];
-			var currentPowerTotal=attributes['currentPowerTotal'];
 			var typePowerMap=attributes['typePowerMap'];
 			console.log(typePowerMap);
 			
@@ -216,7 +217,6 @@ function getDayPower () {
 		dataType: "json",
 		success: function(data){
 			attributes=	data.attributes;
-			console.log(attributes);
 			
 			//////////////////////////////////after get data
 			addRightBot(attributes);
@@ -354,8 +354,8 @@ function selectFloor(obj){
 }
 
 function addRightBot (attributes) {
-	var lightRecordToday=parseFloat(attributes['stripRecordToday']).toFixed(2);
-	var lightRecordYesterday=parseFloat(attributes['stripRecordYesterday']).toFixed(2);
+	var lightRecordToday=parseFloat(attributes['lightRecordToday']).toFixed(2);
+	var lightRecordYesterday=parseFloat(attributes['lightRecordYesterday']).toFixed(2);
 	var conditionerRecordToday=parseFloat(attributes['conditionerRecordToday']).toFixed(2);
 	var conditionerRecordYesterday=parseFloat(attributes['conditionerRecordYesterday']).toFixed(2);
 
@@ -442,6 +442,13 @@ function doChooseBuilding (obj) {
 	buildName = obj.id.split("-")[2];
 	getBuildFloorMessage();
 	refreshBuilding(buildName);
+}
+
+function waitForData () {
+	$("#wait-for-data").css("display","block");
+}
+function hideWait () {
+	$("#wait-for-data").css("display","block");
 }
 
 function freshpage() {
