@@ -57,7 +57,10 @@
 						<div id="choose-sence" class="choose-sence">
 							<img alt="" id="sence-pic" class="sence-pic" src="/images/lierda/main-icon/sence-main.png" usemap="#sencemap" />
 							<map name="sencemap" id="sencemap">
-  								<area id="sence-one" shape="polygon" coords="15,0,44,0,57,25,44,50,15,50,0,25" href="href="hplushome.jsp"" />
+  								<area id="sence-lighton" shape="polygon" coords="15,0,44,0,57,25,44,50,15,50,0,25" onclick="AllLightOn()" />
+  								<area id="sence-lightoff" shape="polygon" coords="62,27,91,27,104,52,91,77,62,77,47,52" onclick="AllLightOff()" />
+  								<area id="sence-airon" shape="polygon" coords="111,0,138,0,153,25,138,50,111,50,96,25" onclick="AllAirOn()" />
+  								<area id="sence-airoff" shape="polygon" coords="158,27,193,27,200,52,193,77,158,77,143,52" onclick="AllAirOff()" />
 							</map>
 						</div>
 					</div>
@@ -119,6 +122,7 @@
 <script src="/plug-in/Echarts/echarts.min.js"></script>
 <script src="/webpage/com/lierda/main/js/addpage.js"></script>
 <script src="/webpage/com/lierda/main/js/roompowerchart.js"></script>
+<script src="/webpage/com/lierda/main/js/roomsencecontroller.js"></script>
 
 <script>
 	var roomid = getRequest().roomid;
@@ -155,6 +159,7 @@
 				showFloor = currentFloor[0];
 				var currentRoom = attributes['currentRoom'];
 				showRoom = currentRoom[0];
+				ddcs = attributes['ddcs'];
 				devices = attributes['devices'];
 				console.log(devices);
 					
@@ -200,12 +205,7 @@
 		drawPowerChart();
 		addtable();
 		
-		$("#sence-one").mouseover(function(e){
-			senceone();
-		});
-		$("#sence-one").mouseout(function(e){
-			sencemain();
-		});
+		listenSenceChange();
 
 	});
 	
@@ -310,12 +310,6 @@
 		window.location.href="/webpage/com/lierda/main/FloorHome.jsp?floorid="+id+"";
 	}
 	
-	function senceone () {
-		$("#sence-pic").attr('src',"/images/lierda/main-icon/sence-one.png"); 
-	}
-	function sencemain () {
-		$("#sence-pic").attr('src',"/images/lierda/main-icon/sence-main.png"); 
-	}
 	
 	function changethstate(e) {
 		//////////////////////////////0:未点击

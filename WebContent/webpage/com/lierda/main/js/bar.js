@@ -33,6 +33,9 @@ function addDeviceBar (divid,colorstart,colorend,height,total,using) {
 						plotShadow : false,
 						height:height
 					},
+					tooltip : {
+						enabled:false
+					},
 					credits : {
 						enabled : false
 					},
