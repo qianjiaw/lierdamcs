@@ -19,7 +19,7 @@
 	<div id="home_main" class="home_main">
 		<div id="left" class="left">
 			<div id="building-title" class="main-left-title">
-				<span class="main-message"></span>
+				<span id="main-message" class="main-message"></span>
 				<p class="main-main-text">基本信息</p>
 			</div>
 			<div id="building-main" class="building-main">
@@ -72,7 +72,7 @@
 					<div id="room-device-main" class="room-device-main">
 						<table id="room-device-table" class="room-device-table">
 							<thead>
-								<tr>
+								<tr style="height:50px;">
 									<th id="room-device-th1" class="room-device-th th1" >序号
 										<button class="unclickth" onclick="changethstate(this)"
 										id="1-0"></button>
@@ -221,6 +221,8 @@
 
 		setHeight("room-device", "room-device-main", 40);
 		
+		/////////////////////////////////////setWidth
+		$("#main-message").width(getHeight("main-message")*6/7+"px");
 		
 		////////////////////////////////setLineHeight
 		var sencefontheight = getHeight("sence-title");
@@ -255,7 +257,7 @@
 		console.log(devices);
 		for (var i=0;i<devices.length;i++) {
 			$("#room-device-body").append(
-					'<tr>'+
+					'<tr style="height:50px;">'+
 					'<td>'+(i+1)+'</td>'+
 					'<td>'+devices[i].name+'</td>'+
 					'<td>不可调</td>'+

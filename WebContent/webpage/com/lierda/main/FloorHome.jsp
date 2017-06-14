@@ -20,7 +20,7 @@
 	<div id="home_main" class="home_main">
 		<div id="left" class="left">
 			<div id="building-title" class="main-left-title">
-				<span class="main-message"></span>
+				<span id="main-message" class="main-message"></span>
 				<p class="main-main-text">基本信息</p>
 			</div>
 			<div id="building-main" class="building-main">
@@ -295,7 +295,9 @@
 		///////////////////////////////setWidth
 		setWidthByPercent("floor-controller-main", "controller-main-first",50, 1);
 		setWidthByPercent("floor-controller-main", "controller-main-second",22, 1);
-		setWidthByPercent("floor-controller-main", "controller-main-third",27, 2);
+		setWidthByPercent("floor-controller-main", "controller-main-third",28, 2);
+		
+		$("#main-message").width(getHeight("main-message")*6/7+"px");
 		////////////icon setWidth
 		$("#room-state-icon").width(getHeight("room-state-icon")*6/7+"px");
 		$("#floor-roomcheck-icon").width(getHeight("floor-roomcheck-icon")+"px");
@@ -336,12 +338,12 @@
 	function drawroomstate () {
 		$("#floor-main").empty();
 		var width = getWidth("floor-main") / 6 - 5;
-		var height = getHeight("floor-main")/4;
+		var height = (width/118)*74;
 		var stateheight = height*3/5-5;
 		var lineheight = height*2/5;
 		for (var i = 0; i < rooms.length; i++) {
 			var roomState = roomsState[""+rooms[i].id+""];
-			$("#floor-main").append('<div id="room-state-'+rooms[i].id+'" onclick="selectRoom(this)" style="height:'+height+'px;width:'+width+'px;line-height:'+lineheight+'px;font-size:'+lineheight+'px;text-align:center;background-color:skyblue;float:left;margin-left:2px;margin-top:2px;">'+
+			$("#floor-main").append('<div id="room-state-'+rooms[i].id+'" onclick="selectRoom(this)" style="height:'+height+'px;width:'+width+'px;line-height:'+lineheight+'px;font-size:'+lineheight+'px;text-align:center;background-color:#728ce3;float:left;margin-left:2px;margin-top:2px;">'+
 			'<div id="room-state-pic" class="room-state-pic" style="height:'+stateheight+'px">'+
 			'<div id="room-light-state" class="room-light-'+roomState.light.status+'"></div>'+
 			'<div id="room-air-state" class="room-air-'+roomState.airConditioner.status+'"></div>'+
@@ -488,7 +490,7 @@
 			console.log(rooms[i].roomname);
 			console.log(roomState);
 			$("#device-state-body").append(
-				'<tr style="height:22px;font-size:14px;">'+
+				'<tr style="height:50px;font-size:14px;">'+
 					'<td>'+(i+1)+'</td>'+
 					'<td>'+rooms[i].roomname+'</td>'+
 					'<td><div class="table-user-'+roomState.senseHuman.status+'"></div></td>'+
