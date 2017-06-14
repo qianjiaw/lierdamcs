@@ -245,7 +245,7 @@ function setHAndWonload () {
 	setHeight("left", "building-main", 56);
 	setHeight("building-main", "building-container", 30);
 
-	var barheight = $("#right_top").get(0).offsetHeight-30;
+	var barheight = $("#right_top").get(0).offsetHeight-35;
 	$("#bar-1").height(barheight+"px");
 	$("#bar-2").height(barheight+"px");
 	$("#bar-3").height(barheight+"px");

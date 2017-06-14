@@ -42,8 +42,7 @@ public class ZFloorServiceImpl extends CommonServiceImpl implements ZFloorServic
 		long[] counts=new long[4];//各类型设备总数数组
 		long[] usingCount=new long[4];//各类型设备正在使用的总数数组
 		String roomid = "";
-		List<ZRoomEntity> rooms = jeecgMinidaoService
-				.selectRoomByFloor(floorid);//所有房间id，名称
+		List<ZRoomEntity> rooms = jeecgMinidaoService.selectRoomByFloor(floorid);//所有房间id，名称
 		
 		for (ZRoomEntity zRoomEntity : rooms) {
 			roomid = zRoomEntity.getId();
