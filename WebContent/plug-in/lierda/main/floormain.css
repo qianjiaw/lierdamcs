@@ -105,7 +105,7 @@ a:active {text-decoration:none ; color:black;}
 	margin-left:1%;
 	float:left;
 	height:100%;
-	background:url(/images/lierda/roomstate/light-ON.png) no-repeat;
+	background:url(/images/lierda/floor-icon/light-ON.png) no-repeat;
 	background-size:100% 100%;
 }
 .room-light-OFF {
@@ -113,7 +113,7 @@ a:active {text-decoration:none ; color:black;}
 	margin-left:1%;
 	float:left;
 	height:100%;
-	background:url(/images/lierda/roomstate/light-OFF.png) no-repeat;
+	background:url(/images/lierda/floor-icon/light-OFF.png) no-repeat;
 	background-size:100% 100%;
 }
 .room-light-none {
@@ -121,7 +121,7 @@ a:active {text-decoration:none ; color:black;}
 	margin-left:1%;
 	float:left;
 	height:100%;
-	background:url(/images/lierda/roomstate/device-none.png) no-repeat;
+	background:url(/images/lierda/floor-icon/device-error.png) no-repeat;
 	background-size:100% 100%;
 }
 
@@ -130,7 +130,7 @@ a:active {text-decoration:none ; color:black;}
 	margin-left:1%;
 	float:left;
 	height:100%;
-	background:url(/images/lierda/roomstate/air-ON.png) no-repeat;
+	background:url(/images/lierda/floor-icon/air-ON.png) no-repeat;
 	background-size:100% 100%;
 }
 .room-air-OFF {
@@ -138,7 +138,7 @@ a:active {text-decoration:none ; color:black;}
 	margin-left:1%;
 	float:left;
 	height:100%;
-	background:url(/images/lierda/roomstate/air-OFF.png) no-repeat;
+	background:url(/images/lierda/floor-icon/air-OFF.png) no-repeat;
 	background-size:100% 100%;
 }
 .room-air-none {
@@ -146,7 +146,7 @@ a:active {text-decoration:none ; color:black;}
 	margin-left:1%;
 	float:left;
 	height:100%;
-	background:url(/images/lierda/roomstate/device-none.png) no-repeat;
+	background:url(/images/lierda/floor-icon/device-error.png) no-repeat;
 	background-size:100% 100%;
 }
 
@@ -155,7 +155,7 @@ a:active {text-decoration:none ; color:black;}
 	margin-left:1%;
 	float:left;
 	height:100%;
-	background:url(/images/lierda/roomstate/door-ON.png) no-repeat;
+	background:url(/images/lierda/floor-icon/door-ON.png) no-repeat;
 	background-size:100% 100%;
 }
 .room-person-OFF {
@@ -163,7 +163,7 @@ a:active {text-decoration:none ; color:black;}
 	margin-left:1%;
 	float:left;
 	height:100%;
-	background:url(/images/lierda/roomstate/door-OFF.png) no-repeat;
+	background:url(/images/lierda/floor-icon/door-OFF.png) no-repeat;
 	background-size:100% 100%;
 }
 .room-person-none {
@@ -171,7 +171,7 @@ a:active {text-decoration:none ; color:black;}
 	margin-left:1%;
 	float:left;
 	height:100%;
-	background:url(/images/lierda/roomstate/device-none.png) no-repeat;
+	background:url(/images/lierda/floor-icon/device-error.png) no-repeat;
 	background-size:100% 100%;
 }
 
@@ -358,6 +358,10 @@ a:active {text-decoration:none ; color:black;}
 	margin: 1px auto;
 	background:url(/images/lierda/roomstate/device-none.png) no-repeat;
 	background-size:100% 100%;
+}
+
+.device-state-head tr {
+	height:50px;
 }
 
 .device-state-head th {
