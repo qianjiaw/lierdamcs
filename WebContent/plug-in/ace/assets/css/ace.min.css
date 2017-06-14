@@ -1049,7 +1049,7 @@ blockquote,blockquote.pull-right {
 .ace-nav>li {
 	line-height:45px;
 	height:45px;
-	border-left:1px solid #DDD;
+	/*border-left:1px solid #DDD;*/
 	padding:0;
 	position:relative;
 	float:left!important
