@@ -87,7 +87,6 @@ public class ZRoomController extends BaseController {
 	private Validator validator;
 	
 
-
 	/**
 	 * 房间管理列表 页面跳转
 	 * 
@@ -256,21 +255,18 @@ public class ZRoomController extends BaseController {
 	public AjaxJson getDetailByRoomid(HttpServletRequest request){
 		AjaxJson j = new AjaxJson();
 		String roomid = request.getParameter("roomid");
-		String type = request.getParameter("type");
 		List<ZFloorEntity> currentBuildingId = null;
 		List<ZBuildingEntity> currentBuilding = null;
-		String floorid = "";
-		String buildid = "";
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<ZBuildingEntity> allBuildings = ZBuildingController.buildings;
-		String sql="";
+		String floorid = "";
+		String buildid = "";
 		if(roomid==null||roomid.equals("")){
 			buildid=allBuildings.get(0).getId();
-			floorid=(String) zFloorService.findListbySql("select id from z_floor where buildingid='"+buildid+"'").get(0);
-			roomid=(String) zRoomService.findListbySql("select id from z_room where floorid='"+floorid+"'").get(0);
+			floorid=ZBuildingController.floors.get(0).getId();
+			roomid=ZBuildingController.rooms.get(0).getId();
 		}
 	
-		List<RoomDeviceSta> deviceDetail=zRoomService.getDeviceDetail(roomid,type);
 		List<ZRoomEntity> currentFloorId = jeecgMinidaoService.getFloorByRoomId(roomid);
 		floorid = currentFloorId.get(0).getFloorid();// 当前楼层id
 		List<ZFloorEntity> currentFloor=jeecgMinidaoService.selectFloorById(floorid);
@@ -285,12 +281,33 @@ public class ZRoomController extends BaseController {
 		map.put("currentBuilding", currentBuilding);
 		map.put("allBuildings", allBuildings);
 		map.put("currentFloor", currentFloor);
-		map.put("deviceDetail", deviceDetail);
 		j.setAttributes(map);
 		return j;
 	}
 	
 	
+	/**
+	 * 根据房间id以及设备类型获取指定类型设备状态详细信息
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "getDeviceDetail")
+	@ResponseBody
+	public AjaxJson getDeviceDetail(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		Map<String, Object> map = new HashMap<String, Object>();
+		String roomid = request.getParameter("roomid");
+		String type = request.getParameter("type");
+		List<ZRoomEntity> rooms = ZBuildingController.rooms;
+		if(roomid==null||roomid.equals("")){
+			roomid=rooms.get(0).getId();
+		}
+		
+		List<RoomDeviceSta> deviceDetail=zRoomService.getDeviceDetail(roomid,type);
+		map.put("deviceDetail", deviceDetail);
+		j.setAttributes(map);
+		return j;
+	}
 	/**
 	 * 根据楼层roomid获取(所有建筑物,当前建筑物,当前建筑物的所有楼层,当前楼层,当前房间,房间内所有ddc,ddc对应device)的id和名称
 	 * @param request
