@@ -70,8 +70,8 @@ private JeecgMinidaoServiceI jeecgMinidaoService;
 			JSONObject attributes=JSONObject.parseObject(roomDeviceSta.getAttributes());
 			if(type.equals("1")){//照明
 				String swi =(String) attributes.get("SWI");//开关
-				String lev = (String) attributes.get("LEV");//调光
-				String ctm = (String) attributes.get("CTM");//调色
+				String lev = attributes.get("LEV").toString();//调光
+				String ctm =  attributes.get("CTM").toString();//调色
 				json="{\"SWI\":\""+swi+"\",\"LEV\":\""+lev+"\",\"CTM\":\""+ctm+"\"}";
 			}else if (type.equals("26")) {//插座
 				String swi = (String) attributes.get("SWI");//开关
