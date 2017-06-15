@@ -16,6 +16,7 @@ import com.lierda.web.entity.PowerRecordingEntity;
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZRoomEntity;
+import com.lierda.web.resultEntity.RoomDeviceSta;
 import com.lierda.web.resultEntity.SqlResult;
 
 /**
@@ -167,5 +168,11 @@ public class JeecgMinidaoServiceImpl implements JeecgMinidaoServiceI {
 	public List<PowerRecordingEntity> getPowerBybid(String sql) {
 		// TODO Auto-generated method stub
 		return jeecgMinidaoDao.getPowerBybid(sql);
+	}
+
+	@Override
+	public List<RoomDeviceSta> getRoomDevice(String sql) {
+		// TODO Auto-generated method stub
+		return jeecgMinidaoDao.getRoomDevice(sql);
 	}
 }
