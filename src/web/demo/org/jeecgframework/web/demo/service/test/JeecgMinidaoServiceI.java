@@ -12,6 +12,7 @@ import com.lierda.web.entity.PowerRecordingEntity;
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZRoomEntity;
+import com.lierda.web.resultEntity.RoomDeviceSta;
 import com.lierda.web.resultEntity.SqlResult;
 
 /**
@@ -73,5 +74,7 @@ public interface JeecgMinidaoServiceI {
 	public List<SqlResult> getAllDeviceByRAT(String sql);
 	
 	public List<PowerRecordingEntity> getPowerBybid(String sql);
+	
+	public List<RoomDeviceSta> getRoomDevice(String sql);
 
 }
