@@ -38,9 +38,9 @@ private JeecgMinidaoServiceI jeecgMinidaoService;
 		// TODO Auto-generated method stub
 		String suffix="";
 		if(type.equals("19")){
-			suffix="device.type='19' or device.type='2' or device.type='3' or device.type='4'";
+			suffix="(device.type='19' or device.type='2' or device.type='3' or device.type='4')";
 		}else if(type.equals("7")){
-			suffix="device.type='7' or device.type='8' or device.type='20' or device.type='21'";
+			suffix="(device.type='7' or device.type='8' or device.type='20' or device.type='21')";
 		}else{
 			suffix="device.type='"+type+"'";
 		}
