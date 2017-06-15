@@ -28,7 +28,12 @@ private ZRoomServiceI zRoomService;
 @Autowired
 private JeecgMinidaoServiceI jeecgMinidaoService;
 
-	@Override
+	/**
+	 * 根据房间id以及设备类型获取设备状态详细信息
+	 * @param roomid
+	 * @param type
+	 * @return
+	 */
 	public List<RoomDeviceSta> getDeviceDetail(String roomid,String type) {
 		// TODO Auto-generated method stub
 		String suffix="";
@@ -49,14 +54,15 @@ private JeecgMinidaoServiceI jeecgMinidaoService;
 //				roomDeviceSta.setCanAdjust(true);
 //			}
 //		}
-		
-		
 		return deviceDetail;
 	}
 	
+	/**
+	 * 获取设备状态详细信息
+	 * @param deviceDetail
+	 * @return
+	 */
 	public List<RoomDeviceSta>  getAttributes(List<RoomDeviceSta> deviceDetail){
-		Map<String,String> map=new HashMap<>();
-		StringBuffer[] jsonArray={new StringBuffer(""),new StringBuffer(""),new StringBuffer(""),new StringBuffer("")};
 		String json="";
 		String type="";
 		for (RoomDeviceSta roomDeviceSta : deviceDetail) {
