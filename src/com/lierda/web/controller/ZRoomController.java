@@ -1,4 +1,5 @@
 package com.lierda.web.controller;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +25,14 @@ import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.MyBeanUtils;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lierda.web.entity.VFloorEntity;
 import com.lierda.web.entity.VRoomEntity;
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZRoomEntity;
+import com.lierda.web.resultEntity.RoomDeviceSta;
+import com.lierda.web.resultEntity.ZFloorResult;
 import com.lierda.web.service.ZFloorServiceI;
 import com.lierda.web.service.ZRoomServiceI;
 
@@ -252,24 +256,28 @@ public class ZRoomController extends BaseController {
 	public AjaxJson getDetailByRoomid(HttpServletRequest request){
 		AjaxJson j = new AjaxJson();
 		String roomid = request.getParameter("roomid");
-		System.out.println(roomid+"..............................");
+		String type = request.getParameter("type");
 		List<ZFloorEntity> currentBuildingId = null;
 		List<ZBuildingEntity> currentBuilding = null;
 		String floorid = "";
 		String buildid = "";
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<ZBuildingEntity> allBuildings = ZBuildingController.buildings;
+		String sql="";
 		if(roomid==null||roomid.equals("")){
 			buildid=allBuildings.get(0).getId();
 			floorid=(String) zFloorService.findListbySql("select id from z_floor where buildingid='"+buildid+"'").get(0);
 			roomid=(String) zRoomService.findListbySql("select id from z_room where floorid='"+floorid+"'").get(0);
 		}
+	
+		List<RoomDeviceSta> deviceDetail=zRoomService.getDeviceDetail(roomid,type);
 		List<ZRoomEntity> currentFloorId = jeecgMinidaoService.getFloorByRoomId(roomid);
 		floorid = currentFloorId.get(0).getFloorid();// 当前楼层id
 		List<ZFloorEntity> currentFloor=jeecgMinidaoService.selectFloorById(floorid);
 		currentBuildingId= jeecgMinidaoService.getBuildingByFloorId(floorid);
 		currentBuilding=jeecgMinidaoService.getBuildingBybuildingid(currentBuildingId.get(0).getBuildingid());
 		buildid = currentBuildingId.get(0).getBuildingid();// 当前建筑物id
+	
 		map.put("devices", jeecgMinidaoService.getDeviceByRoomid(roomid));
 		map.put("ddcs", jeecgMinidaoService.getDdcByRoomId(roomid));
 		map.put("currentRoom", jeecgMinidaoService.getRoomByRoomId(roomid));
@@ -277,7 +285,28 @@ public class ZRoomController extends BaseController {
 		map.put("currentBuilding", currentBuilding);
 		map.put("allBuildings", allBuildings);
 		map.put("currentFloor", currentFloor);
+		map.put("deviceDetail", deviceDetail);
 		j.setAttributes(map);
 		return j;
+	}
+	
+	
+	/**
+	 * 根据楼层roomid获取(所有建筑物,当前建筑物,当前建筑物的所有楼层,当前楼层,当前房间,房间内所有ddc,ddc对应device)的id和名称
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "testxx")
+	@ResponseBody
+	public void testxx(){
+		String sql="select ddc.ddcmac as ddcmac,device.attributes as attributes,device.id as deviceId from z_device device join z_ddc ddc on ddc.id=device.ddcId join z_ddc_rfbp rfbp on rfbp.ddcmac=ddc.ddcmac join z_room r on r.id=rfbp.roomid";
+		String hql="select new com.lierda.web.resultEntity.ZFloorResult(f.id,f.floorname) from ZFloorEntity f,ZBuildingEntity b where f.buildingid=b.id";
+		List<ZFloorResult> results=new ArrayList<ZFloorResult>();
+		//,ZBuildingEntity b where f.buildingid=b.id
+		results=zRoomService.findHql(hql);
+		System.out.println(results.size());
+		for (ZFloorResult zFloorResult : results) {
+			System.out.println(zFloorResult.getId()+"========="+zFloorResult.getFloorname());
+		}
 	}
 }
