@@ -279,8 +279,8 @@ public class ZBuildingController extends BaseController {
 		Map<String, Object> map=new HashMap<String, Object>();
 		List<ZBuildingEntity> buildings = jeecgMinidaoService
 				.getAllBuildingIdAndName();// 查询所有建筑物
-		List<ZFloorEntity> floors=zBuildingService.findHql("select f from ZFloorEntity f where buildingid=?", buildings.get(0).getId());
-		List<ZRoomEntity> rooms=zBuildingService.findHql("select r from ZRoomEntity r where floorid=?", floors.get(0).getId());
+		List<ZFloorEntity> floors=zBuildingService.findHql("select new com.lierda.web.entity.ZFloorEntity(id,floorname) from ZFloorEntity f where f.buildingid=?", buildings.get(0).getId());
+		List<ZRoomEntity> rooms=zBuildingService.findHql("select new com.lierda.web.entity.ZRoomEntity(id,roomname) from ZRoomEntity r where r.floorid=?", floors.get(0).getId());
 		ZBuildingController.buildings=buildings;
 		ZBuildingController.floors=floors;
 		ZBuildingController.rooms=rooms;
