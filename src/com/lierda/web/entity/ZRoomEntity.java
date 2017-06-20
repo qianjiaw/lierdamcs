@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.SequenceGenerator;
 
 /**   
@@ -88,4 +89,17 @@ public class ZRoomEntity implements java.io.Serializable {
 	public void setFloorid(java.lang.String floorid){
 		this.floorid = floorid;
 	}
+
+	public ZRoomEntity() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public ZRoomEntity(String id, String roomname) {
+		super();
+		this.id = id;
+		this.roomname = roomname;
+	}
+	
+	
 }
