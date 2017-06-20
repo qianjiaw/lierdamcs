@@ -8,11 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.SequenceGenerator;
 
 /**   
@@ -44,7 +47,6 @@ public class ZFloorEntity implements java.io.Serializable {
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  id
 	 */
-	
 	@Id
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
@@ -124,4 +126,17 @@ public class ZFloorEntity implements java.io.Serializable {
 	public void setBuildingid(java.lang.String buildingid){
 		this.buildingid = buildingid;
 	}
+
+	public ZFloorEntity() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public ZFloorEntity(String id, String floorname) {
+		super();
+		this.id = id;
+		this.floorname = floorname;
+	}
+	
+	
 }
