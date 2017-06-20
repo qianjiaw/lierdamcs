@@ -25,7 +25,7 @@
 			<div id="building-main" class="building-main">
 				<div id="building-text" class="building-text">
 					<div id="building-select" class="building-select" onclick="choosebuilding()">
-						<p id="buildingname"></p>
+						<p id="buildingname" ></p>
 					</div>
 				</div>
 				<div id="building-container" class="building-container">
@@ -70,36 +70,26 @@
 				</div>
 				<div id="room-device" class="room-device">
 					<div id="room-device-title" class="main-right-title">
-						
+						<span id="room-device-icon" class="room-device-icon"></span>
+						<select id="device-type-select" class="device-type-select" onchange="changeDeviceType(this)">
+							<option id="type-1" class="main-right-text" selected="selected">智能灯</option>
+							<option id="type-26" class="main-right-text">计量插座</option>
+							<option id="type-19" class="main-right-text">面板开关</option>
+							<option id="type-15" class="main-right-text">空调</option>
+							<option id="type-5" class="main-right-text">窗帘</option>
+							<option id="type-7" class="main-right-text">人感</option>
+							<option id="type-13" class="main-right-text">单路开关</option>
+							<option id="type-18" class="main-right-text">门磁</option>
+						</select>
 					</div>
 					<div id="room-device-main" class="room-device-main">
 						<table id="room-device-table" class="room-device-table">
 							<thead>
-								<tr style="height:50px;">
-									<th id="room-device-th1" class="room-device-th th1" >序号
-										<button class="unclickth" onclick="changethstate(this)"
-										id="1-0"></button>
-									</th>
-									<th id="room-device-th1" class="room-device-th th2">设备编号
-										<button class="unclickth" onclick="changethstate(this)"
-										id="2-0"></button>
-									</th>
-									<th id="room-device-th1" class="room-device-th th3">调光属性
-										<button class="unclickth" onclick="changethstate(this)"
-										id="3-0"></button>
-									</th>
-									<th id="room-device-th1" class="room-device-th th4">隶属于
-										<button class="unclickth" onclick="changethstate(this)"
-										id="4-0"></button>
-									</th>
-									<th id="room-device-th1" class="room-device-th th5" colspan="3">设备状态
-										<button class="unclickth" onclick="changethstate(this)"
-										id="5-0"></button>
-									</th>
-									<th id="room-device-th1" class="room-device-th th6">控制操作
-										<button class="unclickth" onclick="changethstate(this)"
-										id="6-0"></button>
-									</th>
+								<tr id="room-table-tr" style="height:30px;">
+									
+								</tr>
+								<tr id="room-table-trdetail" style="height:20px;">
+									
 								</tr>
 							</thead>
 							<tbody id="room-device-body" class="room-device-body">
@@ -123,6 +113,8 @@
 <script src="/webpage/com/lierda/main/js/addpage.js"></script>
 <script src="/webpage/com/lierda/main/js/roompowerchart.js"></script>
 <script src="/webpage/com/lierda/main/js/roomsencecontroller.js"></script>
+<script src="/webpage/com/lierda/main/js/addRoomTable.js"></script>
+<script src="/webpage/com/lierda/main/js/tablesort.js"></script>
 
 <script>
 	var roomid = getRequest().roomid;
@@ -136,7 +128,8 @@
 	var floornum = 0;
 	var ddcs = [];
 	var devices = [];
-
+	var showType = "";
+	
 	function getDetailByRoomid(){
 
 		$.ajax({
@@ -147,7 +140,6 @@
 			dataType: "json",
 			success: function(data){
 				attributes=	data.attributes;
-				console.log(attributes);
 				buildings=attributes['allBuildings'];
 				var currentBuilding = attributes['currentBuilding'];
 				showBuilding = currentBuilding[0];
@@ -160,8 +152,6 @@
 				var currentRoom = attributes['currentRoom'];
 				showRoom = currentRoom[0];
 				ddcs = attributes['ddcs'];
-				devices = attributes['devices'];
-				console.log(devices);
 					
 				//////////////////////after get data
 				addBuilding(buildName);
@@ -189,8 +179,30 @@
 			}
 		});
 	}
+
+	function getDeviceByType (type) {////////////////////////////////////////////////////////////////////
+		$.ajax({
+			type:"post",
+			async: false,
+			url:"/zRoomController.do?getDeviceDetail",
+			data: {'roomid':roomid,'type':type},
+			dataType: "json",
+			success: function(data){
+				attributes=	data.attributes;
+				console.log(attributes);
+				devices = attributes['deviceDetail'];
+				
+				//////////////////////////after get data
+				//////////////////////////addRoomTable.js
+				addtable(type,devices);
+			}
+		});
+	}
+	
 	
 	$(function() {
+		
+		showType="1";
 		
 		///////////////////////////////set Height and Width
 		setHAndW();
@@ -201,11 +213,14 @@
 		
 		/////////////////////////////getdata
 		getDetailByRoomid();
+		getDeviceByType(showType);
 		
 		drawPowerChart();
-		addtable();
 		
 		listenSenceChange();
+		
+		/////////////////////////////////////////////addTableSort
+		tableSort("room-device-table");
 
 	});
 	
@@ -223,6 +238,8 @@
 		
 		/////////////////////////////////////setWidth
 		$("#main-message").width(getHeight("main-message")*6/7+"px");
+		
+		$("#room-device-icon").width(getHeight("room-device-icon")*6/7+"px");
 		
 		////////////////////////////////setLineHeight
 		var sencefontheight = getHeight("sence-title");
@@ -248,25 +265,12 @@
 	
 	////////////////////////////////setTitle
 	function settitle () {
-		console.log(showRoom.roomnam);
 		$("#roomname").text(""+showRoom.roomname+"房间");
 	}
 	
-	/////////////////////////addTable
-	function addtable() {
-		console.log(devices);
-		for (var i=0;i<devices.length;i++) {
-			$("#room-device-body").append(
-					'<tr style="height:50px;">'+
-					'<td>'+(i+1)+'</td>'+
-					'<td>'+devices[i].name+'</td>'+
-					'<td>不可调</td>'+
-					'<td>000000000000</td>'+
-					'+<td>12</td>	<td>34</td>    <td>56</td>'+
-					'<td>音乐</td>'+
-					'</tr>'
-				);
-		}
+	function changeDeviceType (obj) {
+		showType = $("#device-type-select option:selected")[0].id.split("-")[1];
+		getDeviceByType(showType);
 	}
 	
 	function getRequest() {
@@ -336,7 +340,6 @@
 	function choosebuilding () {
 		$("#building-choose-main").css("display","block");
 		$("#building-choose-main").empty();
-		console.log(buildings);
 		for(key in buildings){
 			$("#building-choose-main").append(
 				'<div id="building-'+buildings[key].id+'-'+buildings[key].buildingname+'" onclick="doChooseBuilding(this)" class="each-building">'+

@@ -1,5 +1,4 @@
 function tableSort (tableid) {
-	console.log(tableid);
 	var tableObject = $('#'+tableid+'');// 获取id为tableSort的table对象
 	var tbHead = tableObject.children('thead');// 获取table对象下的thead
 	var tbHeadTh = tbHead.find('tr th');// 获取thead下的tr下的th

@@ -68,7 +68,9 @@
     color: white;
     background-color: #728ce3;
 }  
-  
+.building-select:hover {
+	cursor: pointer;
+}
   
 /*清除ie的默认选择框样式清除，隐藏下拉箭头*/  
 select::-ms-expand { display: none; }  
@@ -122,6 +124,10 @@ select::-ms-expand { display: none; }
 	margin:0px auto 8px auto;
 	position:relative;
 	background-color:#728ce3;
+}
+
+.eachfloor:hover {
+	cursor: pointer;
 }
 
 .right {
@@ -416,6 +422,9 @@ select::-ms-expand { display: none; }
     float: left;
     margin-left: 20%;
     margin-top: 50px;
+}
+.each-building:hover {
+	cursor: pointer;
 }
 
 .building-choose-font {

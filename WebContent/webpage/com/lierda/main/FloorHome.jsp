@@ -296,6 +296,8 @@
 		setWidthByPercent("floor-controller-main", "controller-main-first",50, 1);
 		setWidthByPercent("floor-controller-main", "controller-main-second",22, 1);
 		setWidthByPercent("floor-controller-main", "controller-main-third",28, 2);
+		cmainsechwidth = getWidth("controller-main-first");
+		$("#controller-main-second").css("left",""+cmainsechwidth+"px");
 		
 		$("#main-message").width(getHeight("main-message")*6/7+"px");
 		////////////icon setWidth
@@ -343,7 +345,7 @@
 		var lineheight = height*2/5;
 		for (var i = 0; i < rooms.length; i++) {
 			var roomState = roomsState[""+rooms[i].id+""];
-			$("#floor-main").append('<div id="room-state-'+rooms[i].id+'" onclick="selectRoom(this)" style="height:'+height+'px;width:'+width+'px;line-height:'+lineheight+'px;font-size:'+lineheight+'px;text-align:center;background-color:#728ce3;float:left;margin-left:2px;margin-top:2px;">'+
+			$("#floor-main").append('<div id="room-state-'+rooms[i].id+'" onclick="selectRoom(this)" class="room-state" style="height:'+height+'px;width:'+width+'px;line-height:'+lineheight+'px;font-size:'+lineheight+'px;">'+
 			'<div id="room-state-pic" class="room-state-pic" style="height:'+stateheight+'px">'+
 			'<div id="room-light-state" class="room-light-'+roomState.light.status+'"></div>'+
 			'<div id="room-air-state" class="room-air-'+roomState.airConditioner.status+'"></div>'+
@@ -362,7 +364,7 @@
 		$("#controller-main-first").append('<form id="roomcheckform"></form>');
 		for (var i = 0; i < rooms.length; i++) {
 			$("#roomcheckform").append('<div id="room-check-'+i+'" style="height:'+height+'px;width:'+width+'px;min-width:50px;float:left;margin-left:2px;margin-top:2px;"></div>');
-			$("#room-check-"+i+"").append('<input type="checkbox" style="top: 50%;margin-top: -6px;position: relative;float:left;"  value="'+rooms[i].id+'"></input>');
+			$("#room-check-"+i+"").append('<input type="checkbox" class="room-check-input"  value="'+rooms[i].id+'"></input>');
 			$("#room-check-"+i+"").append('<a style="float:left;position:relative;font-size:12px;font-family:PingFangSC-Regular;line-height:'+height+'px;">'+rooms[i].roomname+'</a>');
 			//href="/webpage/com/lierda/main/RoomHome.jsp?roomid='+rooms[i].id+'"
 		}

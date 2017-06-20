@@ -99,10 +99,55 @@ p:active {color: #0000FF}
     box-shadow: 0px 0px 5px 1px rgba(136, 136, 136, 1);
 }
 
+.main-right-title {
+	width: 94%;
+    height: 30px;
+    margin: 0px auto;
+    border-bottom: 1px solid #efefef;
+}
+
+.room-device-icon {
+	background: url(/images/lierda/floor-icon/controller.png) no-repeat;
+	background-size: 100% 100%;
+	height:70%;
+    float: left;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.device-type-select {
+	width: 100px;
+    height: 30px;
+    -webkit-appearance: none;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #444444;
+    letter-spacing: 1.16px;
+    margin-left: 10px;
+    line-height: 30px;
+    outline: none;
+    border: none;
+    background: url(/images/lierda/main-icon/select-menu.png) no-repeat scroll right center transparent;
+    background-size: 20px 20px;      
+}
+.device-type-select:hover {
+	cursor: pointer;
+}
+
+.main-right-text {
+	margin-top: 8px;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #444444;
+    letter-spacing: 1.16px;
+    text-align: center;
+    margin-left: 10px;
+}
+
 .room-device-main {
 	width:98%;
 	margin-left:1%;
-	margin-top:35px;
+	margin-top:5px;
 	position:absolute;
 	overflow-y: auto;
 }
@@ -157,4 +202,48 @@ p:active {color: #0000FF}
     height: 16px;
     float: right;
     border: none;
+}
+
+
+.device-state-ON {
+	width:20px;
+	height:20px;
+	position: relative;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+	background:url(/images/lierda/roomstate/device-ON.png) no-repeat;
+	background-size:100% 100%;
+}
+.device-state-OFF {
+	width:20px;
+	height:20px;
+	position: relative;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+	background:url(/images/lierda/roomstate/device-ON.png) no-repeat;
+	background-size:100% 100%;
+}
+.device-state-undefined {
+	width:20px;
+	height:20px;
+	position: relative;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+	background:url(/images/lierda/roomstate/device-none.png) no-repeat;
+	background-size:100% 100%;
+}
+
+@media screen and (max-width:990px)  {
+	.unclickth,.clickupth,.clickdownth {
+		display:none;
+	}
 }

@@ -80,7 +80,7 @@ a:active {text-decoration:none ; color:black;}
 .floor-text-font {
 	margin-top: 8px;
     font-family: PingFangSC-Regular;
-    /*font-size: 14px;*/
+    font-size: 14px;
     color: #444444;
     letter-spacing: 1.16px;
     text-align: left;
@@ -94,6 +94,18 @@ a:active {text-decoration:none ; color:black;}
 	margin-top:5px;
 	position:absolute;
 	overflow-y: auto;
+}
+
+.room-state {
+	text-align:center;
+	background-color:#728ce3;
+	float:left;
+	margin-left:2px;
+	margin-top:2px;
+}
+
+.room-state:hover {
+	cursor: pointer;
 }
 
 .room-state-pic {
@@ -230,6 +242,9 @@ a:active {text-decoration:none ; color:black;}
 .controller-check {
     position: relative;
 }
+.controller-check {
+	cursor: pointer;
+}
 .controller-font {
     position: relative;
     font-size: 14px;
@@ -258,6 +273,9 @@ a:active {text-decoration:none ; color:black;}
     box-shadow: 0px 0px 4px 0px #728ce3;
     border-radius: 10px;
 }
+.controller-open-all:hover {
+	cursor: pointer;
+}
 .controller-close-all {
     width: 100%;
     height: 40%;
@@ -269,6 +287,9 @@ a:active {text-decoration:none ; color:black;}
 	box-shadow:0px 0px 4px 0px rgba(220,80,114,0.62);
 	border-radius:10px;
 }
+.controller-close-all:hover {
+	cursor: pointer;
+}
 .floor-controller-main {
 	position: absolute;
     width: 100%;
@@ -276,29 +297,37 @@ a:active {text-decoration:none ; color:black;}
     /*background-color: dimgrey;*/
 }
 .controller-main-first {
-	position:relative;
+	position:absolute;
 	/*width:49%;*/
 	height:100%;
 	border-top:1px solid #dfdfeb;
 	border-left:1px solid #dfdfeb;
 	border-bottom:1px solid #dfdfeb;
+    left: 0px;
+}
+.room-check-input {
+	top: 50%;
+	margin-top: -6px;
+	position: relative;
 	float:left;
 }
+.room-check-input:hover {
+	cursor: pointer;
+}
 .controller-main-second {
-	position:relative;
+	position:absolute;
 	/*width:22%;*/
 	height:100%;
 	border-top:1px solid #dfdfeb;
 	border-left:1px solid #dfdfeb;
 	border-bottom:1px solid #dfdfeb;
-	float:left;
 }
 .controller-main-third {
-	position:relative;
+	position:absolute;
 	/*width:28%;*/
 	height:100%;
 	border:1px solid #dfdfeb;
-	float:left;
+	right:0px;
 }
 
 .device-state-table {
