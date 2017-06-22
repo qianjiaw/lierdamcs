@@ -69,25 +69,25 @@ private JeecgMinidaoServiceI jeecgMinidaoService;
 			type=roomDeviceSta.getType();
 			JSONObject attributes=JSONObject.parseObject(roomDeviceSta.getAttributes());
 			if(type.equals("1")){//照明
-				String swi =(String) attributes.get("SWI");//开关
-				String lev = attributes.get("LEV").toString();//调光
-				String ctm =  attributes.get("CTM").toString();//调色
+				String swi =attributes.get("SWI")==null?"null":attributes.get("SWI").toString();//开关
+				String lev = attributes.get("LEV")==null?"null":attributes.get("LEV").toString();//调光
+				String ctm = attributes.get("CTM")==null?"null":attributes.get("CTM").toString();//调色
 				json="{\"SWI\":\""+swi+"\",\"LEV\":\""+lev+"\",\"CTM\":\""+ctm+"\"}";
 			}else if (type.equals("26")) {//插座
-				String swi = (String) attributes.get("SWI");//开关
+				String swi =attributes.get("SWI")==null?"null": attributes.get("SWI").toString();//开关
 				json="{\"SWI\":\""+swi+"\"}";
 			}else if (type.equals("15")) {//空调
-				String tun=(String) attributes.get("TUN");//开关
-				String smd = (String) attributes.get("SMD");// 模式
+				String tun=attributes.get("TUN")==null?"null":attributes.get("TUN").toString();//开关
+				String smd = attributes.get("SMD")==null?"null":attributes.get("SMD").toString();// 模式
 				json="{\"TUN\":\""+tun+"\",\"SMD\":\""+smd+"\"}";
 			}else if (type.equals("5")) {//窗帘
-				String win=(String) attributes.get("WIN");//开，关，停
+				String win=attributes.get("WIN")==null?"null": attributes.get("WIN").toString();//开，关，停
 				json="{\"WIN\":\""+win+"\"}";
 			}else if (type.equals("13")) {//地暖
-				String swi =(String) attributes.get("SWI");//开关
+				String swi =attributes.get("SWI")==null?"null": attributes.get("SWI").toString();//开关
 				json="{\"SWI\":\""+swi+"\"}";
 			}else if (type.equals("18")) {//门磁
-				String dor=(String) attributes.get("DOR");//开关
+				String dor=attributes.get("DOR")==null?"null": attributes.get("DOR").toString();//开关
 				json="{\"DOR\":\""+dor+"\"}";
 			}
 			
@@ -95,45 +95,54 @@ private JeecgMinidaoServiceI jeecgMinidaoService;
 				roomDeviceSta.setDeviceInfo(json);
 			}
 			
-				//触摸开关面板
-			switch (type) {
-			case "2":// 2键触摸开关
-				roomDeviceSta.setDeviceInfo("{\"SW1\":\""
-						+ (String) attributes.get("SW1") + "\",\"SW2\":\""
-						+ (String) attributes.get("SW2") + "\"}");
-				break;
-			case "3":// 3键触摸开关
-				roomDeviceSta.setDeviceInfo("{\"SW1\":\""
-						+ (String) attributes.get("SW1") + "\",\"SW2\":\""
-						+ (String) attributes.get("SW2") + "\",\"SW3\":\""
-						+ (String) attributes.get("SW3") + "\"}");
-				break;
-			case "4":// 4键触摸开关
-				roomDeviceSta.setDeviceInfo("{\"SW1\":\""
-						+ (String) attributes.get("SW1") + "\",\"SW2\":\""
-						+ (String) attributes.get("SW2") + "\",\"SW3\":\""
-						+ (String) attributes.get("SW3") + "\",\"SW4\":\""
-						+ (String) attributes.get("SW4") + "\"}");
-				break;
-			case "19":// 1键触摸开关
-				roomDeviceSta.setDeviceInfo("{\"SW1\":\""
-						+ (String) attributes.get("SW1") + "\"}");
-				break;
+			//触摸开关面板
+			if(type.equals("2")||type.equals("3")||type.equals("4")||type.equals("19")){
+				String sw1=attributes.get("SW1").toString();
+				String sw2=attributes.get("SW2").toString();
+				String sw3=attributes.get("SW3").toString();
+				String sw4=attributes.get("SW4").toString();
+				
+				switch (type) {
+				case "2":// 2键触摸开关
+					roomDeviceSta.setDeviceInfo("{\"SW1\":\""
+							+sw1+ "\",\"SW2\":\""
+							+ sw2+ "\"}");
+					break;
+				case "3":// 3键触摸开关
+					roomDeviceSta.setDeviceInfo("{\"SW1\":\""
+							+ sw1 + "\",\"SW2\":\""
+							+ sw2 + "\",\"SW3\":\""
+							+ sw3 + "\"}");
+					break;
+				case "4":// 4键触摸开关
+					roomDeviceSta.setDeviceInfo("{\"SW1\":\""
+							+ sw1 + "\",\"SW2\":\""
+							+ sw2 + "\",\"SW3\":\""
+							+ sw3 + "\",\"SW4\":\""
+							+ sw4 + "\"}");
+					break;
+				case "19":// 1键触摸开关
+					roomDeviceSta.setDeviceInfo("{\"SW1\":\""
+							+ sw1 + "\"}");
+					break;
+				}
 			}
 
+
+			String pir=attributes.get("PIR")==null?"null": attributes.get("PIR").toString();
 			// 人感
 			switch (type) {
 			case "7":// 微波人感
-				roomDeviceSta.setDeviceInfo("{\"PIR\":\""+attributes.get("PIR")+"\"}");
+				roomDeviceSta.setDeviceInfo("{\"PIR\":\""+pir+"\"}");
 				break;
 			case "8":// 红外人感
-				roomDeviceSta.setDeviceInfo("{\"PIR\":\""+attributes.get("PIR")+"\"}");
+				roomDeviceSta.setDeviceInfo("{\"PIR\":\""+pir+"\"}");
 				break;
 			case "20":// 微波人感
-				roomDeviceSta.setDeviceInfo("{\"PIR\":\""+attributes.get("PIR")+"\"}");
+				roomDeviceSta.setDeviceInfo("{\"PIR\":\""+pir+"\"}");
 				break;
 			case "21":// 红外人感
-				roomDeviceSta.setDeviceInfo("{\"PIR\":\""+attributes.get("PIR")+"\"}");
+				roomDeviceSta.setDeviceInfo("{\"PIR\":\""+pir+"\"}");
 				break;
 			}
 		}
