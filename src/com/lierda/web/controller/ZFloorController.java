@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -252,34 +253,6 @@ public class ZFloorController extends BaseController {
 		zFloorService.deleteEntityById(ZFloorEntity.class, id);
 	}
 	
-//	/**
-//	 * 通过建筑物id获取楼层id和名称
-//	 * @param request
-//	 * @return
-//	 */
-//	@RequestMapping(params = "getFloorNum")
-//	@ResponseBody
-//	public AjaxJson getFloorNum(HttpServletRequest request){
-//		AjaxJson j = new AjaxJson();
-//		List<ZBuildingEntity> ids=null;
-//		Map<String, Object> map=new HashMap<String, Object>();
-//		String buildId=request.getParameter("buildId");
-//		if(buildId==null||buildId.equals("")){
-//			buildId="8a9290d85be74999015be74bca0b0000";
-////			ids=jeecgMinidaoService.getAllBuildingIdAndName();//查询所有建筑物
-////			buildId=ids.get(0).getId();
-//		}
-////		List<ZFloorEntity> floors=jeecgMinidaoService.selectFloorByBuild(buildId);
-//		List<ZFloorEntity> floors=zFloorService.findListbySql("select id,floorname from z_floor where buildingid="+buildId+"");
-//		for (ZFloorEntity zFloorEntity : floors) {
-//			System.out.println(zFloorEntity.getFloorname()+"LOOK");
-//		}
-////		map.put("buildings", jeecgMinidaoService.getAllBuildingIdAndName());
-////		System.out.println(buildId);
-//		map.put("floors", floors);
-//		j.setAttributes(map);
-//		return j;
-//	}
 	
 	/**
 	 * 通过建筑物id获取楼层id和名称
@@ -432,12 +405,10 @@ public class ZFloorController extends BaseController {
 		Map<String, Object> map=new HashMap<String, Object>();
 		List<ZFloorEntity> currentBuilding=null;
 		String currentBuildingId="";
-		String buildId="";
 		String floorid=request.getParameter("floorid");
 		List<ZBuildingEntity> allBuildings=ZBuildingController.buildings;
 		if(floorid==null||floorid.equals("")){
-			buildId=allBuildings.get(0).getId();
-			floorid=(String) zFloorService.findListbySql("select id from z_floor where buildingid='"+buildId+"'").get(0);
+			floorid=ZBuildingController.floors.get(0).getId();
 		}
 		currentBuilding=jeecgMinidaoService.getBuildingByFloorId(floorid);
 		currentBuildingId=currentBuilding.get(0).getBuildingid();
@@ -512,16 +483,16 @@ public class ZFloorController extends BaseController {
 	 */
 	@RequestMapping(params = "getDeviceStatus")
 	@ResponseBody
-	public AjaxJson getDeviceStatus(HttpServletRequest request){
+	public AjaxJson getDeviceStatus(HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		List<ZBuildingEntity> buildings=ZBuildingController.buildings;
-		String buildId=buildings.get(0).getId();
-		Map<String, Object> map=new HashMap<String, Object>();
-		String floorid=request.getParameter("floorid");
+		List<ZBuildingEntity> buildings = ZBuildingController.buildings;
+		String buildId = buildings.get(0).getId();
+		Map<String, Object> map = new HashMap<String, Object>();
+		String floorid = request.getParameter("floorid");
 		if(floorid==null||floorid.equals("")){
 			floorid=jeecgMinidaoService.selectFloorByBuild(buildId).get(0).getId();
 		}
-		map=floorServiceImpl.getDeviceStatus(floorid,"");
+		map = floorServiceImpl.getDeviceStatus(floorid, "");
 		j.setAttributes(map);
 		return j;
 	}
