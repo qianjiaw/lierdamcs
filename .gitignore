@@ -1,0 +1,12 @@
+##ignore this file##
+.git
+.metadata
+.settings
+/build/
+/docs/
+/RemoteSystemsTempFiles/
+/temp/
+/WebContent/
+.classpath
+.project
+mcs.iml
