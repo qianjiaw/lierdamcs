@@ -58,7 +58,7 @@ public interface JeecgMinidaoDao {
 	@Arguments("buildId")
 	List<ZFloorEntity> selectFloorByBuild(String buildId);
 	
-	@Sql("select id,buildingname from z_building ")
+	@Sql("select id,buildingname from z_building order by buildingname")
 	List<ZBuildingEntity> getAllBuildingIdAndName();
 	
 	@Arguments("floorid")
