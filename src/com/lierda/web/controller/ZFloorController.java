@@ -1,18 +1,14 @@
 package com.lierda.web.controller;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,25 +21,19 @@ import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.demo.service.test.JeecgMinidaoServiceI;
-import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.MyBeanUtils;
 
-import com.lierda.web.entity.Light;
-import com.lierda.web.entity.Lock;
-import com.lierda.web.entity.SenseHuman;
 import com.lierda.web.entity.VBuildingEntity;
 import com.lierda.web.entity.VFloorEntity;
 import com.lierda.web.entity.ZBuildingEntity;
 import com.lierda.web.entity.ZFloorEntity;
 import com.lierda.web.entity.ZRoomEntity;
-import com.lierda.web.resultEntity.DeviceStatus;
 import com.lierda.web.resultEntity.JsonResult;
 import com.lierda.web.resultEntity.SqlResult;
 import com.lierda.web.resultEntity.ZFloorResult;
 import com.lierda.web.service.ZBuildingServiceI;
 import com.lierda.web.service.ZFloorServiceI;
-import com.lierda.web.service.impl.ZFloorServiceImpl;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,7 +55,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 /**   
  * @Title: Controller
