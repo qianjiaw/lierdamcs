@@ -2,6 +2,8 @@ package com.lierda.web.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -42,11 +45,11 @@ public class ZBuildingEntity implements java.io.Serializable {
 	private java.lang.Integer position;
 	/**所属园区*/
 	private java.lang.String parkid;
+	
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  id
 	 */
-	
 	@Id
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
@@ -126,5 +129,18 @@ public class ZBuildingEntity implements java.io.Serializable {
 	public void setParkid(java.lang.String parkid){
 		this.parkid = parkid;
 	}
+
+	public ZBuildingEntity(String id, String buildingname) {
+		super();
+		this.id = id;
+		this.buildingname = buildingname;
+	}
+
+	public ZBuildingEntity() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
 	
 }
