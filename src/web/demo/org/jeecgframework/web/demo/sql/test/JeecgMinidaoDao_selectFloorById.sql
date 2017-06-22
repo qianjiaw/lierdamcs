@@ -1,1 +1,1 @@
-select id,floorname,buildingid from z_floor where id=:floorid
+select id,floorname,buildingid from z_floor where id=:floorid order by floorname
