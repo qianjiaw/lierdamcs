@@ -97,10 +97,10 @@ private JeecgMinidaoServiceI jeecgMinidaoService;
 			
 			//触摸开关面板
 			if(type.equals("2")||type.equals("3")||type.equals("4")||type.equals("19")){
-				String sw1=attributes.get("SW1").toString();
-				String sw2=attributes.get("SW2").toString();
-				String sw3=attributes.get("SW3").toString();
-				String sw4=attributes.get("SW4").toString();
+				String sw1=attributes.get("SW1")==null?"null":attributes.get("SW1").toString();
+				String sw2=attributes.get("SW2")==null?"null":attributes.get("SW2").toString();
+				String sw3=attributes.get("SW3")==null?"null":attributes.get("SW3").toString();
+				String sw4=attributes.get("SW4")==null?"null":attributes.get("SW4").toString();
 				
 				switch (type) {
 				case "2":// 2键触摸开关
